@@ -1,0 +1,30 @@
+[
+  {
+    "id": 0,
+    "name": "AI & Platform",
+    "mailAlias": "@cerberus.com.vn",
+    "departmentLead": "nam.le",
+    "parentDepartment": "R&D"
+  },
+  {
+    "id": 1,
+    "name": "Kế toán",
+    "mailAlias": "@ncs.com.vn",
+    "departmentLead": "nam.le",
+    "parentDepartment": "Tài chính"
+  },
+  {
+    "id": 2,
+    "name": "Malware Trojan",
+    "mailAlias": "@cerberus.com.vn",
+    "departmentLead": "son.vu",
+    "parentDepartment": "Mã độc"
+  },
+  {
+    "id": 3,
+    "name": "Technical Division",
+    "mailAlias": "@ncs.com.vn",
+    "departmentLead": "son.vu",
+    "parentDepartment": "Mã độc"
+  }
+]

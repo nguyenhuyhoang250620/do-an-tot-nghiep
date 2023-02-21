@@ -1,0 +1,62 @@
+[
+  {
+    "id": 0,
+    "nickName": "tung.vu",
+    "fullName": "Vũ Đình Tùng",
+    "email": "tung.vu@cerberus.com.vn",
+    "userFace": "data/images/hanh.luu.jpg",
+    "dateOfBirth": "16/07/1997",
+    "department": 0,
+    "employeeStatus": "Active",
+    "role": "admin",
+    "password":"123456"
+  },
+  {
+    "id": 1,
+    "nickName": "hiep.tran",
+    "fullName": "Trần Hữu Hiệp",
+    "email": "hiep.tran@cerberus.com.vn",
+    "userFace": "data/images/hanh.luu.jpg",
+    "dateOfBirth": "30/09/1992",
+    "department": 0,
+    "employeeStatus": "Active",
+    "role": "employee",
+    "password":"123456"
+  },
+  {
+    "id": 2,
+    "nickName": "hanh.luu",
+    "fullName": "Lưu Thị Hạnh",
+    "email": "hanh.luu@cerberus.com.vn",
+    "userFace": "data/images/hanh.luu.jpg",
+    "dateOfBirth": "16/07/1997",
+    "department": 0,
+    "employeeStatus": "Active",
+    "role": "employee",
+    "password":"123456"
+  },
+  {
+    "id": 3,
+    "nickName": "nguyen.nguyen",
+    "fullName": "Nguyễn Hải Nguyên",
+    "email": "tung.vu@cerberus.com.vn",
+    "userFace": "data/images/hanh.luu.jpg",
+    "dateOfBirth": "16/07/1997",
+    "department": 0,
+    "employeeStatus": "Active",
+    "role": "employee",
+    "password":"123456"
+  },
+  {
+    "id": 4,
+    "nickName": "thanh.nguyen",
+    "fullName": "Nguyễn Duy Thanh",
+    "email": "thanh.nguyen@cerberus.com.vn",
+    "userFace": "data/images/hanh.luu.jpg",
+    "dateOfBirth": "16/07/1997",
+    "department": 0,
+    "employeeStatus": "Active",
+    "role": "employee",
+    "password":"123456"
+  }
+]
