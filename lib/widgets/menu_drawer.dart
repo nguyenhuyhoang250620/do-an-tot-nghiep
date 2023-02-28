@@ -1,12 +1,13 @@
 import 'package:do_an_tot_nghiep/core/app_export.dart';
+import 'package:do_an_tot_nghiep/data/apiClient/api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class MenuDrawer extends StatelessWidget {
-  const MenuDrawer({Key? key}) : super(key: key);
-
+  MenuDrawer({Key? key}) : super(key: key);
+  final apiClient = ApiClient();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -29,12 +30,12 @@ class MenuDrawer extends StatelessWidget {
             },
           ),
           ListTile(
+            
             title: Text('Thời gian làm việc cá nhân'),
             onTap: () {
               // Update the state of the app.
               // ...
               // Get.back();
-              Get.toNamed(AppRoutes.attendanceScreen);
             },
           ),
           ListTile(
@@ -47,8 +48,7 @@ class MenuDrawer extends StatelessWidget {
           ListTile(
             title: Text('Thêm dữ liệu'),
             onTap: () {
-              Get.back();
-              Get.toNamed(AppRoutes.adddataWelcomeScreen);
+  
             },
           ),
           ListTile(
@@ -71,7 +71,9 @@ class MenuDrawer extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: Text('Đăng xuất'),
+                child: TextButton(onPressed: () {
+                  apiClient.logout();
+                },child: Text('Đăng xuất')),
               ),
             ),
             //Thông tin phiên bản

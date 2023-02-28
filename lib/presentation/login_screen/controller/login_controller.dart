@@ -7,12 +7,14 @@ import 'package:flutter/widgets.dart';
 import '/core/app_export.dart';
 
 class LoginController extends GetxController {
-  late TextEditingController usernameController = TextEditingController();
+  late TextEditingController emailController = TextEditingController();
+  late TextEditingController emailControllerForgot = TextEditingController();
   late TextEditingController passwordController = TextEditingController();
   FocusNode usernameFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
   final apiClient = ApiClient();
-final dio = Dio();
+  final dio = Dio();
+  var obscureText = true.obs;
   Rx<LoginScreenModel> appNavigationModelObj = LoginScreenModel().obs;
 
   @override
@@ -26,6 +28,10 @@ final dio = Dio();
   }
   void onLogin(String email,String password) {
     apiClient.login(email, password);
+  }
+
+  void forgetPassword(String email){
+    apiClient.forgetPassword(email);
   }
 
 }

@@ -1,7 +1,4 @@
-import 'dart:convert';
-
-import 'package:do_an_tot_nghiep/presentation/attendance/models/employee_model.dart';
-import 'package:do_an_tot_nghiep/presentation/home_screen/models/attendance.dart';
+import 'dart:convert';import 'package:do_an_tot_nghiep/presentation/home_screen/models/attendance.dart';
 import 'package:do_an_tot_nghiep/presentation/home_screen/models/department.dart';
 import 'package:do_an_tot_nghiep/presentation/home_screen/models/employees.dart';
 import 'package:do_an_tot_nghiep/presentation/home_screen/models/home_model.dart';
@@ -30,8 +27,6 @@ class HomeController extends GetxController {
   RxList<Department> departments = <Department>[].obs;
   RxList<Attendance> attendance = <Attendance>[].obs;
   RxBool _isLoading = false.obs;
-  final RxList<EmployeeModel> _employeesList = <EmployeeModel>[].obs;
-  RxList<EmployeeModel> get employeesList => _employeesList;
   @override
   void onInit() {
     super.onInit();
@@ -40,7 +35,7 @@ class HomeController extends GetxController {
 
   @override
   void onReady() {
-    getEmployeeFromLocalFile();
+
     super.onReady();
   }
 
@@ -80,16 +75,7 @@ class HomeController extends GetxController {
     _isLoading.value = false;
   }
 
-  Future<void> getEmployeeFromLocalFile() async {
-    _employeesList.value = [];
-    final String response = await rootBundle.loadString('data/employee.json');
-    final data = await json.decode(response);
-    _employeesList.value = (data as List).map((e) => EmployeeModel.fromJson(e)).toList();
-    _employeesList.map((e) {
-      timeAttendanceModel.value.dropdownHome.add(SelectionPopupModel(title: e.fullName.toString()));
-    }).toList();
-    _isLoading.value = false;
-  }
+
 
   onSelectedHome(dynamic value) {
     selectedDropDownHome = value as SelectionPopupModel;

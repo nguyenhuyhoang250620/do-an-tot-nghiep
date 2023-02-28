@@ -1,4 +1,4 @@
 class ImageConstant {
-  static String background = 'assets/images/background.jpg';
+  static String background = 'assets/images/image_not_found.png';
   
 }
