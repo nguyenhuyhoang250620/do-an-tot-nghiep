@@ -29,7 +29,7 @@ class CustomAppbar extends StatelessWidget {
           Expanded(child: Center(
             child: Text("PHẦN MỀM QUẢN LÝ NHÂN SỰ VÀ CẤU HÌNH ĐIỂM DANH HỌC VIỆN QUẢN LÝ GIÁO DỤC NĂM 2023-2024",
             style: TextStyle(
-              fontSize: 20,
+              fontSize: 15,
               color: colorItem,
               fontWeight: FontWeight.bold,
             ),

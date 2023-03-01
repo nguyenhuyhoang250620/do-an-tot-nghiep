@@ -11,73 +11,81 @@ import 'package:do_an_tot_nghiep/widgets/custom_widget_action.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../widgets/custom_button.dart';
+import 'controller/student_controller.dart';
 import 'widget/user_sources.dart';
 
-class StudenManagement extends StatefulWidget{
+class StudenManagement extends StatefulWidget {
   StudenManagement({this.studentController});
   DashBoardController? studentController;
+  final controller = Get.find<StudentController>();
   @override
   State<StatefulWidget> createState() {
     return StudentState();
   }
 }
-class StudentState extends State<StudenManagement>{
+
+class StudentState extends State<StudenManagement> {
   List<DataColumn> columns = [
     DataColumn2(label: buildLabel('Họ và tên')),
-    DataColumn2(label: buildLabel('Mã sinh viên'),),
+    DataColumn2(
+      label: buildLabel('Mã sinh viên'),
+    ),
     DataColumn2(label: buildLabel('Khoa')),
-    DataColumn2(label: buildLabel('Email')),
     DataColumn2(label: buildLabel('CCCD/CMT')),
     DataColumn2(label: buildLabel('Hoạt động')),
   ];
 
   @override
+  void initState() {
+    widget.controller.test();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (p0, p1) {
-        return  Container(
-            height: p1.maxHeight,
-            width: p1.maxWidth,
-            padding: EdgeInsets.all(appPadding*2),
-            child: Column(
-              children: [
-                CustomAppbar(),
-                Expanded(
+        return Container(
+          height: p1.maxHeight,
+          width: p1.maxWidth,
+          padding: EdgeInsets.all(appPadding * 2),
+          child: Column(
+            children: [
+              CustomAppbar(),
+              Expanded(
                   flex: 2,
-                  child:CustomWidgetAction(
+                  child: CustomWidgetAction(
                     title: 'Danh sách sinh viên',
                     textSearch: 'Tìm kiếm sinh viên',
                     titleButtonLeft: 'Thêm sinh viên mới',
                     titleButtonRight: 'Import excel',
-                  )
-                ),
-                Expanded(
-                  flex: 8,
-                  child: Container(
+                  )),
+              Expanded(
+                flex: 8,
+                child: Container(
                     padding: EdgeInsets.only(top: appPadding),
                     child: MyPaginatedDataTable(
                       columns: columns,
                       source: StudentDataTableSource(
-                        data: widget.studentController!.jsonList
-                      ),
-                      rowsPerPage: 4,
-                    )
-                  ),
-                )
-              ],
-            ),
+                          data: widget.studentController!.jsonList),
+                      rowsPerPage: 6,
+                    )),
+              )
+            ],
+          ),
         );
       },
     );
   }
 }
-  Widget buildLabel(String text) {
-    return Container(
-      alignment: Alignment.center,
-      child: Text(
-        text,
-        maxLines: 1,
-        overflow: TextOverflow.fade,
-      ),
-    );
-  }
+
+Widget buildLabel(String text) {
+  return Container(
+    alignment: Alignment.center,
+    child: Text(
+      text,
+      maxLines: 1,
+      overflow: TextOverflow.fade,
+    ),
+  );
+}

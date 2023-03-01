@@ -16,11 +16,15 @@ class DrawerMenu extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.all(appPadding),
-            child: Image.asset("assets/images/logo_drawer_top.png",height: 200,),
+            child: Image.asset("assets/images/logo_drawer_top.png",height: 70,),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: appPadding * 2,vertical: appPadding * 2),
-            child: Text("QUẢN LÝ CHỨC NĂNG",style: AppStyle.txtInterMedium12.copyWith(color: secondaryColor,fontSize: 16),)
+            padding: const EdgeInsets.only(
+              top: appPadding*2,
+              left: appPadding*2,
+              bottom: appPadding
+            ),
+            child: Text("QUẢN LÝ CHỨC NĂNG",style: AppStyle.txtInterRegular18.copyWith(color: secondaryColor,fontSize: 16),)
           ),
           DrawerListTile(
                 color:controller.name_tab.value == tong_quat?ColorConstant.colorBackgroud:null,
@@ -59,7 +63,7 @@ class DrawerMenu extends StatelessWidget {
                 }),
           DrawerListTile(
                 color:controller.name_tab.value == quan_ly_tin_chi?ColorConstant.colorBackgroud:null,
-                title: 'Quản lý tín nhỉ',
+                title: 'Quản lý tín chỉ',
                 icon: Icon(Icons.subject,color: bgColor,),
                 tap: () {
                   controller.name_tab.value = quan_ly_tin_chi;      
@@ -78,24 +82,24 @@ class DrawerMenu extends StatelessWidget {
                 tap: () {
                   controller.name_tab.value = cau_hinh_he_thong_diem_danh;      
                 }),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: appPadding * 2,vertical: appPadding*2),
-            child: Text("TÀI KHOẢN",style: AppStyle.txtInterMedium12.copyWith(color: secondaryColor,fontSize: 16),)
-          ),
-          DrawerListTile(
-                color:controller.name_tab.value == settings?ColorConstant.colorBackgroud:null,
-                title: 'Cài đặt',
-                icon: Icon(Icons.settings,color: bgColor,),
-                tap: () {
-                  controller.name_tab.value = settings;      
-                }),
-          DrawerListTile(
-                color: null,
-                title: 'Đăng suất', 
-                icon: Icon(Icons.logout,color: bgColor,),
-                tap: () {
-                  controller.name_tab.value = "";
-                }),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: appPadding * 2,vertical: appPadding*2),
+          //   child: Text("TÀI KHOẢN",style: AppStyle.txtInterMedium12.copyWith(color: secondaryColor,fontSize: 16),)
+          // ),
+          // DrawerListTile(
+          //       color:controller.name_tab.value == settings?ColorConstant.colorBackgroud:null,
+          //       title: 'Cài đặt',
+          //       icon: Icon(Icons.settings,color: bgColor,),
+          //       tap: () {
+          //         controller.name_tab.value = settings;      
+          //       }),
+          // DrawerListTile(
+          //       color: null,
+          //       title: 'Đăng suất', 
+          //       icon: Icon(Icons.logout,color: bgColor,),
+          //       tap: () {
+          //         controller.name_tab.value = "";
+          //       }),
         ],
       ),
     ));

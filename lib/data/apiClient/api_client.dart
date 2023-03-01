@@ -1,6 +1,6 @@
 import 'dart:convert';
 // ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
+// import 'dart:html' as html;
 import 'dart:typed_data';
 // ignore: library_prefixes
 import 'package:do_an_tot_nghiep/core/app_export.dart';

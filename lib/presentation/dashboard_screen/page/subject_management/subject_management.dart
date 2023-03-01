@@ -33,7 +33,7 @@ class SubjectState extends State<SubjectManagement>{
                 Expanded(
                   flex: 2,
                   child:CustomWidgetAction(
-                    title: 'Danh sách tín nhỉ',
+                    title: 'Danh sách tín chỉ',
                     textSearch: 'Tìm kiếm tín chỉ',
                     titleButtonLeft: 'Thêm tín chỉ mới',
                     titleButtonRight: 'Import excel',

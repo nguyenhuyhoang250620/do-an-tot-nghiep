@@ -17,7 +17,6 @@ class StudentDataTableSource extends DataTableSource {
         DataCell(label(row['TenSV'].toString())),
         DataCell(label(row['MaSV'].toString())),
         DataCell(label(row['Khoa'].toString())),
-        DataCell(label(row['Email'].toString())),
         DataCell(label(row['CCCD'].toString())),
         DataCell(buildActive('test')),
       ],

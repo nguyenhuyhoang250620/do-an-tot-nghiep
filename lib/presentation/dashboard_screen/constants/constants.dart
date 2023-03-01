@@ -19,4 +19,4 @@ const red = Colors.red;
 const enableColor = Color.fromARGB(255, 176, 175, 175);
 
 // Default App Padding
-const appPadding = 16.0;
+const appPadding = 10.0;
