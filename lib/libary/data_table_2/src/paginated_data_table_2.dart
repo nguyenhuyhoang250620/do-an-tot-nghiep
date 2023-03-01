@@ -810,8 +810,8 @@ class PaginatedDataTable2State extends State<PaginatedDataTable2> {
     String pageRowsInfoTitle(int firstRow, int lastRow, int rowCount, bool rowCountIsApproximate) {
       return rowCountIsApproximate
           ? 'tu $firstRow–$lastRow  $rowCount '
-          // : 'Hiển thị $firstRow–$lastRow của $rowCount kết quả';
-          : ' $rowCount ';
+          : 'Hiển thị $firstRow–$lastRow của $rowCount kết quả';
+          // : ' $rowCount ';
     }
 
     footerWidgets.addAll(<Widget>[

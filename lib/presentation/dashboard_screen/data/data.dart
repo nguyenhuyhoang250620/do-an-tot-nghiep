@@ -11,25 +11,25 @@ List analyticData = [
   AnalyticInfo(
     title: "Subscribers",
     count: 720,
-    svgSrc: "assets/images/image_not_found.png",
+    svgSrc: "assets/images/use_glass.svg",
     color: primaryColor,
   ),
   AnalyticInfo(
     title: "Post",
     count: 820,
-    svgSrc: "assets/images/image_not_found.png",
+    svgSrc: "assets/images/use_glass.svg",
     color: purple,
   ),
   AnalyticInfo(
     title: "Pages",
     count: 920,
-    svgSrc: "assets/images/image_not_found.png",
+    svgSrc: "assets/images/use_glass.svg",
     color: orange,
   ),
   AnalyticInfo(
     title: "Comments",
     count: 920,
-    svgSrc: "assets/images/image_not_found.png",
+    svgSrc: "assets/images/use_glass.svg",
     color: green,
   ),
 ];
@@ -71,26 +71,26 @@ List referalData = [
   ReferalInfoModel(
     title: "Facebook",
     count: 234,
-    svgSrc: "assets/images/image_not_found.png",
+    svgSrc: "assets/images/use_glass.svg",
     color: primaryColor,
   ),
   ReferalInfoModel(
     title: "Twitter",
     count: 234,
-    svgSrc: "assets/images/image_not_found.png",
+    svgSrc: "assets/images/use_glass.svg",
     color: primaryColor,
   ),
   ReferalInfoModel(
     title: "Linkedin",
     count: 234,
-    svgSrc: "assets/images/image_not_found.png",
+    svgSrc: "assets/images/use_glass.svg",
     color: primaryColor,
   ),
 
   ReferalInfoModel(
     title: "Dribble",
     count: 234,
-    svgSrc: "assets/images/image_not_found.png",
+    svgSrc: "assets/images/use_glass.svg",
     color: red,
   ),
 ];

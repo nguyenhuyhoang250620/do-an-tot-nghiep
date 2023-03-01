@@ -2,23 +2,29 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constan
 import 'package:flutter/material.dart';
 
 class SearchField extends StatelessWidget {
-  const SearchField({Key? key}) : super(key: key);
-
+  const SearchField({Key? key,this.texthint}) : super(key: key);
+  final String? texthint;
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        hintText: "Search for Statistics",
-        helperStyle: TextStyle(
-          color: textColor.withOpacity(0.5),fontSize: 15,
+    return Container(
+      margin: EdgeInsets.only(left: appPadding*8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10)
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+          hintText:texthint,
+          helperStyle: TextStyle(
+            color: textColor.withOpacity(0.5),fontSize: 15,
+          ),
+          fillColor: Colors.white,
+          filled: true,
+          border: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(10)
+          ),
+          prefixIcon: Icon(Icons.search,color: textColor.withOpacity(0.5),)
         ),
-        fillColor: secondaryColor,
-        filled: true,
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(10)
-        ),
-        prefixIcon: Icon(Icons.search,color: textColor.withOpacity(0.5),)
       ),
     );
   }

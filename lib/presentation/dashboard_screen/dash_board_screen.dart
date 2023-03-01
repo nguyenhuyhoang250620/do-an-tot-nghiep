@@ -14,7 +14,7 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/subject_mana
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/teacher_management/teacher_management.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'components/drawer_menu.dart';
+import '../../widgets/drawer_menu.dart';
 import 'page/student_management/student_management.dart';
 
 
@@ -23,7 +23,7 @@ class DashBoardScreen extends GetWidget<DashBoardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: ColorConstant.colorBackgroud,
       drawer: DrawerMenu(controller: controller,),
       key: controller.scaffoldKey,
       body: SafeArea(
@@ -41,7 +41,9 @@ class DashBoardScreen extends GetWidget<DashBoardController> {
               else if(controller.name_tab.value == quan_ly_sinh_vien){
                 return Expanded(
                   flex: 8,
-                  child: StudenManagement()
+                  child: StudenManagement(
+                    studentController: controller,
+                  )
                 );
               }
               else if(controller.name_tab.value == quan_ly_giang_vien){

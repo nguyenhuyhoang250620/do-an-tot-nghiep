@@ -13,26 +13,31 @@ class CustomAppbar extends StatelessWidget {
   final controller = Get.find<DashBoardController>();
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        if (!Responsive.isDesktop(context))
-          IconButton(
-            onPressed:() {
-              controller.controlMenu();
-            },
-            icon: Icon(Icons.menu,color: textColor.withOpacity(0.5),),
-          ),
-        Expanded(child: Center(
-          child: Text("PHẦN MỀM QUẢN LÝ NHÂN SỰ VÀ CẤU HÌNH ĐIỂM DANH HỌC VIỆN QUẢN LÝ GIÁO DỤC NĂM 2023-2024",
-          style: TextStyle(
-            fontSize: 20,
-            color: Colors.black.withOpacity(0.8),
-            fontWeight: FontWeight.bold,
-          ),
-          ),
-        )),
-        ProfileInfo()
-      ],
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.2),
+      ),
+      child: Row(
+        children: [
+          if (!Responsive.isDesktop(context))
+            IconButton(
+              onPressed:() {
+                controller.controlMenu();
+              },
+              icon: Icon(Icons.menu,color: textColor.withOpacity(0.5),),
+            ),
+          Expanded(child: Center(
+            child: Text("PHẦN MỀM QUẢN LÝ NHÂN SỰ VÀ CẤU HÌNH ĐIỂM DANH HỌC VIỆN QUẢN LÝ GIÁO DỤC NĂM 2023-2024",
+            style: TextStyle(
+              fontSize: 20,
+              color: colorItem,
+              fontWeight: FontWeight.bold,
+            ),
+            ),
+          )),
+          ProfileInfo()
+        ],
+      ),
     );
   }
 }

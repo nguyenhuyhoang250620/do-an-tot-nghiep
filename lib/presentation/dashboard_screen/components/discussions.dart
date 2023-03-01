@@ -14,7 +14,7 @@ class Discussions extends StatelessWidget {
       height: 540,
       padding: EdgeInsets.all(appPadding),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: colorItem,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(

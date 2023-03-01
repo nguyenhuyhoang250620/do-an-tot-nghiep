@@ -8,6 +8,8 @@ const textColor = Colors.black;
 const lightTextColor = Colors.black26;
 const transparent = Colors.transparent;
 
+final colorItem = Colors.white.withOpacity(0.9);
+
 const grey = Color.fromRGBO(148, 170, 220, 1);
 const purple = Color.fromRGBO(165, 80, 179, 1);
 const orange = Color.fromRGBO(251, 137, 13, 1);

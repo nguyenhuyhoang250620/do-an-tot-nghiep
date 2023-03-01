@@ -15,7 +15,7 @@ class ProfileInfo extends StatelessWidget {
           padding: const EdgeInsets.all(appPadding),
           child: Stack(
             children: [
-              SvgPicture.asset(
+              Image.asset(
                 "assets/images/image_not_found.png",
                 height: 25,
                 color: textColor.withOpacity(0.8),

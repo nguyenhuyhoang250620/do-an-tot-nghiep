@@ -1,4 +1,4 @@
-import 'package:do_an_tot_nghiep/presentation/dashboard_screen/components/drawer_menu.dart';
+import 'package:do_an_tot_nghiep/widgets/drawer_menu.dart';
 import 'package:do_an_tot_nghiep/presentation/home_screen/models/item_widgets.dart';
 import 'package:do_an_tot_nghiep/presentation/home_screen/widgets/absent_widget.dart';
 import 'package:do_an_tot_nghiep/presentation/home_screen/widgets/onduty_widget.dart';
@@ -6,7 +6,6 @@ import 'package:do_an_tot_nghiep/presentation/home_screen/widgets/paidleave_widg
 import 'package:do_an_tot_nghiep/presentation/home_screen/widgets/present_widget.dart';
 import 'package:do_an_tot_nghiep/presentation/home_screen/widgets/time_attendance_widget.dart';
 import 'package:do_an_tot_nghiep/presentation/home_screen/widgets/unpaidleave_widget.dart';
-import 'package:do_an_tot_nghiep/widgets/menu_drawer.dart';
 import 'package:date_format/date_format.dart';
 import 'package:play_kit/play_kit.dart';
 import 'admin/admin.dart';

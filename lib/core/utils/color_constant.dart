@@ -68,6 +68,8 @@ class ColorConstant {
 
   static Color whiteA70033 = fromHex('#33ffffff');
   static Color whiteA7003 = fromHex('#ffffffff');
+  static Color colorDraw = fromHex('#0A2F49');
+  static Color colorBackgroud = fromHex('#00558B');
 
   static Color fromHex(String hexString) {
     final buffer = StringBuffer();

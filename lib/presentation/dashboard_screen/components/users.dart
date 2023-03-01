@@ -14,7 +14,7 @@ class Users extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(appPadding),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: colorItem,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(

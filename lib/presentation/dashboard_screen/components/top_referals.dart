@@ -14,7 +14,7 @@ class TopReferals extends StatelessWidget {
       height: 350,
       padding: EdgeInsets.all(appPadding),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: colorItem,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(

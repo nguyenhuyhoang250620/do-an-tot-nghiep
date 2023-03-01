@@ -13,7 +13,7 @@ class UsersByDevice extends StatelessWidget {
       child: Container(
         height: 350,
         decoration: BoxDecoration(
-          color: secondaryColor,
+          color: colorItem,
           borderRadius: BorderRadius.circular(10),
         ),
         padding: EdgeInsets.all(appPadding),

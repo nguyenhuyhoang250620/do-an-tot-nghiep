@@ -18,7 +18,7 @@ class DashboardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
-        padding: EdgeInsets.all(appPadding),
+        padding: EdgeInsets.all(appPadding*2),
         child: Column(
           children: [
             CustomAppbar(),
