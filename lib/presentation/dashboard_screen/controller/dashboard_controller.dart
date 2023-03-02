@@ -11,8 +11,8 @@ class DashBoardController extends GetxController {
   var name_tab = tong_quat.obs;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   final apiClient = ApiClient();
-  List<UserModel> getUserList = <UserModel>[].obs;
-  List<Map<String, dynamic>> jsonList = <Map<String, dynamic>>[].obs;
+  RxList<UserModel> getUserList = <UserModel>[].obs;
+  RxList<Map<String, dynamic>> jsonList = <Map<String, dynamic>>[].obs;
   void onInit() {    
     getUser();
     super.onInit();
@@ -55,8 +55,9 @@ class DashBoardController extends GetxController {
         );
         data.add(models);
       }).toList();
-      getUserList = data;
-      jsonList = getUserList.map((person) => person.toJson()).toList();
+      getUserList.value = data;
+      jsonList.value = getUserList.map((person) => person.toJson()).toList();
+      jsonList.refresh();
     });
   }
 }

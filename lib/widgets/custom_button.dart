@@ -21,15 +21,14 @@ class CustomButtonCommon extends StatelessWidget{
     return Container(
       height: 35,
       decoration: BoxDecoration(
-        color: color!.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(8.0)
+        borderRadius: BorderRadius.circular(4.0)
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(4.0),
             ),
-            backgroundColor: color
+            backgroundColor: colorButton
           ),
         onPressed: onPressed,
         child: Row(

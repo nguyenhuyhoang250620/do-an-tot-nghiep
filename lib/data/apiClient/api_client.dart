@@ -5,6 +5,7 @@ import 'dart:typed_data';
 // ignore: library_prefixes
 import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:dio/dio.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -85,7 +86,7 @@ class ApiClient {
   }
 
   
-    Future<List<UserModel>> getUser() async {
+  Future<List<UserModel>> getUser() async {
     return await dio.get('$baseUrl/get-user',)
       .then((response) {
       List<UserModel> userList = [];
@@ -98,6 +99,95 @@ class ApiClient {
     }).catchError((err) {
       print('HoangNH: ${err}');
     });
+  }
+  //create user
+  Future<void> createUser(
+    String ten_sinh_vien,
+    String ma_sinh_vien,
+    String khoa,
+    String ngay_sinh,
+    String gioi_tinh,
+    String cccd,
+    String gmail,
+    String so_dien_thoai
+  ) async{
+    Map data ={
+      "MaSV":ma_sinh_vien, 
+      "TenSV":ten_sinh_vien,
+      "Khoa":khoa,
+      "NamSinh":ngay_sinh,
+      "GioiTinh":gioi_tinh,
+      "CCCD":cccd,
+      "Email":gmail,
+      "SoDT":so_dien_thoai
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.post(
+        '$baseUrl/create-user',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Thêm sinh viên mới thành công'
+            , '',backgroundColor: green);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Thêm sinh viên mới không thành công'
+            , '',backgroundColor: red);
+    }
+
+  }
+
+
+  //update user
+   Future<void> updateUser(
+    String ten_sinh_vien,
+    String ma_sinh_vien,
+    String khoa,
+    String ngay_sinh,
+    String gioi_tinh,
+    String cccd,
+    String gmail,
+    String so_dien_thoai
+  ) async{
+    Map data ={
+      "MaSV":ma_sinh_vien, 
+      "TenSV":ten_sinh_vien,
+      "Khoa":khoa,
+      "NamSinh":ngay_sinh,
+      "GioiTinh":gioi_tinh,
+      "CCCD":cccd,
+      "Email":gmail,
+      "SoDT":so_dien_thoai
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.patch(
+        '$baseUrl/update-user',
+        data: body
+        ).then((value){
+          print('HoangNH: ${value.statusCode}');
+        if(value.statusCode == 200){
+          Get.snackbar(
+            'Cập nhật thành công'
+            , '',backgroundColor: green);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Cập nhật không thành công'
+          , '',backgroundColor: red);
+    }
+
   }
   ApiClient._internal();
 }

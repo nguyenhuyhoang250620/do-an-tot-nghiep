@@ -15,6 +15,15 @@ class StudentController extends GetxController {
   List<Map<String, dynamic>> jsonList = <Map<String, dynamic>>[].obs;
   final dashBoardController = Get.find<DashBoardController>();
 
+  TextEditingController ten_sinh_vien = TextEditingController();
+  TextEditingController ma_sinh_vien = TextEditingController();
+  TextEditingController khoa = TextEditingController();
+  TextEditingController ngay_sinh = TextEditingController();
+  TextEditingController gioi_tinh = TextEditingController();
+  TextEditingController cccd = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController so_dien_thoai = TextEditingController();
+
   void onInit() {
     super.onInit();
   }
@@ -24,9 +33,6 @@ class StudentController extends GetxController {
     super.onReady();
   }
 
-  void test() {
-    print('${dashBoardController.getUserList.length}');
-  }
 
   @override
   void onClose() {
@@ -39,27 +45,33 @@ class StudentController extends GetxController {
     }
   }
 
-  Future<void> getUser() async {
-    List<UserModel> dataGet = [];
-    List<UserModel> data = [];
-    await apiClient.getUser().then((value) {
-      dataGet = value;
-    }).whenComplete(() {
-      dataGet.map((e) {
-        UserModel models = UserModel(
-            CCCD: e.CCCD,
-            Email: e.Email,
-            GioiTinh: e.GioiTinh,
-            Khoa: e.Khoa,
-            MaSV: e.MaSV,
-            NamSinh: e.NamSinh,
-            SoDT: e.SoDT,
-            TenSV: e.TenSV,
-            id: e.id);
-        data.add(models);
-      }).toList();
-      getUserList = data;
-      jsonList = getUserList.map((person) => person.toJson()).toList();
+  Future<void> createUser(
+    String ten_sinh_vien,
+    String ma_sinh_vien,
+    String khoa,
+    String ngay_sinh,
+    String gioi_tinh,
+    String cccd,
+    String gmail,
+    String so_dien_thoai
+  ) async {
+    await apiClient.createUser(ten_sinh_vien, ma_sinh_vien, khoa, ngay_sinh, gioi_tinh, cccd, gmail, so_dien_thoai).whenComplete((){
+      dashBoardController.getUser();
+    });
+  }
+
+  Future<void> updateUser(
+    String ten_sinh_vien,
+    String ma_sinh_vien,
+    String khoa,
+    String ngay_sinh,
+    String gioi_tinh,
+    String cccd,
+    String gmail,
+    String so_dien_thoai
+  ) async {
+    await apiClient.updateUser(ten_sinh_vien, ma_sinh_vien, khoa, ngay_sinh, gioi_tinh, cccd, gmail, so_dien_thoai).whenComplete((){
+      dashBoardController.getUser();
     });
   }
 }

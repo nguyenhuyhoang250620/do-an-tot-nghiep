@@ -15,7 +15,7 @@ class CustomAppbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.2),
+        color: Colors.transparent,
       ),
       child: Row(
         children: [

@@ -30,7 +30,7 @@ class DashBoardScreen extends GetWidget<DashBoardController> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (Responsive.isDesktop(context)) Expanded(flex: 2,child: DrawerMenu(controller: controller,),),
+            if (Responsive.isDesktop(context)) Container(width: 300,child: DrawerMenu(controller: controller,),),
             Obx(() {
               if(controller.name_tab.value == tong_quat){
                 return Expanded(
