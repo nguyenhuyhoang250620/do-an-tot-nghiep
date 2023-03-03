@@ -1,4 +1,5 @@
 import 'package:do_an_tot_nghiep/core/app_export.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/student_management/controller/student_controller.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_active_table.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,9 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import '../../../../../widgets/custom_alert.dart';
 import '../../../../../widgets/custom_loading.dart';
 import '../../../../../widgets/custom_textfiled.dart';
+
 final FirebaseStorage storage = FirebaseStorage.instance;
+
 class StudentDataTableSource extends DataTableSource {
   StudentDataTableSource({required this.data});
   List<Map<String, dynamic>> data = [];
@@ -22,10 +25,10 @@ class StudentDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(label(row['TenSV'].toString())),
-        DataCell(label(row['MaSV'].toString())),
-        DataCell(label(row['Khoa'].toString())),
-        DataCell(label(row['CCCD'].toString())),
+        DataCell(labelAndAvt(index, row['TenSV'].toString(),row['MaSV'].toString())),
+        DataCell(label(index, row['MaSV'].toString())),
+        DataCell(label(index, row['Khoa'].toString())),
+        DataCell(label(index, row['CCCD'].toString())),
         DataCell(buildActive(
           row['MaSV'].toString(),
           row['TenSV'].toString(),
@@ -35,7 +38,7 @@ class StudentDataTableSource extends DataTableSource {
           row['CCCD'].toString(),
           row['Email'].toString(),
           row['SoDT'].toString(),
-        )),
+          index)),
       ],
     );
   }
@@ -72,12 +75,74 @@ class StudentDataTableSource extends DataTableSource {
   //   notifyListeners();
   // }
 }
-Widget label(String text){
-  return Center(
-    child: Text(text,style: AppStyle.txtInterRegular12.copyWith(color: Colors.black,fontSize: 12),),
+
+Widget labelAndAvt(int index, String text,String Masv) {
+  return Container(
+    alignment: Alignment.centerLeft,
+    width: Get.width,
+    height: Get.height,
+    padding: EdgeInsets.only(left: appPadding * 3),
+    decoration: BoxDecoration(
+      border: Border(bottom: BorderSide(color: unline)),
+      color: index % 2 == 0 ? Colors.grey.withOpacity(0.1) : null,
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        InkWell(
+          onTap: () {
+            print(Masv);
+          },
+          child: Container(
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(500 / 2),
+                border: Border.all(color: darkTextColor)),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(500 / 2),
+              child: FadeInImage(
+                  placeholder: AssetImage('assets/images/image_not_found.png'),
+                  image: NetworkImage(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHr-PpS2eEnnDOLRJO6xS2NjvrWFBpVixlnw&usqp=CAU',
+                  ),
+                  imageErrorBuilder: (context, error, stackTrace) => Icon(
+                        Icons.person,
+                        color: darkTextColor,
+                      )),
+            ),
+          ),
+        ),
+        Padding(
+            padding: EdgeInsets.only(left: appPadding * 2),
+            child: Text(
+              text,
+              style: AppStyle.textData,
+            ))
+      ],
+    ),
   );
 }
-Widget image(String text){
+
+Widget label(int index, String text) {
+  return Container(
+    alignment: Alignment.centerLeft,
+    padding: EdgeInsets.only(left: appPadding * 3),
+    width: Get.width,
+    height: Get.height,
+    decoration: BoxDecoration(
+      border: Border(bottom: BorderSide(color: unline)),
+      color: index % 2 == 0 ? Colors.grey.withOpacity(0.1) : null,
+    ),
+    child: Text(
+      text,
+      style: AppStyle.txtInterRegular12
+          .copyWith(color: Colors.black, fontSize: 12),
+    ),
+  );
+}
+
+Widget image(String text) {
   return FadeInImage(
     placeholder: AssetImage('assets/images/image_not_found.png'),
     image: NetworkImage(
@@ -88,7 +153,8 @@ Widget image(String text){
     width: 100,
   );
 }
-  Widget buildActive(
+
+Widget buildActive(
     String ma_sinh_vien,
     String ten_sinh_vien,
     String khoa,
@@ -97,15 +163,17 @@ Widget image(String text){
     String cccd,
     String gmail,
     String so_dien_thoai,
-  ) {
-    final controller = Get.find<StudentController>();
-    BuildContext? context;
-    return Container(
+    int index) {
+  final controller = Get.find<StudentController>();
+  BuildContext? context;
+  return Container(
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: unline)),
+        color: index % 2 == 0 ? Colors.grey.withOpacity(0.1) : null,
+      ),
       alignment: Alignment.center,
       child: CusstomActiveTable(
-        onDelete: () {
-          
-        },
+        onDelete: () {},
         onUpdate: () {
           Get.dialog(alertAvt(
             controller,
@@ -117,26 +185,23 @@ Widget image(String text){
             cccd,
             gmail,
             so_dien_thoai,
-
           ));
         },
-        onView: () {
-          
-        },
-      )
-    );
-  }
-  Widget alertAvt(
-    StudentController controller,
-    String ma_sinh_vien,
-    String ten_sinh_vien,
-    String khoa,
-    String ngay_sinh,
-    String gioi_tinh,
-    String cccd,
-    String gmail,
-    String so_dien_thoai,
-  ){
+        onView: () {},
+      ));
+}
+
+Widget alertAvt(
+  StudentController controller,
+  String ma_sinh_vien,
+  String ten_sinh_vien,
+  String khoa,
+  String ngay_sinh,
+  String gioi_tinh,
+  String cccd,
+  String gmail,
+  String so_dien_thoai,
+) {
   final _formKey = GlobalKey<FormState>();
   controller.ten_sinh_vien.text = ten_sinh_vien;
   controller.ma_sinh_vien.text = ma_sinh_vien;
@@ -149,114 +214,111 @@ Widget image(String text){
   return Form(
     key: _formKey,
     child: CustomAlertAvt(
-        title: Center(child: Text("Thêm sinh viên",style: AppStyle.txtRobotoRegular20,)),
-        listTextFiled: ListView(
+      title: Center(
+          child: Text(
+        "Thêm sinh viên",
+        style: AppStyle.txtRobotoRegular20,
+      )),
+      listTextFiled: ListView(
         children: [
           CustomTextForm(
             enabled: false,
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập mã sinh viên';
               }
             },
             controller: controller.ma_sinh_vien,
-            label:'Mã sinh viên',
+            label: 'Mã sinh viên',
             obscureText: false,
-            onChanged: (p0) {
-            },
+            onChanged: (p0) {},
           ),
           CustomTextForm(
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập tên sinh viên';
               }
             },
             controller: controller.ten_sinh_vien,
-            label:'Tên sinh viên',
+            label: 'Tên sinh viên',
             obscureText: false,
-            onChanged: (p0) {
-            },
+            onChanged: (p0) {},
           ),
           CustomTextForm(
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập khoa';
               }
             },
             controller: controller.khoa,
-            label:'Khoa',
+            label: 'Khoa',
             obscureText: false,
-            onChanged: (p0) {
-            },
-          ),CustomTextForm(
+            onChanged: (p0) {},
+          ),
+          CustomTextForm(
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập ngày sinh';
               }
             },
             controller: controller.ngay_sinh,
-            label:'Ngày sinh',
+            label: 'Ngày sinh',
             obscureText: false,
-            onChanged: (p0) {
-            },
-            ontap: ()=> DatePicker.showDatePicker(Get.context!,
-              showTitleActions: true,
-              minTime: DateTime(1980, 6, 7),
-              maxTime: DateTime(2005, 6, 7), 
-              // onChanged: (date) {
-              //   print('change $date');
-              // }, 
-              onConfirm: (date) {
-                controller.ngay_sinh.text = date.toString().substring(0,10);
-              }, 
-              currentTime: DateTime.now(), locale: LocaleType.vi),
-          ),CustomTextForm(
+            onChanged: (p0) {},
+            ontap: () => DatePicker.showDatePicker(Get.context!,
+                showTitleActions: true,
+                minTime: DateTime(1980, 6, 7),
+                maxTime: DateTime(2005, 6, 7),
+                // onChanged: (date) {
+                //   print('change $date');
+                // },
+                onConfirm: (date) {
+              controller.ngay_sinh.text = date.toString().substring(0, 10);
+            }, currentTime: DateTime.now(), locale: LocaleType.vi),
+          ),
+          CustomTextForm(
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập giới tính';
               }
             },
             controller: controller.gioi_tinh,
-            label:'Giới tính',
+            label: 'Giới tính',
             obscureText: false,
-            onChanged: (p0) {
-            },
+            onChanged: (p0) {},
           ),
           CustomTextForm(
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập cccd';
               }
             },
             controller: controller.cccd,
-            label:'CCCD',
+            label: 'CCCD',
             obscureText: false,
-            onChanged: (p0) {
-            },
+            onChanged: (p0) {},
           ),
           CustomTextForm(
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập gmail';
               }
             },
             controller: controller.email,
-            label:'G-mail',
+            label: 'G-mail',
             obscureText: false,
-            onChanged: (p0) {
-            },
+            onChanged: (p0) {},
           ),
           CustomTextForm(
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập số điện thoại';
               }
             },
             controller: controller.so_dien_thoai,
-            label:'Số điện thoại',
+            label: 'Số điện thoại',
             obscureText: false,
-            onChanged: (p0) {
-            },
+            onChanged: (p0) {},
           )
         ],
       ),
@@ -265,7 +327,7 @@ Widget image(String text){
       },
       onPressedEisable: () {
         if (_formKey.currentState!.validate()) {
-            controller.updateUser(
+          controller.updateUser(
               controller.ten_sinh_vien.text,
               controller.ma_sinh_vien.text,
               controller.khoa.text,
@@ -273,9 +335,8 @@ Widget image(String text){
               controller.gioi_tinh.text,
               controller.cccd.text,
               controller.email.text,
-              controller.so_dien_thoai.text
-            );
-            Get.back();
+              controller.so_dien_thoai.text);
+          Get.back();
         }
       },
     ),

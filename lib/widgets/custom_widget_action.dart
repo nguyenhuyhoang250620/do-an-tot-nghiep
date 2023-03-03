@@ -5,6 +5,8 @@ import 'package:do_an_tot_nghiep/theme/app_style.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
+import '../presentation/dashboard_screen/components/analytic_cards.dart';
+
 class CustomWidgetAction extends StatefulWidget{
   CustomWidgetAction({
     this.title,
@@ -28,93 +30,13 @@ class CustomWidgetActionState extends State<CustomWidgetAction>{
   @override
   Widget build(BuildContext context) {
     return  Container(
-        margin: EdgeInsets.only(top: appPadding),
-        padding: EdgeInsets.all(appPadding),
+        padding: EdgeInsets.symmetric(horizontal: appPadding*2),
+        margin: EdgeInsets.only(top: appPadding*2),
         decoration: BoxDecoration(
-          color: colorItem,
+          color: Colors.transparent,
           borderRadius: BorderRadius.circular(8.0)
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 3,
-              child:FittedBox(fit: BoxFit.scaleDown,child: Text(widget.title!,style: AppStyle.txtInterMedium24.copyWith(color: Colors.black,fontWeight: FontWeight.bold))),
-            ),
-            Expanded(
-              flex: 7,
-              child: Row(
-                children: [
-                      if (!Responsive.isMobile(context))
-                        Expanded(
-                          flex: 4,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: CustomButtonCommon(
-                                  icon: Icon(Icons.person_add),
-                                  title: widget.titleButtonLeft,
-                                  onPressed: widget.onPressedLeft,
-                                  color: Colors.blueAccent,
-                                  size: 12,
-                                ),
-                              ),
-                              SizedBox(width: 20,),
-                              Expanded(
-                                child: CustomButtonCommon(
-                                  icon: Icon(Icons.upload_outlined),
-                                  title: widget.titleButtonRight,
-                                  onPressed: widget.onPressedRight,
-                                  color: Colors.blueAccent,
-                                  size: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      if (Responsive.isMobile(context))
-                      Expanded(
-                        flex: 4,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: CustomButtonCommon(
-                                icon: Icon(Icons.people_alt),
-                                title: widget.titleButtonLeft,
-                                onPressed: widget.onPressedLeft,
-                                color: Colors.blueAccent,
-                                size: 12,
-                              ),
-                            ),
-                            SizedBox(height: 2,),
-                            Expanded(
-                              child: CustomButtonCommon(
-                                icon: Icon(Icons.upload_outlined),
-                                title: widget.titleButtonRight,
-                                onPressed: widget.onPressedRight,
-                                color: Colors.blueAccent,
-                                size: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        flex: 6,
-                        child: SearchField(
-                          texthint: widget.textSearch,
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            )
+        child: AnalyticCards()
         );
   }
 

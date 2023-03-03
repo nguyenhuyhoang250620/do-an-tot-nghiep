@@ -7,9 +7,9 @@ class SearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: appPadding*8),
+      width: 100,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10)
+        borderRadius: BorderRadius.circular(4.0)
       ),
       child: TextField(
         decoration: InputDecoration(
@@ -17,13 +17,13 @@ class SearchField extends StatelessWidget {
           helperStyle: TextStyle(
             color: textColor.withOpacity(0.5),fontSize: 15,
           ),
-          fillColor: Colors.white,
+          fillColor: Colors.grey.withOpacity(0.1),
           filled: true,
           border: OutlineInputBorder(
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.circular(10)
           ),
-          prefixIcon: Icon(Icons.search,color: textColor.withOpacity(0.5),)
+          prefixIcon: Icon(Icons.search,color: darkTextColor,)
         ),
       ),
     );

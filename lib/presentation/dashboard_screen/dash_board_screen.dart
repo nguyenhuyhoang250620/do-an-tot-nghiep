@@ -23,14 +23,14 @@ class DashBoardScreen extends GetWidget<DashBoardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorConstant.colorBackgroud,
+      backgroundColor: bgColor,
       drawer: DrawerMenu(controller: controller,),
       key: controller.scaffoldKey,
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (Responsive.isDesktop(context)) Container(width: 300,child: DrawerMenu(controller: controller,),),
+            if (Responsive.isDesktop(context)) Container(width: 350,child: DrawerMenu(controller: controller,),),
             Obx(() {
               if(controller.name_tab.value == tong_quat){
                 return Expanded(

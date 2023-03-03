@@ -1,3 +1,4 @@
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:do_an_tot_nghiep/core/app_export.dart';
 
@@ -94,7 +95,7 @@ class AppStyle {
       14,
     ),
     fontFamily: 'Inter',
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.bold,
   );
 
   static TextStyle txtInterRegular8 = TextStyle(
@@ -112,7 +113,7 @@ class AppStyle {
       16,
     ),
     fontFamily: 'Inter',
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.bold,
   );
 
   static TextStyle txtRobotoRegular20 = TextStyle(
@@ -127,6 +128,14 @@ class AppStyle {
     color: ColorConstant.gray900,
     fontSize: getFontSize(
       18,
+    ),
+    fontFamily: 'Inter',
+    fontWeight: FontWeight.w400,
+  );
+   static TextStyle textData = TextStyle(
+    color: darkTextColor,
+    fontSize: getFontSize(
+      12,
     ),
     fontFamily: 'Inter',
     fontWeight: FontWeight.w400,

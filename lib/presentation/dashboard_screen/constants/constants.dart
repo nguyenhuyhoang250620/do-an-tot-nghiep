@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 const primaryColor = Color.fromRGBO(17, 159, 250, 1);
 const secondaryColor = Colors.white;
 const bgColor = Color.fromRGBO(247, 251, 254, 1);
-const textColor = Colors.black;
+const textColor = Colors.grey;
+final backgroundTitleTable = Colors.grey.withOpacity(0.2);
 const lightTextColor = Colors.black26;
+const darkTextColor = Colors.black;
+final unline = Colors.black.withOpacity(0.2);
 const transparent = Colors.transparent;
 
 final colorButton = Colors.blueAccent.withOpacity(0.8);

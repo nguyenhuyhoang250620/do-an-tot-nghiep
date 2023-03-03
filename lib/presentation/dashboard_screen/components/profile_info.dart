@@ -15,11 +15,7 @@ class ProfileInfo extends StatelessWidget {
           padding: const EdgeInsets.all(appPadding),
           child: Stack(
             children: [
-              Image.asset(
-                "assets/images/image_not_found.png",
-                height: 25,
-                color: textColor.withOpacity(0.8),
-              ),
+              Icon(Icons.notifications),
               Positioned(
                 right: 0,
                 child: Container(
@@ -54,8 +50,8 @@ class ProfileInfo extends StatelessWidget {
               if(!Responsive.isMobile(context))
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: appPadding / 2),
-                child: Text('Hii, Arinalis',style: TextStyle(
-                  color: textColor,
+                child: Text('Hii, Admin',style: TextStyle(
+                  color: darkTextColor,
                   fontWeight: FontWeight.w800,
                 ),),
               )

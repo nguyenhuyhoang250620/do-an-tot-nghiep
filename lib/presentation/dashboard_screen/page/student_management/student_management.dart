@@ -30,10 +30,12 @@ class StudenManagement extends StatefulWidget {
 class StudentState extends State<StudenManagement> {
   List<DataColumn> columns = [
     DataColumn2(label: buildLabel('Họ và tên')),
-    DataColumn2(label: buildLabel('Mã sinh viên'),),
+    DataColumn2(
+      label: buildLabel('Mã sinh viên'),
+    ),
     DataColumn2(label: buildLabel('Khoa')),
     DataColumn2(label: buildLabel('CCCD/CMT')),
-    DataColumn2(label: buildLabel('Hoạt động')),
+    DataColumn2(label: buildLabelActive('Hoạt động')),
   ];
 
   @override
@@ -52,6 +54,7 @@ class StudentState extends State<StudenManagement> {
           child: Column(
             children: [
               CustomAppbar(),
+              Divider(),
               Expanded(
                   flex: 2,
                   child: CustomWidgetAction(
@@ -60,33 +63,54 @@ class StudentState extends State<StudenManagement> {
                     titleButtonLeft: 'Thêm sinh viên mới',
                     titleButtonRight: 'Import excel',
                     onPressedLeft: () {
-                    widget.controller.ten_sinh_vien.text = "";
-                    widget.controller.ma_sinh_vien.text ="";
-                    widget.controller.khoa.text = "";
-                    widget.controller.ngay_sinh.text = "";
-                    widget.controller.gioi_tinh.text="";
-                    widget.controller.cccd.text="";
-                    widget.controller.email.text="";
-                    widget.controller.so_dien_thoai.text="";
-                      Get.dialog(
-                        alertAvt(
-                          widget.controller
-                        )
-                      );
+                      widget.controller.ten_sinh_vien.text = "";
+                      widget.controller.ma_sinh_vien.text = "";
+                      widget.controller.khoa.text = "";
+                      widget.controller.ngay_sinh.text = "";
+                      widget.controller.gioi_tinh.text = "";
+                      widget.controller.cccd.text = "";
+                      widget.controller.email.text = "";
+                      widget.controller.so_dien_thoai.text = "";
+                      Get.dialog(alertAvt(widget.controller));
                     },
                   )),
               Expanded(
                 flex: 8,
                 child: Container(
                     padding: EdgeInsets.only(top: appPadding),
-                    child: Obx(() => widget.dashboardController!.getUserListMap.isNotEmpty?
-                    MyPaginatedDataTable(
-                      columns: columns,
-                      source: StudentDataTableSource(
-                          data: widget.dashboardController!.getUserListMap),
-                      rowsPerPage: 6,
-                    ):Center(child: Text("Không có dữ liệu"),)
-                    ,)),
+                    child: Obx(
+                      () =>widget.dashboardController!.isLoadingStudent.value
+                            ?widget.dashboardController!.getUserListMap.isNotEmpty
+                              ? MyPaginatedDataTable(
+                                  titleButtonLeft: 'Thêm nhân viên mới',
+                                  titleButtonRight: 'Import excel',
+                                  onPressedLeft: () {
+                                    widget.controller.ten_sinh_vien.text = "";
+                                    widget.controller.ma_sinh_vien.text = "";
+                                    widget.controller.khoa.text = "";
+                                    widget.controller.ngay_sinh.text = "";
+                                    widget.controller.gioi_tinh.text = "";
+                                    widget.controller.cccd.text = "";
+                                    widget.controller.email.text = "";
+                                    widget.controller.so_dien_thoai.text = "";
+                                    Get.dialog(alertAvt(widget.controller));
+                                  },
+                                  onPressedRight: () {
+                                    
+                                  },
+
+                                  columns: columns,
+                                  source: StudentDataTableSource(
+                                      data: widget
+                                          .dashboardController!.getUserListMap),
+                                  rowsPerPage: 6,
+                                )
+                              : Center(
+                                  child: Text("Không có dữ liệu"),
+                            ):Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                    )),
               )
             ],
           ),
@@ -95,126 +119,124 @@ class StudentState extends State<StudenManagement> {
     );
   }
 }
-Widget alertAvt(StudentController controller){
+
+Widget alertAvt(StudentController controller) {
   final _formKey = GlobalKey<FormState>();
   return Form(
     key: _formKey,
     child: CustomAlertAvt(
-        title: Center(child: Text("Thêm sinh viên",style: AppStyle.txtRobotoRegular20,)),
-        listTextFiled: ListView(
+      title: Center(
+          child: Text(
+        "Thêm sinh viên",
+        style: AppStyle.txtRobotoRegular20,
+      )),
+      listTextFiled: ListView(
         children: [
           CustomTextForm(
             prefixIcon: Icon(Icons.person),
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập tên sinh viên';
               }
             },
             controller: controller.ten_sinh_vien,
-            label:'Tên sinh viên',
+            label: 'Tên sinh viên',
             obscureText: false,
-            onChanged: (p0) {
-            },
+            onChanged: (p0) {},
           ),
           CustomTextForm(
             prefixIcon: Icon(Icons.qr_code_2_outlined),
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập mã sinh viên';
               }
             },
             controller: controller.ma_sinh_vien,
-            label:'Mã sinh viên',
+            label: 'Mã sinh viên',
             obscureText: false,
-            onChanged: (p0) {
-            },
+            onChanged: (p0) {},
           ),
           CustomTextForm(
             prefixIcon: Icon(Icons.subject),
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập khoa';
               }
             },
             controller: controller.khoa,
-            label:'Khoa',
+            label: 'Khoa',
             obscureText: false,
-            onChanged: (p0) {
-            },
-          ),CustomTextForm(
+            onChanged: (p0) {},
+          ),
+          CustomTextForm(
             prefixIcon: Icon(Icons.date_range),
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập ngày sinh';
               }
             },
             controller: controller.ngay_sinh,
-            label:'Ngày sinh',
+            label: 'Ngày sinh',
             obscureText: false,
-            onChanged: (p0) {
-            },
-            ontap: ()=> DatePicker.showDatePicker(Get.context!,
-              showTitleActions: true,
-              minTime: DateTime(1980, 6, 7),
-              maxTime: DateTime(2005, 6, 7), 
-              // onChanged: (date) {
-              //   print('change $date');
-              // }, 
-              onConfirm: (date) {
-                controller.ngay_sinh.text = date.toString().substring(0,10);
-              }, 
-              currentTime: DateTime.now(), locale: LocaleType.vi),
-          ),CustomTextForm(
+            onChanged: (p0) {},
+            ontap: () => DatePicker.showDatePicker(Get.context!,
+                showTitleActions: true,
+                minTime: DateTime(1980, 6, 7),
+                maxTime: DateTime(2005, 6, 7),
+                // onChanged: (date) {
+                //   print('change $date');
+                // },
+                onConfirm: (date) {
+              controller.ngay_sinh.text = date.toString().substring(0, 10);
+            }, currentTime: DateTime.now(), locale: LocaleType.vi),
+          ),
+          CustomTextForm(
             prefixIcon: Icon(Icons.people),
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập giới tính';
               }
             },
             controller: controller.gioi_tinh,
-            label:'Giới tính',
+            label: 'Giới tính',
             obscureText: false,
-            onChanged: (p0) {
-            },
+            onChanged: (p0) {},
           ),
           CustomTextForm(
             prefixIcon: Icon(Icons.branding_watermark),
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập cccd';
               }
             },
             controller: controller.cccd,
-            label:'CCCD',
+            label: 'CCCD',
             obscureText: false,
-            onChanged: (p0) {
-            },
+            onChanged: (p0) {},
           ),
           CustomTextForm(
             prefixIcon: Icon(Icons.email),
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập gmail';
               }
             },
             controller: controller.email,
-            label:'G-mail',
+            label: 'G-mail',
             obscureText: false,
-            onChanged: (p0) {
-            },
+            onChanged: (p0) {},
           ),
           CustomTextForm(
             prefixIcon: Icon(Icons.contact_phone),
             validator: (p0) {
-              if(p0==null||p0.isEmpty){
+              if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập số điện thoại';
               }
             },
             controller: controller.so_dien_thoai,
-            label:'Số điện thoại',
+            label: 'Số điện thoại',
             obscureText: false,
-            onChanged: (p0) {
-            },
+            onChanged: (p0) {},
           )
         ],
       ),
@@ -223,7 +245,7 @@ Widget alertAvt(StudentController controller){
       },
       onPressedEisable: () {
         if (_formKey.currentState!.validate()) {
-            controller.createUser(
+          controller.createUser(
               controller.ten_sinh_vien.text,
               controller.ma_sinh_vien.text,
               controller.khoa.text,
@@ -231,9 +253,8 @@ Widget alertAvt(StudentController controller){
               controller.gioi_tinh.text,
               controller.cccd.text,
               controller.email.text,
-              controller.so_dien_thoai.text
-            );
-            Get.back();
+              controller.so_dien_thoai.text);
+          Get.back();
         }
       },
     ),
@@ -242,9 +263,23 @@ Widget alertAvt(StudentController controller){
 
 Widget buildLabel(String text) {
   return Container(
+    padding: EdgeInsets.only(left: appPadding * 3),
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),
+      maxLines: 1,
+      overflow: TextOverflow.fade,
+    ),
+  );
+}
+
+Widget buildLabelActive(String text) {
+  return Container(
     alignment: Alignment.center,
     child: Text(
       text,
+      style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),
       maxLines: 1,
       overflow: TextOverflow.fade,
     ),
