@@ -14,10 +14,12 @@ final colorItem = Colors.white.withOpacity(0.9);
 const grey = Color.fromRGBO(148, 170, 220, 1);
 const purple = Color.fromRGBO(165, 80, 179, 1);
 const orange = Colors.orange;
-const green = Color.fromARGB(255, 63, 160, 66);
-const red = Colors.red;
+final green = Colors.green.withOpacity(0.8);
+final red = Colors.red;
 const blue = Colors.blueAccent;
 
+final error = Colors.red.withOpacity(0.4);
+final succes = Colors.green.withOpacity(0.4);
 const enableColor = Color.fromARGB(255, 176, 175, 175);
 
 // Default App Padding

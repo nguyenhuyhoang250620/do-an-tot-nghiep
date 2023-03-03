@@ -42,20 +42,24 @@ class DashBoardScreen extends GetWidget<DashBoardController> {
                 return Expanded(
                   flex: 8,
                   child: StudenManagement(
-                    studentController: controller,
+                    dashboardController: controller,
                   )
                 );
               }
               else if(controller.name_tab.value == quan_ly_giang_vien){
                 return Expanded(
                   flex: 8,
-                  child: TeacherManagement()
+                  child: TeacherManagement(
+                    dashboardController: controller,
+                  )
                 );
               }
                else if(controller.name_tab.value == quan_ly_phong_ban){
                 return Expanded(
                   flex: 8,
-                  child: DepartmentManagement()
+                  child: DepartmentManagement(
+                    dashboardController: controller,
+                  )
                 );
               }
                else if(controller.name_tab.value == quan_ly_vi_tri_phong_hoc){
@@ -67,7 +71,9 @@ class DashBoardScreen extends GetWidget<DashBoardController> {
                else if(controller.name_tab.value == quan_ly_tin_chi){
                 return Expanded(
                   flex: 8,
-                  child: SubjectManagement()
+                  child: SubjectManagement(
+                    dashboardController: controller,
+                  )
                 );
               }
                else if(controller.name_tab.value == quan_ly_ca_hoc){

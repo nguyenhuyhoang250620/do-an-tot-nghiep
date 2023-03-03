@@ -12,14 +12,14 @@ import 'package:do_an_tot_nghiep/widgets/custom_widget_action.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
-import '../../../../widgets/custom_alert_avt.dart';
+import '../../../../widgets/custom_alert.dart';
 import '../../../../widgets/custom_button.dart';
 import 'controller/student_controller.dart';
 import 'widget/user_sources.dart';
 
 class StudenManagement extends StatefulWidget {
-  StudenManagement({this.studentController});
-  DashBoardController? studentController;
+  StudenManagement({this.dashboardController});
+  DashBoardController? dashboardController;
   final controller = Get.find<StudentController>();
   @override
   State<StatefulWidget> createState() {
@@ -30,9 +30,7 @@ class StudenManagement extends StatefulWidget {
 class StudentState extends State<StudenManagement> {
   List<DataColumn> columns = [
     DataColumn2(label: buildLabel('Họ và tên')),
-    DataColumn2(
-      label: buildLabel('Mã sinh viên'),
-    ),
+    DataColumn2(label: buildLabel('Mã sinh viên'),),
     DataColumn2(label: buildLabel('Khoa')),
     DataColumn2(label: buildLabel('CCCD/CMT')),
     DataColumn2(label: buildLabel('Hoạt động')),
@@ -81,11 +79,11 @@ class StudentState extends State<StudenManagement> {
                 flex: 8,
                 child: Container(
                     padding: EdgeInsets.only(top: appPadding),
-                    child: Obx(() => widget.studentController!.jsonList.isNotEmpty?
+                    child: Obx(() => widget.dashboardController!.getUserListMap.isNotEmpty?
                     MyPaginatedDataTable(
                       columns: columns,
                       source: StudentDataTableSource(
-                          data: widget.studentController!.jsonList),
+                          data: widget.dashboardController!.getUserListMap),
                       rowsPerPage: 6,
                     ):Center(child: Text("Không có dữ liệu"),)
                     ,)),
@@ -106,6 +104,7 @@ Widget alertAvt(StudentController controller){
         listTextFiled: ListView(
         children: [
           CustomTextForm(
+            prefixIcon: Icon(Icons.person),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập tên sinh viên';
@@ -118,6 +117,7 @@ Widget alertAvt(StudentController controller){
             },
           ),
           CustomTextForm(
+            prefixIcon: Icon(Icons.qr_code_2_outlined),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập mã sinh viên';
@@ -130,6 +130,7 @@ Widget alertAvt(StudentController controller){
             },
           ),
           CustomTextForm(
+            prefixIcon: Icon(Icons.subject),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập khoa';
@@ -141,6 +142,7 @@ Widget alertAvt(StudentController controller){
             onChanged: (p0) {
             },
           ),CustomTextForm(
+            prefixIcon: Icon(Icons.date_range),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập ngày sinh';
@@ -163,6 +165,7 @@ Widget alertAvt(StudentController controller){
               }, 
               currentTime: DateTime.now(), locale: LocaleType.vi),
           ),CustomTextForm(
+            prefixIcon: Icon(Icons.people),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập giới tính';
@@ -175,6 +178,7 @@ Widget alertAvt(StudentController controller){
             },
           ),
           CustomTextForm(
+            prefixIcon: Icon(Icons.branding_watermark),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập cccd';
@@ -187,6 +191,7 @@ Widget alertAvt(StudentController controller){
             },
           ),
           CustomTextForm(
+            prefixIcon: Icon(Icons.email),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập gmail';
@@ -199,6 +204,7 @@ Widget alertAvt(StudentController controller){
             },
           ),
           CustomTextForm(
+            prefixIcon: Icon(Icons.contact_phone),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập số điện thoại';
