@@ -31,7 +31,6 @@ class CustomWidgetActionState extends State<CustomWidgetAction>{
   Widget build(BuildContext context) {
     return  Container(
         padding: EdgeInsets.symmetric(horizontal: appPadding*2),
-        margin: EdgeInsets.only(top: appPadding*2),
         decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(8.0)
