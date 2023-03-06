@@ -5,6 +5,7 @@ import 'dart:typed_data';
 // ignore: library_prefixes
 import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:dio/dio.dart';
+import 'package:do_an_tot_nghiep/data/models/class_models.dart';
 import 'package:do_an_tot_nghiep/data/models/department_models.dart';
 import 'package:do_an_tot_nghiep/data/models/subject_models.dart';
 import 'package:do_an_tot_nghiep/data/models/teacher_models.dart';
@@ -35,7 +36,7 @@ class ApiClient {
       if (response.statusCode == 200) {
         // Lưu token vào local storage hoặc truyền vào trang khác để sử dụng
         final token = response.data['token'];
-        Get.offAndToNamed(AppRoutes.homeScreen);
+        Get.offAndToNamed(AppRoutes.dashBoardScreen);
         // ...
       } else {
         // Đăng nhập thất bại, xử lý thông báo lỗi hoặc hiển thị form đăng nhập lại
@@ -142,6 +143,33 @@ class ApiClient {
     catch(e){
           Get.snackbar(
             'Thêm sinh viên mới không thành công'
+            , '',backgroundColor: error);
+    }
+
+  }
+  //delete user
+  Future<void> deleteUser(String ma_sinh_vien) async {
+      Map data ={
+      "MaSV":ma_sinh_vien, 
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.delete(
+        '$baseUrl/delete-user',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Xoá thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Xoá không thành công'
             , '',backgroundColor: error);
     }
 
@@ -320,6 +348,61 @@ class ApiClient {
 
   //create department
   Future<void> createSubject(
+    String ten_don_vi,
+    String ma_don_vi,
+    String mo_ta,
+    String ten_may_quet,
+  ) async{
+    Map data ={
+      "MaPhong":ma_don_vi, 
+      "TenPhong":ten_don_vi,
+      "Mota":mo_ta,
+      "TenMayQuet":ten_may_quet,
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.post(
+        '$baseUrl/create-subject',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Thêm giang viên mới thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Thêm giảng viên mới không thành công'
+            , '',backgroundColor: error);
+    }
+  }
+
+
+
+
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //get list class
+  Future<List<ClassModel>> getClass() async {
+    return await dio.get('$baseUrl/get-class',)
+      .then((response) {
+      List<ClassModel> classList = [];
+      if (response.statusCode == 201) {
+        for (var item in response.data) {
+          classList.add(ClassModel.fromJson(item));
+        }
+      }
+      return classList;
+    }).catchError((err) {
+      print('HoangNH: ${err}');
+    });
+  }
+
+  //create department
+  Future<void> createClass(
     String ten_don_vi,
     String ma_don_vi,
     String mo_ta,

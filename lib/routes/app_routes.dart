@@ -9,8 +9,8 @@ import 'package:get/get.dart';
 class AppRoutes {
   static String textStylesScreen = '/text_styles_screen';
   static String appNavigationScreen = '/app_navigation_screen';
-  static String initialRoute = '/dashboard_screen';
-  static String loginScreen = '/login_screen';
+  static String initialRoute = '/login_screen';
+  static String loginScreen = '/dashBoardScreen';
   static String homeScreen = '/home_screen';
   static String dashBoardScreen = '/dashboard_screen';
 

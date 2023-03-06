@@ -25,5 +25,8 @@ final error = Colors.red.withOpacity(0.4);
 final succes = Colors.green.withOpacity(0.4);
 const enableColor = Color.fromARGB(255, 176, 175, 175);
 
+final gradientTop = Colors.blueAccent;
+final gradientBottom = Colors.redAccent;
+
 // Default App Padding
 const appPadding = 10.0;

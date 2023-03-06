@@ -1,4 +1,5 @@
 import 'package:do_an_tot_nghiep/core/app_export.dart';
+import 'package:do_an_tot_nghiep/data/models/user_models.dart';
 import 'package:do_an_tot_nghiep/libary/data_table_2/src/data_table_2.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/components/custom_appbar.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/components/search_field.dart';
@@ -11,7 +12,6 @@ import 'package:do_an_tot_nghiep/widgets/custom_textfiled.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_widget_action.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-
 import '../../../../widgets/custom_alert.dart';
 import '../../../../widgets/custom_button.dart';
 import 'controller/student_controller.dart';
@@ -38,11 +38,16 @@ class StudentState extends State<StudenManagement> {
     DataColumn2(label: buildLabelActive('Hoạt động')),
   ];
 
+  final TextEditingController controller = TextEditingController();
   @override
   void initState() {
     super.initState();
   }
-
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -56,32 +61,19 @@ class StudentState extends State<StudenManagement> {
               CustomAppbar(),
               Divider(),
               Expanded(
-                  flex: 2,
-                  child: CustomWidgetAction(
-                    title: 'Danh sách sinh viên',
-                    textSearch: 'Tìm kiếm sinh viên',
-                    titleButtonLeft: 'Thêm sinh viên mới',
-                    titleButtonRight: 'Import excel',
-                    onPressedLeft: () {
-                      widget.controller.ten_sinh_vien.text = "";
-                      widget.controller.ma_sinh_vien.text = "";
-                      widget.controller.khoa.text = "";
-                      widget.controller.ngay_sinh.text = "";
-                      widget.controller.gioi_tinh.text = "";
-                      widget.controller.cccd.text = "";
-                      widget.controller.email.text = "";
-                      widget.controller.so_dien_thoai.text = "";
-                      Get.dialog(alertAvt(widget.controller));
-                    },
-                  )),
+                  flex: 3,
+                  child: CustomWidgetAction()),
               Expanded(
-                flex: 8,
+                flex: 7,
                 child: Container(
-                    padding: EdgeInsets.only(top: appPadding),
                     child: Obx(
                       () =>widget.dashboardController!.isLoadingStudent.value
-                            ?widget.dashboardController!.getUserListMap.isNotEmpty
+                            ?widget.dashboardController!.getUserList.isNotEmpty
                               ? MyPaginatedDataTable(
+                                  controller: controller,
+                                  onChanged: (p0) {
+                                    widget.controller.search(controller.text);
+                                  },
                                   titleButtonLeft: 'Thêm nhân viên mới',
                                   titleButtonRight: 'Import excel',
                                   onPressedLeft: () {
@@ -98,11 +90,10 @@ class StudentState extends State<StudenManagement> {
                                   onPressedRight: () {
                                     
                                   },
-
                                   columns: columns,
                                   source: StudentDataTableSource(
                                       data: widget
-                                          .dashboardController!.getUserListMap),
+                                          .dashboardController!.getUserListMap.value),
                                   rowsPerPage: 6,
                                 )
                               : Center(
@@ -285,3 +276,4 @@ Widget buildLabelActive(String text) {
     ),
   );
 }
+

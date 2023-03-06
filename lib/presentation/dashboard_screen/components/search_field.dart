@@ -2,8 +2,11 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constan
 import 'package:flutter/material.dart';
 
 class SearchField extends StatelessWidget {
-  const SearchField({Key? key,this.texthint}) : super(key: key);
+  const SearchField({Key? key,this.texthint,this.onChanged,this.controller,this.suffixIcon}) : super(key: key);
   final String? texthint;
+  final Function(String)? onChanged;
+  final TextEditingController? controller;
+  final Widget? suffixIcon;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -12,6 +15,8 @@ class SearchField extends StatelessWidget {
         borderRadius: BorderRadius.circular(4.0)
       ),
       child: TextField(
+        controller: controller,
+        onChanged: onChanged,
         decoration: InputDecoration(
           hintText:texthint,
           helperStyle: TextStyle(
@@ -23,7 +28,8 @@ class SearchField extends StatelessWidget {
             borderSide: BorderSide.none,
             borderRadius: BorderRadius.circular(10)
           ),
-          prefixIcon: Icon(Icons.search,color: darkTextColor,)
+          prefixIcon: Icon(Icons.search,color: darkTextColor,),
+          suffixIcon:suffixIcon 
         ),
       ),
     );

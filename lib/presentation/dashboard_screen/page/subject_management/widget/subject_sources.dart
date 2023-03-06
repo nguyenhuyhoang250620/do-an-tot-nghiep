@@ -22,10 +22,14 @@ class SubjectDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(label(row['MaPhong'].toString())),
-        DataCell(label(row['TenPhong'].toString())),
-        DataCell(label(row['Mota'].toString())),
-        DataCell(label(row['TenMayQuet'].toString())),
+        DataCell(label(row['KhoiKienThuc'].toString())),
+        DataCell(label(row['TenHocPhan'].toString())),
+        DataCell(label(row['MaHocPhan'].toString())),
+        DataCell(label(row['SotinChi'].toString())),
+        DataCell(label(row['DKTQ'].toString())),
+        DataCell(label(row['KiThu'].toString())),
+        DataCell(label(row['TongSoTiet'].toString())),
+        DataCell(label(row['MoTa'].toString())),
         DataCell(buildActive(
           row['MaGV'].toString(),
           row['TenGV'].toString(),

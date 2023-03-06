@@ -173,7 +173,15 @@ Widget buildActive(
       ),
       alignment: Alignment.center,
       child: CusstomActiveTable(
-        onDelete: () {},
+        onDelete: () {
+          controller.deleterUser(ma_sinh_vien);
+          Get.dialog(Dialog(
+            child: Text("doi"),
+          ));
+          Future.delayed(Duration(seconds: 2),() {
+            Get.back();
+          },);
+        },
         onUpdate: () {
           Get.dialog(alertAvt(
             controller,

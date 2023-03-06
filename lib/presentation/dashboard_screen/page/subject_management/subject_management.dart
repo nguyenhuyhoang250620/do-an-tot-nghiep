@@ -34,10 +34,14 @@ class SubjectManagement extends StatefulWidget {
 
 class SubjectState extends State<SubjectManagement> {
   List<DataColumn> columns = [
-    DataColumn2(label: buildLabel('Tên phòng')),
-    DataColumn2(label: buildLabel('Mã phòng'),),
+    DataColumn2(label: buildLabel('Khối kiến thức')),
+    DataColumn2(label: buildLabel('Tên học phần')),
+    DataColumn2(label: buildLabel('Mã học phần'),),
+    DataColumn2(label: buildLabel('Số tín chỉ')),
+    DataColumn2(label: buildLabel('ĐKTQ')),
+    DataColumn2(label: buildLabel('Kì thứ')),
+    DataColumn2(label: buildLabel('Tổng số tiết')),
     DataColumn2(label: buildLabel('Mô tả')),
-    DataColumn2(label: buildLabel('Tên máy quét')),
     DataColumn2(label: buildLabel('Hoạt động')),
   ];
 

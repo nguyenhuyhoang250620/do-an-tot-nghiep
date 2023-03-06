@@ -1,4 +1,5 @@
 import 'package:do_an_tot_nghiep/data/apiClient/api_client.dart';
+import 'package:do_an_tot_nghiep/data/models/class_models.dart';
 import 'package:do_an_tot_nghiep/data/models/department_models.dart';
 import 'package:do_an_tot_nghiep/data/models/subject_models.dart';
 import 'package:do_an_tot_nghiep/data/models/teacher_models.dart';
@@ -18,6 +19,7 @@ class DashBoardController extends GetxController {
   var isLoadingTeacher = false.obs;
   var isLoadingDepartment = false.obs;
   var isLoadingSubject = false.obs;
+  var isLoadingClass= false.obs;
 
   RxList<UserModel> getUserList = <UserModel>[].obs;
   RxList<Map<String, dynamic>> getUserListMap = <Map<String, dynamic>>[].obs;
@@ -26,17 +28,23 @@ class DashBoardController extends GetxController {
   RxList<Map<String, dynamic>> getTeacherListMap = <Map<String, dynamic>>[].obs;
 
   RxList<DepartmentModel> getDepartmentList = <DepartmentModel>[].obs;
-  RxList<Map<String, dynamic>> getDepartmentListMap =
-      <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> getDepartmentListMap =<Map<String, dynamic>>[].obs;
 
   RxList<SubjectModel> getSubjectList = <SubjectModel>[].obs;
   RxList<Map<String, dynamic>> getSubjectListMap = <Map<String, dynamic>>[].obs;
 
+  RxList<ClassModel> getClassList = <ClassModel>[].obs;
+  RxList<Map<String, dynamic>> getClassListMap = <Map<String, dynamic>>[].obs;
+
+  List<String> listGioiTinh = ['Nam', 'Nữ', 'Khác', 'Chọn'];
+    RxString selectedGioiTinh = "Chọn".obs;
+  List<dynamic> listKhoa = [];
   void onInit() {
     getUser();
     getTeacher();
     getDepartment();
     getSubject();
+    getClass();
     super.onInit();
   }
 
@@ -75,6 +83,7 @@ class DashBoardController extends GetxController {
             TenSV: e.TenSV,
             id: e.id);
         data.add(models);
+        listKhoa.add(e.Khoa);
       }).toList();
       isLoadingStudent.value = true;
       getUserList.value = data;
@@ -143,18 +152,47 @@ class DashBoardController extends GetxController {
       dataGet.map((e) {
         SubjectModel models = SubjectModel(
           id: e.id,
-          MaPhong: e.MaPhong,
-          TenMayQuet: e.TenMayQuet,
-          TenPhong: e.TenPhong,
-          Mota: e.Mota,
+          MaHocPhan: e.MaHocPhan,
+          SotinChi: e.SotinChi,
+          TenHocPhan: e.TenHocPhan,
+          KiThu: e.KiThu,
+          DKTQ: e.DKTQ,
+          KhoiKienThuc: e.KhoiKienThuc,
+          MoTa: e.MoTa,
+          TongSoTiet: e.TongSoTiet
         );
         data.add(models);
       }).toList();
       isLoadingSubject.value = true;
       getSubjectList.value = data;
-      getSubjectListMap.value =
-          getSubjectList.map((person) => person.toJson()).toList();
+      getSubjectListMap.value =getSubjectList.map((person) => person.toJson()).toList();
       getSubjectListMap.refresh();
+    });
+  }
+
+
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //get du lieu vi tri phong hoc
+  Future<void> getClass() async {
+    List<ClassModel> dataGet = [];
+    List<ClassModel> data = [];
+    await apiClient.getClass().then((value) {
+      dataGet = value;
+    }).whenComplete(() {
+      dataGet.map((e) {
+        ClassModel models = ClassModel(
+          id: e.id,
+          MaPhong: e.MaPhong,
+          Mota: e.Mota,
+          TenMayQuet: e.TenMayQuet,
+          TenPhong: e.TenPhong
+        );
+        data.add(models);
+      }).toList();
+      isLoadingClass.value = true;
+      getClassList.value = data;
+      getClassListMap.value =getClassList.map((person) => person.toJson()).toList();
+      getClassListMap.refresh();
     });
   }
 }

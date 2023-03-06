@@ -65,7 +65,9 @@ class DashBoardScreen extends GetWidget<DashBoardController> {
                else if(controller.name_tab.value == quan_ly_vi_tri_phong_hoc){
                 return Expanded(
                   flex: 8,
-                  child: ClassManagement()
+                  child: ClassManagement(
+                    dashboardController: controller,
+                  )
                 );
               }
                else if(controller.name_tab.value == quan_ly_tin_chi){

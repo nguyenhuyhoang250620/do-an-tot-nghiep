@@ -74,4 +74,35 @@ class StudentController extends GetxController {
       dashBoardController.getUser();
     });
   }
+
+  Future<void> deleterUser(
+    String ma_sinh_vien,
+  ) async {
+    await apiClient.deleteUser(ma_sinh_vien).whenComplete((){
+      dashBoardController.getUser();
+    });
+  }
+
+  void search(String query) {
+    var result = dashBoardController.getUserList.where((product) => product.TenSV!.contains(query)).toList();
+    dashBoardController.getUserListMap.value =result.map((person) => person.toJson()).toList();
+    dashBoardController.getUserListMap.refresh();
+    // dashBoardController.getUserList.refresh();
+  }
+  void filter(List<UserModel> list) {
+    // print(list);
+    // dashBoardController.getUserListMap.where((element) => list.any((condition) => element['Khoa'] == condition)).toList();
+    // dashBoardController.getUserListMap.refresh();
+    if(list.isNotEmpty){
+        var result = dashBoardController.getUserListMap
+        .where((element) => list.any((condition) => element['Khoa'] == condition))
+        .map((element) => UserModel.fromJson(element)) // chuyển đổi từ Map sang UserModel
+        .toList();
+        print('HoangNH: $result');
+        dashBoardController.getUserListMap.value =result.map((person) => person.toJson()).toList();
+        dashBoardController.getUserListMap.refresh();
+    }
+    dashBoardController.getUserListMap.refresh();
+    // dashBoardController.getUserList.refresh();
+  }
 }

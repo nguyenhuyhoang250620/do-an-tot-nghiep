@@ -1,7 +1,8 @@
 import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashboard_controller.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-
 import '../libary/data_table_2/src/paginated_data_table_2.dart';
 import '../presentation/dashboard_screen/components/search_field.dart';
 import '../presentation/dashboard_screen/constants/responsive.dart';
@@ -17,6 +18,13 @@ class MyPaginatedDataTable extends StatefulWidget {
   final String? textSearch;
   final VoidCallback? onPressedLeft;
   final VoidCallback? onPressedRight;
+  final Function(String)? onChanged;
+  final TextEditingController? controller;
+  final dynamic Function(List<dynamic>)? onChangedSelect;
+  final List<dynamic>? options;
+  final String? whenEmpty;
+  final Widget? icon;
+  final  List<dynamic>? selectedValues;
 
   const MyPaginatedDataTable({
     Key? key,
@@ -28,7 +36,14 @@ class MyPaginatedDataTable extends StatefulWidget {
     this.onPressedRight,
     this.textSearch,
     this.titleButtonLeft,
-    this.titleButtonRight
+    this.titleButtonRight,
+    this.controller,
+    this.onChanged,
+    this.onChangedSelect,
+    this.options,
+    this.whenEmpty,
+    this.icon,
+    this.selectedValues
   }) : super(key: key);
 
   @override
@@ -36,7 +51,7 @@ class MyPaginatedDataTable extends StatefulWidget {
 }
 class _MyPaginatedDataTableState extends State<MyPaginatedDataTable> {
   final _paginatorController = PaginatorController();
-
+  final controller = Get.find<DashBoardController>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,9 +61,35 @@ class _MyPaginatedDataTableState extends State<MyPaginatedDataTable> {
         borderRadius: BorderRadius.circular(8.0)
       ),
       child: PaginatedDataTable2(
-        header: SearchField(
-          texthint: 'Tìm kiếm',
-        ),
+        header:SearchField(
+            controller: widget.controller,
+            texthint: 'Tìm kiếm',
+            onChanged:widget.onChanged,
+            suffixIcon: Container(
+              width: 200,
+              child: DropdownButtonFormField2(
+            decoration: InputDecoration(
+              labelText: "Giới tính",
+              labelStyle: AppStyle.txtInterMedium12.copyWith(color: Get.context!.theme.listTileTheme.textColor),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+            ),
+            items: controller.listGioiTinh.map((e) => _childDropDownItem(e)).toList(),
+            buttonDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.0),
+            ),
+            dropdownDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.0),
+            ),
+            style: AppStyle.textData.copyWith(color: Colors.black),
+            value: controller.selectedGioiTinh.value,
+            isDense: true,
+            onChanged: (value) {
+                // debugPrint('TungVD: selectedFormType - $value');
+              controller.selectedGioiTinh.value = value as String;
+            },
+          ),),),
         actions: [
           Container(
             width: Get.width*0.3,
@@ -141,4 +182,13 @@ class _MyPaginatedDataTableState extends State<MyPaginatedDataTable> {
       ),
     );
   }
+}
+DropdownMenuItem _childDropDownItem(String title) {
+  return DropdownMenuItem<String>(
+    value: title,
+    child: Text(
+      title,
+      style: AppStyle.textData,
+    ),
+  );
 }
