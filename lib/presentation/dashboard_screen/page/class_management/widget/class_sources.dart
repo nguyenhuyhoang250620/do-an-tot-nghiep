@@ -22,10 +22,10 @@ class ClassDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
+        DataCell(label(row['TenPhong'].toString())),
+        DataCell(label(row['MaPhong'].toString())),
         DataCell(label(row['TenMayQuet'].toString())),
         DataCell(label(row['Mota'].toString())),
-        DataCell(label(row['MaPhong'].toString())),
-        DataCell(label(row['TenPhong'].toString())),
         DataCell(buildActive(
           row['MaGV'].toString(),
           row['TenGV'].toString(),

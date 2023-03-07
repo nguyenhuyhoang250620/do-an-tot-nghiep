@@ -1,14 +1,18 @@
 import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/student_management/controller/student_controller.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/student_management/widget/env_student.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_active_table.dart';
+import 'package:do_an_tot_nghiep/widgets/custom_button_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import '../../../../../widgets/custom_alert.dart';
+import '../../../../../widgets/custom_button.dart';
 import '../../../../../widgets/custom_loading.dart';
+import '../../../../../widgets/custom_text_detail.dart';
 import '../../../../../widgets/custom_textfiled.dart';
 
 final FirebaseStorage storage = FirebaseStorage.instance;
@@ -25,7 +29,7 @@ class StudentDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(labelAndAvt(index, row['TenSV'].toString(),row['MaSV'].toString())),
+        DataCell(labelAndAvt(index, row['TenSV'].toString(),row['MaSV'].toString(),row['url'].toString())),
         DataCell(label(index, row['MaSV'].toString())),
         DataCell(label(index, row['Khoa'].toString())),
         DataCell(label(index, row['CCCD'].toString())),
@@ -38,7 +42,9 @@ class StudentDataTableSource extends DataTableSource {
           row['CCCD'].toString(),
           row['Email'].toString(),
           row['SoDT'].toString(),
-          index)),
+          row['url'].toString(),
+          index
+        )),
       ],
     );
   }
@@ -76,7 +82,7 @@ class StudentDataTableSource extends DataTableSource {
   // }
 }
 
-Widget labelAndAvt(int index, String text,String Masv) {
+Widget labelAndAvt(int index, String text,String Masv,String url) {
   return Container(
     alignment: Alignment.centerLeft,
     width: Get.width,
@@ -91,7 +97,28 @@ Widget labelAndAvt(int index, String text,String Masv) {
       children: [
         InkWell(
           onTap: () {
-            print(Masv);
+            Get.dialog(
+              AlertDialog(
+                title: Align(alignment: Alignment.bottomRight,child: IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Get.back();
+                  },
+                ),),
+                content:FadeInImage(
+                  placeholder: AssetImage('assets/images/image_not_found.png'),
+                  image: NetworkImage(
+                    url,
+                  ),
+                  imageErrorBuilder: (context, error, stackTrace) => Icon(
+                    Icons.person,
+                    color: darkTextColor,
+                  ),
+                  height: Get.height*0.7,
+                  width: Get.width*0.5,
+                  ),
+              )
+            );
           },
           child: Container(
             height: 40,
@@ -101,15 +128,28 @@ Widget labelAndAvt(int index, String text,String Masv) {
                 border: Border.all(color: darkTextColor)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(500 / 2),
-              child: FadeInImage(
+              child:url.isNotEmpty?
+              FadeInImage(
+                placeholder: AssetImage('assets/images/image_not_found.png'),
+                image: NetworkImage(
+                  url,
+                ),
+                imageErrorBuilder: (context, error, stackTrace) =>Icon(
+                    Icons.person,
+                    color: darkTextColor,
+                  ),
+                height: 100,
+                width: 100,
+              )
+              : FadeInImage(
                   placeholder: AssetImage('assets/images/image_not_found.png'),
                   image: NetworkImage(
                     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHr-PpS2eEnnDOLRJO6xS2NjvrWFBpVixlnw&usqp=CAU',
                   ),
                   imageErrorBuilder: (context, error, stackTrace) => Icon(
-                        Icons.person,
-                        color: darkTextColor,
-                      )),
+                    Icons.person,
+                    color: darkTextColor,
+                  )),
             ),
           ),
         ),
@@ -163,6 +203,7 @@ Widget buildActive(
     String cccd,
     String gmail,
     String so_dien_thoai,
+    String url,
     int index) {
   final controller = Get.find<StudentController>();
   BuildContext? context;
@@ -176,7 +217,7 @@ Widget buildActive(
         onDelete: () {
           controller.deleterUser(ma_sinh_vien);
           Get.dialog(Dialog(
-            child: Text("doi"),
+            child: CustomLoading(),
           ));
           Future.delayed(Duration(seconds: 2),() {
             Get.back();
@@ -195,10 +236,158 @@ Widget buildActive(
             so_dien_thoai,
           ));
         },
-        onView: () {},
+        onView: () {
+          Get.dialog(view(
+            controller,
+            ma_sinh_vien,
+            ten_sinh_vien,
+            khoa,
+            ngay_sinh,
+            gioi_tinh,
+            cccd,
+            gmail,
+            so_dien_thoai,
+            url
+          ));
+        },
       ));
 }
 
+Widget view(
+    StudentController controller,
+    String ma_sinh_vien,
+    String ten_sinh_vien,
+    String khoa,
+    String ngay_sinh,
+    String gioi_tinh,
+    String cccd,
+    String gmail,
+    String so_dien_thoai,
+    String url
+){
+  controller.pathImageAfterPickfileFromComputer.value=url;
+  return AlertDialog(
+    title: Center(child: Text("Hồ sơ sinh viên")),
+    content: Container(
+      height: Get.height*0.7,
+      width: Get.width*0.5,
+      child: Row(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Container(
+                  height: Get.height,
+                  width: Get.width,
+                  padding: EdgeInsets.symmetric(vertical: appPadding*3),
+                  child: ListView(
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(appPadding),
+                          child: Text('Ảnh 3x4', style: AppStyle.txtInterRegular18),
+                        ),
+                      ),
+                      Container(
+                        height: 300,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: textColor,
+                            style: BorderStyle.solid,
+                          )
+                        ),
+                        child:
+                        Obx(
+                          () {
+                            // debugPrint('controller.pathImage.value - ${controller.pathImageAfterPickfileFromComputer.value}');
+                            return 
+                            controller.pathImageAfterPickfileFromComputer.value.isNotEmpty
+                                ? Image.network(
+                                    controller.pathImageAfterPickfileFromComputer.value,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Image.asset("assets/images/image_not_found.png");
+                                    },
+                                  )
+                                : Image.asset("assets/images/image_not_found.png");
+                          },
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(appPadding*2),
+                        child: CustomButtonCommon(
+                          title: 'Thư viện',
+                          color: colorButton,
+                          size:16,
+                          icon: Icon(Icons.photo_album),
+                          onPressed: () {
+                            controller.pickFileWeb();
+                          },
+                        ))
+                    ],
+                  ),
+                ),
+          ),
+          Expanded(
+            flex: 2,
+            child: ListView(
+              children: [
+                CustomTextDetail(
+                  title: TenSV.value,
+                  content: ten_sinh_vien,
+                ),
+                CustomTextDetail(
+                  title: MaSV.value,
+                  content: ma_sinh_vien,
+                ),
+                CustomTextDetail(
+                  title: Khoa.value,
+                  content: khoa,
+                ),
+                CustomTextDetail(
+                  title: NamSinh.value,
+                  content: ngay_sinh,
+                ),
+                CustomTextDetail(
+                  title: GioiTinh.value,
+                  content: gioi_tinh,
+                ),
+                CustomTextDetail(
+                  title: CCCD.value,
+                  content: cccd,
+                ),
+                CustomTextDetail(
+                  title: Email.value,
+                  content: gmail,
+                ),
+                CustomTextDetail(
+                  title: SoDT.value,
+                  content: so_dien_thoai,
+                ),
+              ],
+            ),
+          )
+        ],
+      )
+    ),
+    actions: [
+      CustomButtonAlert(
+        titileDisable: 'Huỷ',
+        titileEnable: 'Lưu',
+        onPressedDisable: () => Get.back(),
+        onPressedEnable:(){
+          controller.uploadAvatar(ma_sinh_vien,controller.pickFileFromComputer);
+          Get.back();
+          Get.dialog(Dialog(
+            child: CustomLoading(),
+          ));
+          Future.delayed(Duration(seconds: 3),() {
+            Get.back();
+          },);
+        }
+      )
+    ],
+  );
+}
 Widget alertAvt(
   StudentController controller,
   String ma_sinh_vien,
@@ -224,7 +413,7 @@ Widget alertAvt(
     child: CustomAlertAvt(
       title: Center(
           child: Text(
-        "Thêm sinh viên",
+        "Cập nhật thông tin",
         style: AppStyle.txtRobotoRegular20,
       )),
       listTextFiled: ListView(

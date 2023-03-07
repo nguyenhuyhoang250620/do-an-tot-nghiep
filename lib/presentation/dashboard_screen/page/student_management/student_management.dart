@@ -6,6 +6,7 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/components/search
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/responsive.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashboard_controller.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/student_management/widget/env_student.dart';
 import 'package:do_an_tot_nghiep/presentation/home_screen/controller/home_controller.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_table.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_textfiled.dart';
@@ -14,13 +15,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import '../../../../widgets/custom_alert.dart';
 import '../../../../widgets/custom_button.dart';
+import '../../../../widgets/custom_loading.dart';
 import 'controller/student_controller.dart';
 import 'widget/user_sources.dart';
 
 class StudenManagement extends StatefulWidget {
   StudenManagement({this.dashboardController});
   DashBoardController? dashboardController;
-  final controller = Get.find<StudentController>();
   @override
   State<StatefulWidget> createState() {
     return StudentState();
@@ -28,17 +29,18 @@ class StudenManagement extends StatefulWidget {
 }
 
 class StudentState extends State<StudenManagement> {
+  final controller = Get.find<StudentController>();
+  RxList<String> listLabel = [TenSV.value,MaSV.value,Khoa.value,CCCD.value].obs;
+  var selectedOptions = TenSV.value;
   List<DataColumn> columns = [
-    DataColumn2(label: buildLabel('Họ và tên')),
-    DataColumn2(
-      label: buildLabel('Mã sinh viên'),
-    ),
-    DataColumn2(label: buildLabel('Khoa')),
-    DataColumn2(label: buildLabel('CCCD/CMT')),
+    DataColumn2(label: buildLabel(TenSV.value)),
+    DataColumn2(label: buildLabel(MaSV.value),),
+    DataColumn2(label: buildLabel(Khoa.value)),
+    DataColumn2(label: buildLabel(CCCD.value)),
     DataColumn2(label: buildLabelActive('Hoạt động')),
   ];
 
-  final TextEditingController controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -61,34 +63,43 @@ class StudentState extends State<StudenManagement> {
               CustomAppbar(),
               Divider(),
               Expanded(
-                  flex: 3,
+                  flex: 2,
                   child: CustomWidgetAction()),
               Expanded(
-                flex: 7,
+                flex: 8,
                 child: Container(
                     child: Obx(
                       () =>widget.dashboardController!.isLoadingStudent.value
                             ?widget.dashboardController!.getUserList.isNotEmpty
                               ? MyPaginatedDataTable(
-                                  controller: controller,
-                                  onChanged: (p0) {
-                                    widget.controller.search(controller.text);
+                                  value: selectedOptions,
+                                  onChangedlistSelect: (p0) {
+                                    selectedOptions= p0 as String;
                                   },
-                                  titleButtonLeft: 'Thêm nhân viên mới',
+                                  items: listLabel.value,
+                                  controller: _controller,
+                                  onChanged: (p0) {
+                                    controller.search(_controller.text,selectedOptions);
+                                  },
+                                  titleButtonLeft: 'Thêm sinh viên mới',
                                   titleButtonRight: 'Import excel',
+                                  titleButtonBetween: 'Export excel',
+                                  onPressedBetween: () {
+                                    controller.exportData();
+                                  },
                                   onPressedLeft: () {
-                                    widget.controller.ten_sinh_vien.text = "";
-                                    widget.controller.ma_sinh_vien.text = "";
-                                    widget.controller.khoa.text = "";
-                                    widget.controller.ngay_sinh.text = "";
-                                    widget.controller.gioi_tinh.text = "";
-                                    widget.controller.cccd.text = "";
-                                    widget.controller.email.text = "";
-                                    widget.controller.so_dien_thoai.text = "";
-                                    Get.dialog(alertAvt(widget.controller));
+                                    controller.ten_sinh_vien.text = "";
+                                    controller.ma_sinh_vien.text = "";
+                                    controller.khoa.text = "";
+                                    controller.ngay_sinh.text = "";
+                                    controller.gioi_tinh.text = "";
+                                    controller.cccd.text = "";
+                                    controller.email.text = "";
+                                    controller.so_dien_thoai.text = "";
+                                    Get.dialog(alertAvt(controller));
                                   },
                                   onPressedRight: () {
-                                    
+                                    controller.importFileExcel();
                                   },
                                   columns: columns,
                                   source: StudentDataTableSource(
@@ -99,7 +110,7 @@ class StudentState extends State<StudenManagement> {
                               : Center(
                                   child: Text("Không có dữ liệu"),
                             ):Center(
-                              child: CircularProgressIndicator(),
+                              child: CustomLoading(),
                             ),
                     )),
               )

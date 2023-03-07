@@ -9,6 +9,7 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/respons
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../widgets/custom_widget_action.dart';
 import 'discussions.dart';
 
 class DashboardContent extends StatelessWidget {
@@ -31,26 +32,17 @@ class DashboardContent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      flex: 5,
+                      flex: 6,
                       child: Column(
                         children: [
-                          AnalyticCards(),
+                          // CustomWidgetAction(),
                           SizedBox(
                             height: appPadding,
                           ),
                           Users(),
-                          if (Responsive.isMobile(context))
-                            SizedBox(
-                              height: appPadding,
-                            ),
-                          if (Responsive.isMobile(context)) Discussions(),
                         ],
                       ),
                     ),
-                    if (!Responsive.isMobile(context))
-                      SizedBox(
-                        width: appPadding,
-                      ),
                     if (!Responsive.isMobile(context))
                       Expanded(
                         flex: 2,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 // ignore: avoid_web_libraries_in_flutter
 // import 'dart:html' as html;
 import 'dart:typed_data';
@@ -14,6 +15,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:dio/dio.dart' as _dio;
+import 'package:path_provider/path_provider.dart';
 
 import '../models/user_models.dart';
 
@@ -401,16 +404,16 @@ class ApiClient {
     });
   }
 
-  //create department
+  //create class
   Future<void> createClass(
-    String ten_don_vi,
-    String ma_don_vi,
-    String mo_ta,
     String ten_may_quet,
+    String mo_ta,
+    String ma_phong,
+    String ten_phong,
   ) async{
     Map data ={
-      "MaPhong":ma_don_vi, 
-      "TenPhong":ten_don_vi,
+      "MaPhong":ma_phong, 
+      "TenPhong":ten_phong,
       "Mota":mo_ta,
       "TenMayQuet":ten_may_quet,
     };
@@ -419,7 +422,7 @@ class ApiClient {
 
     try{
       return await dio.post(
-        '$baseUrl/create-subject',
+        '$baseUrl/create-class',
         data: body
         ).then((value){
         if(value.statusCode == 201){
@@ -435,6 +438,32 @@ class ApiClient {
             , '',backgroundColor: error);
     }
   }
+
+
+
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //upload avatar
+  Future<void>UpdateAvatar({
+    required String masv,
+    XFile? files,
+  }) async {
+    Map<String, dynamic> map = {};
+    map.addAll({"masv": masv});
+    if (files != null && files.length().toString() != '0') {
+      Uint8List bytes = await files.readAsBytes();
+      String fileName = files.name;
+      map.addAll({"file": _dio.MultipartFile.fromBytes(bytes, filename: fileName)});
+    }
+
+    _dio.FormData formData = _dio.FormData.fromMap(map);
+    print('HoangNH: ${formData.fields}');
+    return await dio.post('$baseUrl/upload-image', data: formData).then((response) {
+      print('HoangNH: thanh cong');
+      return;
+    });
+  }
+
+
   ApiClient._internal();
 }
 

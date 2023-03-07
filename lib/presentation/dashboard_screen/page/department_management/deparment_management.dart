@@ -7,6 +7,7 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/respons
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashboard_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/department_management/controller/department_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/department_management/widget/department_sources.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/department_management/widget/env_department.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/teacher_management/controller/teacher_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/teacher_management/widget/teacher_sources.dart';
 import 'package:do_an_tot_nghiep/presentation/home_screen/controller/home_controller.dart';
@@ -18,12 +19,12 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import '../../../../widgets/custom_alert.dart';
 import '../../../../widgets/custom_button.dart';
+import '../../../../widgets/custom_loading.dart';
 
 
 class DepartmentManagement extends StatefulWidget {
   DepartmentManagement({this.dashboardController});
   DashBoardController? dashboardController;
-  final controller = Get.find<DepartmentController>();
   @override
   State<StatefulWidget> createState() {
     return DepartmentState();
@@ -31,12 +32,16 @@ class DepartmentManagement extends StatefulWidget {
 }
 
 class DepartmentState extends State<DepartmentManagement> {
+  final controller = Get.find<DepartmentController>();
+  RxList<String> listLabel = [TenDV.value,MaDV.value].obs;
+  var selectedOptions = TenDV.value;
   List<DataColumn> columns = [
-    DataColumn2(label: buildLabel('Tên đơn vị')),
-    DataColumn2(label: buildLabel('Mã đơn vị'),),
-    DataColumn2(label: buildLabel('Mô tả')),
+    DataColumn2(label: buildLabel(TenDV.value)),
+    DataColumn2(label: buildLabel(MaDV.value),),
+    DataColumn2(label: buildLabel(Mota.value)),
     DataColumn2(label: buildLabel('Hoạt động')),
   ];
+  final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
@@ -54,37 +59,49 @@ class DepartmentState extends State<DepartmentManagement> {
           child: Column(
             children: [
               CustomAppbar(),
+              Divider(),
               Expanded(
-                  flex: 2,
-                  child: CustomWidgetAction(
-                    title: 'Danh sách giảng viên',
-                    textSearch: 'Tìm kiếm giảng viên',
-                    titleButtonLeft: 'Thêm giảng viên mới',
-                    titleButtonRight: 'Import excel',
-                    onPressedLeft: () {
-                    widget.controller.ten_don_vi.text = "";
-                    widget.controller.ma_don_vi.text ="";
-                    widget.controller.mo_ta.text = "";
-                      Get.dialog(
-                        alertAvt(
-                          widget.controller
-                        )
-                      );
-                    },
-                  )),
+                  flex: 3,
+                  child: CustomWidgetAction()),
               Expanded(
-                flex: 8,
+                flex: 7,
                 child: Container(
-                    padding: EdgeInsets.only(top: appPadding),
-                    child: Obx(() => widget.dashboardController!.isLoadingDepartment.value
-                    ?widget.dashboardController!.getDepartmentListMap.isNotEmpty
-                      ?MyPaginatedDataTable(
-                        columns: columns,
-                        source: DepartmentDataTableSource(
-                          data: widget.dashboardController!.getDepartmentListMap),
-                          rowsPerPage: 6,
-                      ):Center(child: Text("Không có dữ liệu"),)
-                    :Center(child: CircularProgressIndicator(),))),
+                    child: Obx(
+                      () =>widget.dashboardController!.isLoadingDepartment.value
+                            ?widget.dashboardController!.getDepartmentList.isNotEmpty
+                              ? MyPaginatedDataTable(
+                                  value: selectedOptions,
+                                  onChangedlistSelect: (p0) {
+                                    selectedOptions= p0 as String;
+                                  },
+                                  items: listLabel.value,
+                                  controller: _controller,
+                                  onChanged: (p0) {
+                                    controller.search(_controller.text,selectedOptions);
+                                  },
+                                  titleButtonLeft: 'Thêm nhân viên mới',
+                                  titleButtonRight: 'Import excel',
+                                  onPressedLeft: () {
+                                    controller.ten_don_vi.text = "";
+                                    controller.ma_don_vi.text ="";
+                                    controller.mo_ta.text = "";
+                                    Get.dialog(alertAvt(controller));
+                                  },
+                                  onPressedRight: () {
+                                    
+                                  },
+                                  columns: columns,
+                                  source: DepartmentDataTableSource(
+                                      data: widget
+                                          .dashboardController!.getDepartmentListMap.value),
+                                  rowsPerPage: 6,
+                                )
+                              : Center(
+                                  child: Text("Không có dữ liệu"),
+                            ):Center(
+                              child: CustomLoading(),
+                            ),
+                    )),
               )
             ],
           ),
@@ -98,7 +115,7 @@ Widget alertAvt(DepartmentController controller){
   return Form(
     key: _formKey,
     child: CustomAlertAvt(
-        title: Center(child: Text("Thêm giảng viên",style: AppStyle.txtRobotoRegular20,)),
+        title: Center(child: Text("Thêm phòng ban",style: AppStyle.txtRobotoRegular20,)),
         listTextFiled: ListView(
         children: [
           CustomTextForm(

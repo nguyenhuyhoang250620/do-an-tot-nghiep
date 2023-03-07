@@ -8,10 +8,11 @@ class UserModel {
   String? MaSV;
   String? GioiTinh;
   String? Khoa;
+  String? url;
 
 
   UserModel(
-      {this.id, this.NamSinh, this.CCCD, this.Email, this.SoDT, this.TenSV,this.GioiTinh,this.Khoa,this.MaSV});
+      {this.id, this.NamSinh, this.CCCD, this.Email, this.SoDT, this.TenSV,this.GioiTinh,this.Khoa,this.MaSV,this.url});
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
         id: json['id'] ?? "",
@@ -23,6 +24,7 @@ class UserModel {
         GioiTinh: json['GioiTinh'] ?? "",
         Khoa: json['Khoa'] ?? "",
         MaSV: json['MaSV'] ?? "",
+        url: json['url'] ?? "",
         );
   }
 
@@ -35,6 +37,7 @@ class UserModel {
         "TenSV": TenSV,
         "MaSV": MaSV,
         "GioiTinh": GioiTinh,
-        "Khoa": Khoa
+        "Khoa": Khoa,
+        "url":url
       };
 }

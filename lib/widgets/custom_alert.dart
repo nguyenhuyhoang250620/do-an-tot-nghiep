@@ -22,7 +22,7 @@ class CustomAlertAvt extends StatelessWidget{
       return AlertDialog(
         title: title,
         content: Container(
-          height: Get.height*0.8,
+          height: Get.height*0.7,
           width: Get.width*0.5,
           padding: EdgeInsets.all(appPadding*3),
           child: listTextFiled

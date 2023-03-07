@@ -31,7 +31,7 @@ class CustomButtonAlert extends StatelessWidget{
                     backgroundColor: enableColor
                   ),
                 onPressed: onPressedDisable,
-                child: Text('${titileDisable}',style: AppStyle.txtRobotoRegular16.copyWith(color:textColor)),
+                child: Text('${titileDisable}',style: AppStyle.txtRobotoRegular16.copyWith(color:bgColor)),
               ),
             ),
           ),

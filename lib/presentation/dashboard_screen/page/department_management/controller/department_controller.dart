@@ -2,6 +2,7 @@ import 'package:do_an_tot_nghiep/data/apiClient/api_client.dart';
 import 'package:do_an_tot_nghiep/data/models/user_models.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/slide_menu.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashboard_controller.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/department_management/widget/env_department.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -63,5 +64,18 @@ class DepartmentController extends GetxController {
     await apiClient.updateUser(ten_sinh_vien, ma_sinh_vien, khoa, ngay_sinh, gioi_tinh, cccd, gmail, so_dien_thoai).whenComplete((){
       dashBoardController.getUser();
     });
+  }
+
+    void search(String query,String options) {
+    if(options == TenDV.value){
+      var result = dashBoardController.getDepartmentList.where((product) => product.TenDV!.contains(query)).toList();
+      dashBoardController.getDepartmentListMap.value =result.map((person) => person.toJson()).toList();
+      dashBoardController.getDepartmentListMap.refresh();
+    }
+    else if(options == MaDV.value){
+      var result = dashBoardController.getDepartmentList.where((product) => product.MaDV!.contains(query)).toList();
+      dashBoardController.getDepartmentListMap.value =result.map((person) => person.toJson()).toList();
+      dashBoardController.getDepartmentListMap.refresh();
+    }
   }
 }

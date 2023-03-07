@@ -5,58 +5,64 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 
 class AnalyticInfoCard extends StatelessWidget {
-  const AnalyticInfoCard({Key? key, required this.info}) : super(key: key);
+  const AnalyticInfoCard({Key? key,
+    this.content,
+    this.icon,
+    this.title,
+    this.colors
+  }) : super(key: key);
+  final String? title;
+  final int? content;
+  final Widget? icon;
+  final Color? colors;
 
-  final AnalyticInfo info;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: appPadding,
-        vertical: appPadding / 2,
+        vertical: appPadding,
       ),
       decoration: BoxDecoration(
-          color: colorItem, borderRadius: BorderRadius.circular(10)),
-      child: Column(
+          color: colors, borderRadius: BorderRadius.circular(10)),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "${info.count}",
-                style: TextStyle(
-                  color: textColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(appPadding / 2),
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(
-                    color: info.color!.withOpacity(0.1),
-                    shape: BoxShape.circle),
-                child: SvgPicture.asset(
-                  info.svgSrc!,
-                  color: info.color,
-                ),
-              )
-            ],
-          ),
-          Text(
-            info.title!,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.all(appPadding),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle),
+              child: icon
             ),
-          )
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "${content}",
+                  style: TextStyle(
+                    color: secondaryColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                Text(
+                  "${title}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: secondaryColor,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

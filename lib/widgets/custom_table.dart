@@ -15,9 +15,11 @@ class MyPaginatedDataTable extends StatefulWidget {
   final String? title;
   final String? titleButtonLeft;
   final String? titleButtonRight;
+  final String? titleButtonBetween;
   final String? textSearch;
   final VoidCallback? onPressedLeft;
   final VoidCallback? onPressedRight;
+  final VoidCallback? onPressedBetween;
   final Function(String)? onChanged;
   final TextEditingController? controller;
   final dynamic Function(List<dynamic>)? onChangedSelect;
@@ -25,6 +27,10 @@ class MyPaginatedDataTable extends StatefulWidget {
   final String? whenEmpty;
   final Widget? icon;
   final  List<dynamic>? selectedValues;
+  final String? labelText;
+  final List<String>? items;
+  final dynamic value;
+  final Function(dynamic)? onChangedlistSelect;
 
   const MyPaginatedDataTable({
     Key? key,
@@ -43,7 +49,13 @@ class MyPaginatedDataTable extends StatefulWidget {
     this.options,
     this.whenEmpty,
     this.icon,
-    this.selectedValues
+    this.selectedValues,
+    this.labelText,
+    this.items,
+    this.value,
+    this.onChangedlistSelect,
+    this.onPressedBetween,
+    this.titleButtonBetween
   }) : super(key: key);
 
   @override
@@ -69,13 +81,13 @@ class _MyPaginatedDataTableState extends State<MyPaginatedDataTable> {
               width: 200,
               child: DropdownButtonFormField2(
             decoration: InputDecoration(
-              labelText: "Giới tính",
-              labelStyle: AppStyle.txtInterMedium12.copyWith(color: Get.context!.theme.listTileTheme.textColor),
+              labelText: 'Thuộc tính',
+              labelStyle: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4.0),
               ),
             ),
-            items: controller.listGioiTinh.map((e) => _childDropDownItem(e)).toList(),
+            items: widget.items!.map((e) => _childDropDownItem(e)).toList(),
             buttonDecoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4.0),
             ),
@@ -83,16 +95,19 @@ class _MyPaginatedDataTableState extends State<MyPaginatedDataTable> {
               borderRadius: BorderRadius.circular(4.0),
             ),
             style: AppStyle.textData.copyWith(color: Colors.black),
-            value: controller.selectedGioiTinh.value,
+            value: widget.value,
+            // controller.selectedGioiTinh.value,
             isDense: true,
-            onChanged: (value) {
-                // debugPrint('TungVD: selectedFormType - $value');
-              controller.selectedGioiTinh.value = value as String;
-            },
-          ),),),
+            onChanged: widget.onChangedlistSelect,
+            // (value) {
+            //     // debugPrint('TungVD: selectedFormType - $value');
+            //   controller.selectedGioiTinh.value = value as String;
+            // },
+          ),)
+          ,),
         actions: [
           Container(
-            width: Get.width*0.3,
+            width: Get.width*0.4,
             padding: EdgeInsets.only(left: appPadding*3),
             child:  Row(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -113,7 +128,17 @@ class _MyPaginatedDataTableState extends State<MyPaginatedDataTable> {
                             size: 14,
                           ),
                         ),
-                        SizedBox(width: 20,),
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: CustomButtonCommon(
+                            icon: Icon(Icons.download),
+                            title: widget.titleButtonBetween,
+                            onPressed: widget.onPressedBetween,
+                            color: Colors.blueAccent,
+                            size: 14,
+                          ),
+                        ),
+                        SizedBox(width: 10,),
                         Expanded(
                           child: CustomButtonCommon(
                             icon: Icon(Icons.upload_outlined),

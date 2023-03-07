@@ -7,19 +7,25 @@ import '../theme/app_style.dart';
 class CustomLoading extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-   return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SpinKitWave(
-          color: textColor,
-          size: 32.0,
-        ),
-        Text(
-          "Chờ một chút trong khi chúng tôi đang làm việc",
-          style: AppStyle.txtInterRegular14.copyWith(color: bgColor),
-        )
-      ],
-    );
+   return Container(
+    height: 120,
+    width: 350,
+    padding: EdgeInsets.all(appPadding),
+     child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SpinKitWave(
+            color: darkTextColor,
+            size: 32.0,
+          ),
+          SizedBox(height: 5,),
+          Text(
+            "Chờ một chút trong khi chúng tôi đang xử lý",
+            style: AppStyle.txtInterRegular14.copyWith(color: darkTextColor),
+          )
+        ],
+      ),
+   );
   }
 
 }

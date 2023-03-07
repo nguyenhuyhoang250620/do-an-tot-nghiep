@@ -6,6 +6,7 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constan
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/responsive.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashboard_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/teacher_management/controller/teacher_controller.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/teacher_management/widget/env_teacher.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/teacher_management/widget/teacher_sources.dart';
 import 'package:do_an_tot_nghiep/presentation/home_screen/controller/home_controller.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_table.dart';
@@ -16,12 +17,12 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import '../../../../widgets/custom_alert.dart';
 import '../../../../widgets/custom_button.dart';
+import '../../../../widgets/custom_loading.dart';
 
 
 class TeacherManagement extends StatefulWidget {
   TeacherManagement({this.dashboardController});
   DashBoardController? dashboardController;
-  final controller = Get.find<TeacherController>();
   @override
   State<StatefulWidget> createState() {
     return TeacherState();
@@ -29,13 +30,17 @@ class TeacherManagement extends StatefulWidget {
 }
 
 class TeacherState extends State<TeacherManagement> {
-  List<DataColumn> columns = [
-    DataColumn2(label: buildLabel('Họ và tên')),
-    DataColumn2(label: buildLabel('Mã giảng viên'),),
-    DataColumn2(label: buildLabel('Chuyên ngành')),
-    DataColumn2(label: buildLabel('CCCD/CMT')),
-    DataColumn2(label: buildLabel('Hoạt động')),
+    final controller = Get.find<TeacherController>();
+    RxList<String> listLabel = [TenGV.value,MaGV.value,ChuyenNganh.value,CCCD.value].obs;
+    var selectedOptions = TenGV.value;
+    List<DataColumn> columns = [
+    DataColumn2(label: buildLabel(TenGV.value)),
+    DataColumn2(label: buildLabel(MaGV.value),),
+    DataColumn2(label: buildLabel(ChuyenNganh.value)),
+    DataColumn2(label: buildLabel(CCCD.value)),
+    DataColumn2(label: buildLabelActive('Hoạt động')),
   ];
+    final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
@@ -53,41 +58,59 @@ class TeacherState extends State<TeacherManagement> {
           child: Column(
             children: [
               CustomAppbar(),
+              Divider(),
               Expanded(
                   flex: 2,
-                  child: CustomWidgetAction(
-                    title: 'Danh sách giảng viên',
-                    textSearch: 'Tìm kiếm giảng viên',
-                    titleButtonLeft: 'Thêm giảng viên mới',
-                    titleButtonRight: 'Import excel',
-                    onPressedLeft: () {
-                    widget.controller.ten_giang_vien.text = "";
-                    widget.controller.ma_giang_vien.text ="";
-                    widget.controller.chuyen_nganh.text = "";
-                    widget.controller.ngay_sinh.text = "";
-                    widget.controller.gioi_tinh.text="";
-                    widget.controller.cccd.text="";
-                    widget.controller.email.text="";
-                    widget.controller.so_dien_thoai.text="";
-                      Get.dialog(
-                        alertAvt(
-                          widget.controller
-                        )
-                      );
-                    },
-                  )),
+                  child: CustomWidgetAction()),
               Expanded(
                 flex: 8,
                 child: Container(
-                    padding: EdgeInsets.only(top: appPadding),
-                    child: Obx(() => widget.dashboardController!.getTeacherListMap.isNotEmpty?
-                    MyPaginatedDataTable(
-                      columns: columns,
-                      source: TeacherDataTableSource(
-                        data: widget.dashboardController!.getTeacherListMap),
-                        rowsPerPage: 6,
-                    ):Center(child: Text("Không có dữ liệu"),)
-                    ,)),
+                    child: Obx(
+                      () =>widget.dashboardController!.isLoadingTeacher.value
+                            ?widget.dashboardController!.getTeacherList.isNotEmpty
+                              ? MyPaginatedDataTable(
+                                  value: selectedOptions,
+                                  onChangedlistSelect: (p0) {
+                                    selectedOptions= p0 as String;
+                                  },
+                                  items: listLabel.value,
+                                  controller: _controller,
+                                  onChanged: (p0) {
+                                    controller.search(_controller.text,selectedOptions);
+                                  },
+                                  titleButtonLeft: 'Thêm nhân viên mới',
+                                  titleButtonRight: 'Import excel',
+                                  titleButtonBetween: 'Export excel',
+                                  onPressedLeft: () {
+                                    controller.ten_giang_vien.text = "";
+                                    controller.ma_giang_vien.text = "";
+                                    controller.chuyen_nganh.text = "";
+                                    controller.ngay_sinh.text = "";
+                                    controller.gioi_tinh.text = "";
+                                    controller.cccd.text = "";
+                                    controller.email.text = "";
+                                    controller.so_dien_thoai.text = "";
+                                    Get.dialog(alertAvt(controller));
+                                  },
+                                  onPressedRight: () {
+                                    controller.importFileExcel();
+                                  },
+                                  onPressedBetween: () {
+                                     controller.exportData();
+                                  },
+
+                                  columns: columns,
+                                  source: TeacherDataTableSource(
+                                      data: widget
+                                          .dashboardController!.getTeacherListMap.value),
+                                  rowsPerPage: 6,
+                                )
+                              : Center(
+                                  child: Text("Không có dữ liệu"),
+                            ):Center(
+                              child: CustomLoading(),
+                            ),
+                    )),
               )
             ],
           ),
@@ -107,11 +130,11 @@ Widget alertAvt(TeacherController controller){
           CustomTextForm(
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập tên sinh viên';
+                return 'Vui lòng nhập tên giảng viên';
               }
             },
             controller: controller.ten_giang_vien,
-            label:'Tên sinh viên',
+            label:'Tên giảng viên',
             obscureText: false,
             onChanged: (p0) {
             },
@@ -119,11 +142,11 @@ Widget alertAvt(TeacherController controller){
           CustomTextForm(
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập mã sinh viên';
+                return 'Vui lòng nhập mã giảng viên';
               }
             },
             controller: controller.ma_giang_vien,
-            label:'Mã sinh viên',
+            label:'Mã giảng viên',
             obscureText: false,
             onChanged: (p0) {
             },
@@ -131,11 +154,11 @@ Widget alertAvt(TeacherController controller){
           CustomTextForm(
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập khoa';
+                return 'Vui lòng nhập chuyên ngành';
               }
             },
             controller: controller.chuyen_nganh,
-            label:'Khoa',
+            label:'Chuyên ngành',
             obscureText: false,
             onChanged: (p0) {
             },
@@ -235,9 +258,22 @@ Widget alertAvt(TeacherController controller){
 
 Widget buildLabel(String text) {
   return Container(
+    padding: EdgeInsets.only(left: appPadding * 3),
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),
+      maxLines: 1,
+      overflow: TextOverflow.fade,
+    ),
+  );
+}
+Widget buildLabelActive(String text) {
+  return Container(
     alignment: Alignment.center,
     child: Text(
       text,
+      style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),
       maxLines: 1,
       overflow: TextOverflow.fade,
     ),

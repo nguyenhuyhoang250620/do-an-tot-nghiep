@@ -21,6 +21,12 @@ class DashBoardController extends GetxController {
   var isLoadingSubject = false.obs;
   var isLoadingClass= false.obs;
 
+
+  var sum_student = 0.obs;
+  var sum_teacher = 0.obs;
+  var sum_department= 0.obs;
+  var sum_class = 0.obs;
+
   RxList<UserModel> getUserList = <UserModel>[].obs;
   RxList<Map<String, dynamic>> getUserListMap = <Map<String, dynamic>>[].obs;
 
@@ -81,11 +87,14 @@ class DashBoardController extends GetxController {
             NamSinh: e.NamSinh,
             SoDT: e.SoDT,
             TenSV: e.TenSV,
-            id: e.id);
+            id: e.id,
+            url: e.url
+          );
         data.add(models);
         listKhoa.add(e.Khoa);
       }).toList();
       isLoadingStudent.value = true;
+      sum_student.value = data.length;
       getUserList.value = data;
       getUserListMap.value =getUserList.map((person) => person.toJson()).toList();
       getUserListMap.refresh();
@@ -113,9 +122,10 @@ class DashBoardController extends GetxController {
             id: e.id);
         data.add(models);
       }).toList();
+      isLoadingTeacher.value = true;
+      sum_teacher.value = data.length;
       getTeacherList.value = data;
-      getTeacherListMap.value =
-          getTeacherList.map((person) => person.toJson()).toList();
+      getTeacherListMap.value =getTeacherList.map((person) => person.toJson()).toList();
       getTeacherListMap.refresh();
     });
   }
@@ -134,6 +144,7 @@ class DashBoardController extends GetxController {
         data.add(models);
       }).toList();
       isLoadingDepartment.value = true;
+      sum_department.value = data.length;
       getDepartmentList.value = data;
       getDepartmentListMap.value =
           getDepartmentList.map((person) => person.toJson()).toList();
@@ -190,6 +201,7 @@ class DashBoardController extends GetxController {
         data.add(models);
       }).toList();
       isLoadingClass.value = true;
+      sum_class.value = data.length;
       getClassList.value = data;
       getClassListMap.value =getClassList.map((person) => person.toJson()).toList();
       getClassListMap.refresh();

@@ -28,5 +28,10 @@ const enableColor = Color.fromARGB(255, 176, 175, 175);
 final gradientTop = Colors.blueAccent;
 final gradientBottom = Colors.redAccent;
 
+final cardA = Colors.green[900];
+final cardB = Colors.purple[900];
+final cardC = Colors.red[900];
+final cardD = Colors.blue[900];
+
 // Default App Padding
 const appPadding = 10.0;
