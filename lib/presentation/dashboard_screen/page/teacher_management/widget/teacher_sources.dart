@@ -49,6 +49,7 @@ class TeacherDataTableSource extends DataTableSource {
       ],
     );
   }
+  
 
   @override
   bool get isRowCountApproximate => false;
@@ -215,14 +216,35 @@ Widget buildActive(
       ),
       alignment: Alignment.center,
       child: CusstomActiveTable(
+        showView: true,
         onDelete: () {
-          controller.deleterUser(ma_giang_vien);
-          Get.dialog(Dialog(
-            child: CustomLoading(),
-          ));
-          Future.delayed(Duration(seconds: 2),() {
-            Get.back();
-          },);
+          Get.dialog(
+            AlertDialog(
+              content: Container(
+                height: 100,
+                width: 100,
+                alignment: Alignment.center,
+                child: Text('Bạn có chắc muốn xoá không?')
+                ),
+              actions: [
+                CustomButtonAlert(
+                  titileDisable: 'Huỷ',
+                  titileEnable: 'Đồng ý',
+                  onPressedDisable: () => Get.back(),
+                  onPressedEnable: () {
+                    Get.back();
+                    controller.deleterTeacher(ma_giang_vien);
+                    Get.dialog(Dialog(
+                      child: CustomLoading(),
+                    ));
+                    Future.delayed(Duration(seconds: 2),() {
+                      Get.back();
+                    },);
+                  },
+                )
+              ],
+            )
+          );
         },
         onUpdate: () {
           Get.dialog(alertAvt(
@@ -525,7 +547,7 @@ Widget alertAvt(
       },
       onPressedEisable: () {
         if (_formKey.currentState!.validate()) {
-          controller.updateUser(
+          controller.updateTeacher(
               controller.ten_giang_vien.text,
               controller.ma_giang_vien.text,
               controller.chuyen_nganh.text,

@@ -76,27 +76,27 @@ class TeacherController extends GetxController {
     });
   }
 //cap nhat thong tin sinh vien
-  Future<void> updateUser(
-    String ten_sinh_vien,
-    String ma_sinh_vien,
-    String khoa,
+  Future<void> updateTeacher(
+    String ten_giang_vien,
+    String ma_giang_vien,
+    String chuyen_nganh,
     String ngay_sinh,
     String gioi_tinh,
     String cccd,
     String gmail,
     String so_dien_thoai
   ) async {
-    await apiClient.updateUser(ten_sinh_vien, ma_sinh_vien, khoa, ngay_sinh, gioi_tinh, cccd, gmail, so_dien_thoai).whenComplete((){
-      dashBoardController.getUser();
+    await apiClient.updateUser(ten_giang_vien, ma_giang_vien, chuyen_nganh, ngay_sinh, gioi_tinh, cccd, gmail, so_dien_thoai).whenComplete((){
+      dashBoardController.getTeacher();
     });
   }
 
 //xoa sinh vien
-  Future<void> deleterUser(
-    String ma_sinh_vien,
+  Future<void> deleterTeacher(
+    String ma_giang_vien
   ) async {
-    await apiClient.deleteUser(ma_sinh_vien).whenComplete((){
-      dashBoardController.getUser();
+    await apiClient.deleteTeacher(ma_giang_vien).whenComplete((){
+      dashBoardController.getTeacher();
     });
   }
 

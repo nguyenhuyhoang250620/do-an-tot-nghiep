@@ -78,7 +78,7 @@ class TeacherState extends State<TeacherManagement> {
                                   onChanged: (p0) {
                                     controller.search(_controller.text,selectedOptions);
                                   },
-                                  titleButtonLeft: 'Thêm nhân viên mới',
+                                  titleButtonLeft: 'Thêm giảng viên mới',
                                   titleButtonRight: 'Import excel',
                                   titleButtonBetween: 'Export excel',
                                   onPressedLeft: () {
@@ -134,7 +134,7 @@ Widget alertAvt(TeacherController controller){
               }
             },
             controller: controller.ten_giang_vien,
-            label:'Tên giảng viên',
+            label:TenGV.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -146,7 +146,7 @@ Widget alertAvt(TeacherController controller){
               }
             },
             controller: controller.ma_giang_vien,
-            label:'Mã giảng viên',
+            label:MaGV.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -158,7 +158,7 @@ Widget alertAvt(TeacherController controller){
               }
             },
             controller: controller.chuyen_nganh,
-            label:'Chuyên ngành',
+            label:ChuyenNganh.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -169,7 +169,7 @@ Widget alertAvt(TeacherController controller){
               }
             },
             controller: controller.ngay_sinh,
-            label:'Ngày sinh',
+            label:NamSinh.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -191,7 +191,7 @@ Widget alertAvt(TeacherController controller){
               }
             },
             controller: controller.gioi_tinh,
-            label:'Giới tính',
+            label:GioiTinh.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -203,7 +203,7 @@ Widget alertAvt(TeacherController controller){
               }
             },
             controller: controller.cccd,
-            label:'CCCD',
+            label:CCCD.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -215,7 +215,7 @@ Widget alertAvt(TeacherController controller){
               }
             },
             controller: controller.email,
-            label:'G-mail',
+            label:Email.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -227,7 +227,7 @@ Widget alertAvt(TeacherController controller){
               }
             },
             controller: controller.so_dien_thoai,
-            label:'Số điện thoại',
+            label:SoDT.value,
             obscureText: false,
             onChanged: (p0) {
             },

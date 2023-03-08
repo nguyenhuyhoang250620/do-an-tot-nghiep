@@ -7,7 +7,10 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/respons
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashboard_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/department_management/controller/department_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/department_management/widget/department_sources.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/department_management/widget/env_department.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/student_management/widget/env_student.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/subject_management/controller/subject_controller.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/subject_management/widget/env_subject.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/subject_management/widget/subject_sources.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/teacher_management/controller/teacher_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/teacher_management/widget/teacher_sources.dart';
@@ -20,6 +23,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import '../../../../widgets/custom_alert.dart';
 import '../../../../widgets/custom_button.dart';
+import '../../../../widgets/custom_loading.dart';
 
 
 class SubjectManagement extends StatefulWidget {
@@ -33,18 +37,21 @@ class SubjectManagement extends StatefulWidget {
 }
 
 class SubjectState extends State<SubjectManagement> {
+  final controller = Get.find<SubjectController>();
+  RxList<String> listLabel = [MaHocPhan.value,TenHocPhan.value,KhoiKienThuc.value,KiThu.value].obs;
+  var selectedOptions = MaHocPhan.value;
   List<DataColumn> columns = [
-    DataColumn2(label: buildLabel('Khối kiến thức')),
-    DataColumn2(label: buildLabel('Tên học phần')),
-    DataColumn2(label: buildLabel('Mã học phần'),),
-    DataColumn2(label: buildLabel('Số tín chỉ')),
-    DataColumn2(label: buildLabel('ĐKTQ')),
-    DataColumn2(label: buildLabel('Kì thứ')),
-    DataColumn2(label: buildLabel('Tổng số tiết')),
-    DataColumn2(label: buildLabel('Mô tả')),
-    DataColumn2(label: buildLabel('Hoạt động')),
+    DataColumn2(label: buildLabel(KhoiKienThuc.value)),
+    DataColumn2(label: buildLabel(TenHocPhan.value)),
+    DataColumn2(label: buildLabel(MaHocPhan.value),),
+    DataColumn2(label: buildLabel(SotinChi.value)),
+    DataColumn2(label: buildLabel(DKTQ.value)),
+    DataColumn2(label: buildLabel(KiThu.value)),
+    DataColumn2(label: buildLabel(TongSoTiet.value)),
+    DataColumn2(label: buildLabel(Mota.value)),
+    DataColumn2(label: buildLabelActive('Hoạt động')),
   ];
-
+  final TextEditingController _controller = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -61,38 +68,58 @@ class SubjectState extends State<SubjectManagement> {
           child: Column(
             children: [
               CustomAppbar(),
+              Divider(),
               Expanded(
                   flex: 2,
-                  child: CustomWidgetAction(
-                    title: 'Danh sách giảng viên',
-                    textSearch: 'Tìm kiếm giảng viên',
-                    titleButtonLeft: 'Thêm giảng viên mới',
-                    titleButtonRight: 'Import excel',
-                    onPressedLeft: () {
-                    widget.controller.ten_phong.text = "";
-                    widget.controller.ma_phong.text ="";
-                    widget.controller.mo_ta.text = "";
-                    widget.controller.ten_may_quet.text = "";
-                      Get.dialog(
-                        alertAvt(
-                          widget.controller
-                        )
-                      );
-                    },
-                  )),
+                  child: CustomWidgetAction()),
               Expanded(
                 flex: 8,
                 child: Container(
-                    padding: EdgeInsets.only(top: appPadding),
-                    child: Obx(() => widget.dashboardController!.isLoadingSubject.value
-                    ?widget.dashboardController!.getSubjectListMap.isNotEmpty
-                      ?MyPaginatedDataTable(
-                        columns: columns,
-                        source: SubjectDataTableSource(
-                          data: widget.dashboardController!.getSubjectListMap),
-                          rowsPerPage: 6,
-                      ):Center(child: Text("Không có dữ liệu"),)
-                    :Center(child: CircularProgressIndicator(),))),
+                    child: Obx(
+                      () =>widget.dashboardController!.isLoadingSubject.value
+                            ?widget.dashboardController!.getSubjectList.isNotEmpty
+                              ? MyPaginatedDataTable(
+                                  value: selectedOptions,
+                                  onChangedlistSelect: (p0) {
+                                    selectedOptions= p0 as String;
+                                  },
+                                  items: listLabel.value,
+                                  controller: _controller,
+                                  onChanged: (p0) {
+                                    controller.search(_controller.text,selectedOptions);
+                                  },
+                                  titleButtonLeft: 'Thêm nhân viên mới',
+                                  titleButtonRight: 'Import excel',
+                                  titleButtonBetween: 'Export excel',
+                                  onPressedBetween: () {
+                                    controller.exportData();
+                                  },
+                                  onPressedLeft: () {
+                                  widget.controller.khoi_kien_thuc.text = "";
+                                  widget.controller.ma_hoc_phan.text ="";
+                                  widget.controller.ten_hoc_phan.text = "";
+                                  widget.controller.ki_thu.text = "";
+                                  widget.controller.so_tin_chi.text = "";
+                                  widget.controller.tong_so_tiet.text = "";
+                                  widget.controller.dktq.text = "";
+                                  widget.controller.mo_ta.text = "";
+                                    Get.dialog(alertAvt(controller));
+                                  },
+                                  onPressedRight: () {
+                                    controller.importFileExcel();
+                                  },
+                                  columns: columns,
+                                  source: SubjectDataTableSource(
+                                      data: widget
+                                          .dashboardController!.getSubjectListMap.value),
+                                  rowsPerPage: 6,
+                                )
+                              : Center(
+                                  child: Text("Không có dữ liệu"),
+                            ):Center(
+                              child: CustomLoading(),
+                            ),
+                    )),
               )
             ],
           ),
@@ -106,17 +133,17 @@ Widget alertAvt(SubjectController controller){
   return Form(
     key: _formKey,
     child: CustomAlertAvt(
-        title: Center(child: Text("Thêm giảng viên",style: AppStyle.txtRobotoRegular20,)),
+        title: Center(child: Text("Thêm tín chỉ",style: AppStyle.txtRobotoRegular20,)),
         listTextFiled: ListView(
         children: [
           CustomTextForm(
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập tên sinh viên';
+                return 'Vui lòng nhập tên tín chỉ';
               }
             },
-            controller: controller.ten_phong,
-            label:'Tên sinh viên',
+            controller: controller.ten_hoc_phan,
+            label:TenHocPhan.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -124,11 +151,11 @@ Widget alertAvt(SubjectController controller){
           CustomTextForm(
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập mã sinh viên';
+                return 'Vui lòng nhập khối kiến thức';
               }
             },
-            controller: controller.ma_phong,
-            label:'Mã sinh viên',
+            controller: controller.khoi_kien_thuc,
+            label:KhoiKienThuc.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -136,23 +163,71 @@ Widget alertAvt(SubjectController controller){
           CustomTextForm(
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập khoa';
+                return 'Vui lòng nhập mã học phần';
+              }
+            },
+            controller: controller.ma_hoc_phan,
+            label:MaHocPhan.value,
+            obscureText: false,
+            onChanged: (p0) {
+            },
+          ),
+          CustomTextForm(
+            validator: (p0) {
+              if(p0==null||p0.isEmpty){
+                return 'Vui lòng nhập kì';
+              }
+            },
+            controller: controller.ki_thu,
+            label:KiThu.value,
+            obscureText: false,
+            onChanged: (p0) {
+            },
+          ),
+          CustomTextForm(
+            validator: (p0) {
+              if(p0==null||p0.isEmpty){
+                return 'Vui lòng nhập số tín chỉ';
+              }
+            },
+            controller: controller.so_tin_chi,
+            label:SotinChi.value,
+            obscureText: false,
+            onChanged: (p0) {
+            },
+          ),
+          CustomTextForm(
+            validator: (p0) {
+              if(p0==null||p0.isEmpty){
+                return 'Vui lòng nhập tổng số tiết';
+              }
+            },
+            controller: controller.tong_so_tiet,
+            label:TongSoTiet.value,
+            obscureText: false,
+            onChanged: (p0) {
+            },
+          ),
+          CustomTextForm(
+            validator: (p0) {
+              if(p0==null||p0.isEmpty){
+                return 'Vui lòng nhập DKTQ';
+              }
+            },
+            controller: controller.dktq,
+            label:DKTQ.value,
+            obscureText: false,
+            onChanged: (p0) {
+            },
+          ),
+          CustomTextForm(
+            validator: (p0) {
+              if(p0==null||p0.isEmpty){
+                return 'Vui lòng nhập mô tả';
               }
             },
             controller: controller.mo_ta,
-            label:'Khoa',
-            obscureText: false,
-            onChanged: (p0) {
-            },
-          ),
-          CustomTextForm(
-            validator: (p0) {
-              if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập khoa';
-              }
-            },
-            controller: controller.ten_may_quet,
-            label:'Khoa',
+            label:Mota.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -165,10 +240,14 @@ Widget alertAvt(SubjectController controller){
       onPressedEisable: () {
         if (_formKey.currentState!.validate()) {
             controller.createSubject(
-              controller.ten_phong.text,
-              controller.ma_phong.text,
-              controller.mo_ta.text,
-              controller.mo_ta.text,
+              controller.khoi_kien_thuc.text,
+              controller.ma_hoc_phan.text,
+              controller.ten_hoc_phan.text,
+              controller.ki_thu.text,
+              controller.so_tin_chi.text,
+              controller.tong_so_tiet.text,
+              controller.dktq.text,
+              controller.mo_ta.text
             );
             Get.back();
         }
@@ -179,11 +258,25 @@ Widget alertAvt(SubjectController controller){
 
 Widget buildLabel(String text) {
   return Container(
-    alignment: Alignment.center,
+    padding: EdgeInsets.only(left: appPadding * 3),
+    alignment: Alignment.centerLeft,
     child: Text(
       text,
+      style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),
       maxLines: 1,
       overflow: TextOverflow.fade,
     ),
   );
 }
+Widget buildLabelActive(String text) {
+  return Container(
+    alignment: Alignment.center,
+    child: Text(
+      text,
+      style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),
+      maxLines: 1,
+      overflow: TextOverflow.fade,
+    ),
+  );
+}
+

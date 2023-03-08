@@ -48,7 +48,6 @@ class StudentDataTableSource extends DataTableSource {
       ],
     );
   }
-
   @override
   bool get isRowCountApproximate => false;
 
@@ -214,6 +213,7 @@ Widget buildActive(
       ),
       alignment: Alignment.center,
       child: CusstomActiveTable(
+        showView: true,
         onDelete: () {
           controller.deleterUser(ma_sinh_vien);
           Get.dialog(Dialog(

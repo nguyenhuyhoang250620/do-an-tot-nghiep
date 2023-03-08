@@ -42,7 +42,7 @@ class ClassState extends State<ClassManagement> {
     DataColumn2(label: buildLabel(MaPhong.value),),
     DataColumn2(label: buildLabel(TenMayQuet.value)),
     DataColumn2(label: buildLabel(Mota.value)),
-    DataColumn2(label: buildLabel('Hoạt động')),
+    DataColumn2(label: buildLabelActive('Hoạt động')),
   ];
 
     final TextEditingController _controller = TextEditingController();
@@ -64,10 +64,10 @@ class ClassState extends State<ClassManagement> {
               CustomAppbar(),
               Divider(),
               Expanded(
-                  flex: 3,
+                  flex: 2,
                   child: CustomWidgetAction()),
               Expanded(
-                flex: 7,
+                flex: 8,
                 child: Container(
                     child: Obx(
                       () =>widget.dashboardController!.isLoadingClass.value
@@ -82,8 +82,9 @@ class ClassState extends State<ClassManagement> {
                                   onChanged: (p0) {
                                     controller.search(_controller.text,selectedOptions);
                                   },
-                                  titleButtonLeft: 'Thêm nhân viên mới',
+                                  titleButtonLeft: 'Thêm lớp học mới',
                                   titleButtonRight: 'Import excel',
+                                  titleButtonBetween: 'Export excel',
                                   onPressedLeft: () {
                                     controller.ten_may_quet.text = "";
                                     controller.ma_phong.text ="";
@@ -91,8 +92,11 @@ class ClassState extends State<ClassManagement> {
                                     controller.ten_phong.text = "";
                                     Get.dialog(alertAvt(controller));
                                   },
+                                  onPressedBetween: () {
+                                    controller.exportData();
+                                  },
                                   onPressedRight: () {
-                                    
+                                    controller.importFileExcel();
                                   },
                                   columns: columns,
                                   source: ClassDataTableSource(
@@ -129,7 +133,7 @@ Widget alertAvt(ClassController controller){
               }
             },
             controller: controller.ten_phong,
-            label:'Tên phòng',
+            label:TenPhong.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -141,7 +145,7 @@ Widget alertAvt(ClassController controller){
               }
             },
             controller: controller.ma_phong,
-            label:'Mã phòng',
+            label:MaPhong.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -153,7 +157,7 @@ Widget alertAvt(ClassController controller){
               }
             },
             controller: controller.ten_may_quet,
-            label:'Tên máy quét',
+            label:TenMayQuet.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -165,7 +169,7 @@ Widget alertAvt(ClassController controller){
               }
             },
             controller: controller.mo_ta,
-            label:'Mô tả',
+            label:Mota.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -192,9 +196,22 @@ Widget alertAvt(ClassController controller){
 
 Widget buildLabel(String text) {
   return Container(
+    padding: EdgeInsets.only(left: appPadding * 3),
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),
+      maxLines: 1,
+      overflow: TextOverflow.fade,
+    ),
+  );
+}
+Widget buildLabelActive(String text) {
+  return Container(
     alignment: Alignment.center,
     child: Text(
       text,
+      style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),
       maxLines: 1,
       overflow: TextOverflow.fade,
     ),

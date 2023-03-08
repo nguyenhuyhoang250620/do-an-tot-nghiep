@@ -5,14 +5,16 @@ class CusstomActiveTable extends StatelessWidget{
   CusstomActiveTable({
     this.onDelete,
     this.onUpdate,
-    this.onView
+    this.onView,
+    this.showView,
   });
   final VoidCallback? onView;
   final VoidCallback? onUpdate;
   final VoidCallback? onDelete;
+  bool? showView = true;
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return  showView!?Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
@@ -29,6 +31,38 @@ class CusstomActiveTable extends StatelessWidget{
               ),
             ),
           ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.0),
+              color: blue
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(appPadding*0.2),
+              child: IconButton(
+                tooltip: 'Chỉnh sửa',
+                onPressed: onUpdate,
+                icon: Icon(Icons.border_color_outlined),
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.0),
+              color: red
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(appPadding*0.2),
+              child: IconButton(
+                tooltip: 'Xoá',
+                onPressed: onDelete,
+                icon: Icon(Icons.delete),
+              ),
+            ),
+          ),
+        ],
+      ):Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4.0),

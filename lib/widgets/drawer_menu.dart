@@ -100,7 +100,7 @@ class DrawerMenu extends StatelessWidget {
             ),
             DrawerListTile(
                   color:controller.name_tab.value == settings?ColorConstant.colorBackgroud:bgColor,
-                  title: 'Cài đặt',
+                  title: 'Thông tin chung',
                   colorText: controller.name_tab.value == settings?ColorConstant.colorBackgroud:textColor,
                   icon: Icon(Icons.settings,color: controller.name_tab.value == settings?ColorConstant.colorBackgroud:textColor,),
                   tap: () {

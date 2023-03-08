@@ -39,7 +39,7 @@ class DepartmentState extends State<DepartmentManagement> {
     DataColumn2(label: buildLabel(TenDV.value)),
     DataColumn2(label: buildLabel(MaDV.value),),
     DataColumn2(label: buildLabel(Mota.value)),
-    DataColumn2(label: buildLabel('Hoạt động')),
+    DataColumn2(label: buildLabelActive('Hoạt động')),
   ];
   final TextEditingController _controller = TextEditingController();
 
@@ -61,10 +61,10 @@ class DepartmentState extends State<DepartmentManagement> {
               CustomAppbar(),
               Divider(),
               Expanded(
-                  flex: 3,
+                  flex: 2,
                   child: CustomWidgetAction()),
               Expanded(
-                flex: 7,
+                flex: 8,
                 child: Container(
                     child: Obx(
                       () =>widget.dashboardController!.isLoadingDepartment.value
@@ -79,8 +79,12 @@ class DepartmentState extends State<DepartmentManagement> {
                                   onChanged: (p0) {
                                     controller.search(_controller.text,selectedOptions);
                                   },
-                                  titleButtonLeft: 'Thêm nhân viên mới',
+                                  titleButtonLeft: 'Thêm phòng ban mới',
                                   titleButtonRight: 'Import excel',
+                                  titleButtonBetween: 'Export excel',
+                                  onPressedBetween: () {
+                                    controller.exportData();
+                                  },
                                   onPressedLeft: () {
                                     controller.ten_don_vi.text = "";
                                     controller.ma_don_vi.text ="";
@@ -88,7 +92,7 @@ class DepartmentState extends State<DepartmentManagement> {
                                     Get.dialog(alertAvt(controller));
                                   },
                                   onPressedRight: () {
-                                    
+                                    controller.importFileExcel();
                                   },
                                   columns: columns,
                                   source: DepartmentDataTableSource(
@@ -121,11 +125,11 @@ Widget alertAvt(DepartmentController controller){
           CustomTextForm(
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập tên sinh viên';
+                return 'Vui lòng nhập tên đơn vị';
               }
             },
             controller: controller.ten_don_vi,
-            label:'Tên sinh viên',
+            label:'Tên đơn vị',
             obscureText: false,
             onChanged: (p0) {
             },
@@ -133,11 +137,11 @@ Widget alertAvt(DepartmentController controller){
           CustomTextForm(
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập mã sinh viên';
+                return 'Vui lòng nhập mã đơn vị';
               }
             },
             controller: controller.ma_don_vi,
-            label:'Mã sinh viên',
+            label:'Mã đơn vị',
             obscureText: false,
             onChanged: (p0) {
             },
@@ -145,11 +149,11 @@ Widget alertAvt(DepartmentController controller){
           CustomTextForm(
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập khoa';
+                return 'Vui lòng mô tả';
               }
             },
             controller: controller.mo_ta,
-            label:'Khoa',
+            label:'Mô tả',
             obscureText: false,
             onChanged: (p0) {
             },
@@ -175,9 +179,22 @@ Widget alertAvt(DepartmentController controller){
 
 Widget buildLabel(String text) {
   return Container(
+    padding: EdgeInsets.only(left: appPadding * 3),
+    alignment: Alignment.centerLeft,
+    child: Text(
+      text,
+      style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),
+      maxLines: 1,
+      overflow: TextOverflow.fade,
+    ),
+  );
+}
+Widget buildLabelActive(String text) {
+  return Container(
     alignment: Alignment.center,
     child: Text(
       text,
+      style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),
       maxLines: 1,
       overflow: TextOverflow.fade,
     ),

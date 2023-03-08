@@ -1,4 +1,6 @@
 import 'package:do_an_tot_nghiep/core/app_export.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/class_management/controller/class_controller.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/class_management/widget/env_class.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/student_management/controller/student_controller.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_active_table.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +9,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import '../../../../../widgets/custom_alert.dart';
+import '../../../../../widgets/custom_button_alert.dart';
 import '../../../../../widgets/custom_loading.dart';
 import '../../../../../widgets/custom_textfiled.dart';
+import '../../../constants/constants.dart';
 final FirebaseStorage storage = FirebaseStorage.instance;
 class ClassDataTableSource extends DataTableSource {
   ClassDataTableSource({required this.data});
@@ -22,19 +26,16 @@ class ClassDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(label(row['TenPhong'].toString())),
-        DataCell(label(row['MaPhong'].toString())),
-        DataCell(label(row['TenMayQuet'].toString())),
-        DataCell(label(row['Mota'].toString())),
+        DataCell(label(index,row['TenPhong'].toString())),
+        DataCell(label(index,row['MaPhong'].toString())),
+        DataCell(label(index,row['TenMayQuet'].toString())),
+        DataCell(label(index,row['Mota'].toString())),
         DataCell(buildActive(
-          row['MaGV'].toString(),
-          row['TenGV'].toString(),
-          row['ChuyenNganh'].toString(),
-          row['NamSinh'].toString(),
-          row['GioiTinh'].toString(),
-          row['CCCD'].toString(),
-          row['Email'].toString(),
-          row['SoDT'].toString(),
+          row['TenPhong'].toString(),
+          row['MaPhong'].toString(),
+          row['TenMayQuet'].toString(),
+          row['Mota'].toString(),
+          index
         )),
       ],
     );
@@ -72,9 +73,21 @@ class ClassDataTableSource extends DataTableSource {
   //   notifyListeners();
   // }
 }
-Widget label(String text){
-  return Center(
-    child: Text(text,style: AppStyle.txtInterRegular12.copyWith(color: Colors.black,fontSize: 12),),
+Widget label(int index, String text) {
+  return Container(
+    alignment: Alignment.centerLeft,
+    padding: EdgeInsets.only(left: appPadding * 3),
+    width: Get.width,
+    height: Get.height,
+    decoration: BoxDecoration(
+      border: Border(bottom: BorderSide(color: unline)),
+      color: index % 2 == 0 ? Colors.grey.withOpacity(0.1) : null,
+    ),
+    child: Text(
+      text,
+      style: AppStyle.txtInterRegular12
+          .copyWith(color: Colors.black, fontSize: 12),
+    ),
   );
 }
 Widget image(String text){
@@ -89,35 +102,58 @@ Widget image(String text){
   );
 }
   Widget buildActive(
-    String ma_giang_vien,
-    String ten_giang_vien,
-    String chuyen_nganh,
-    String ngay_sinh,
-    String gioi_tinh,
-    String cccd,
-    String gmail,
-    String so_dien_thoai,
+    String ten_phong,
+    String ma_phong,
+    String ten_may_quet,
+    String mo_ta,
+    int index
   ) {
-    final controller = Get.find<StudentController>();
+    final controller = Get.find<ClassController>();
     BuildContext? context;
     return Container(
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: unline)),
+        color: index % 2 == 0 ? Colors.grey.withOpacity(0.1) : null,
+      ),
       alignment: Alignment.center,
       child: CusstomActiveTable(
+        showView: false,
         onDelete: () {
-          
+          Get.dialog(
+            AlertDialog(
+              content: Container(
+                height: 100,
+                width: 100,
+                alignment: Alignment.center,
+                child: Text('Bạn có chắc muốn xoá không?')
+                ),
+              actions: [
+                CustomButtonAlert(
+                  titileDisable: 'Huỷ',
+                  titileEnable: 'Đồng ý',
+                  onPressedDisable: () => Get.back(),
+                  onPressedEnable: () {
+                    Get.back();
+                    controller.deleterClass(ma_phong);
+                    Get.dialog(Dialog(
+                      child: CustomLoading(),
+                    ));
+                    Future.delayed(Duration(seconds: 2),() {
+                      Get.back();
+                    },);
+                  },
+                )
+              ],
+            )
+          );
         },
         onUpdate: () {
           Get.dialog(alertAvt(
             controller,
-            ma_giang_vien,
-            ten_giang_vien,
-            chuyen_nganh,
-            ngay_sinh,
-            gioi_tinh,
-            cccd,
-            gmail,
-            so_dien_thoai,
-
+            ten_phong,
+            ma_phong,
+            ten_may_quet,
+            mo_ta,
           ));
         },
         onView: () {
@@ -127,40 +163,32 @@ Widget image(String text){
     );
   }
   Widget alertAvt(
-    StudentController controller,
-    String ma_giang_vien,
-    String ten_giang_vien,
-    String chuyen_nganh,
-    String ngay_sinh,
-    String gioi_tinh,
-    String cccd,
-    String gmail,
-    String so_dien_thoai,
+    ClassController controller,
+    String ten_phong,
+    String ma_phong,
+    String ten_may_quet,
+    String mo_ta,
   ){
   final _formKey = GlobalKey<FormState>();
-  controller.ten_sinh_vien.text = ten_giang_vien;
-  controller.ma_sinh_vien.text = ma_giang_vien;
-  controller.khoa.text = chuyen_nganh;
-  controller.ngay_sinh.text = ngay_sinh;
-  controller.gioi_tinh.text = gioi_tinh;
-  controller.cccd.text = cccd;
-  controller.email.text = gmail;
-  controller.so_dien_thoai.text = so_dien_thoai;
+  controller.ten_phong.text = ten_phong;
+  controller.ma_phong.text = ma_phong;
+  controller.ten_may_quet.text = ten_may_quet;
+  controller.mo_ta.text = mo_ta;
   return Form(
     key: _formKey,
     child: CustomAlertAvt(
-        title: Center(child: Text("Thêm sinh viên",style: AppStyle.txtRobotoRegular20,)),
+        title: Center(child: Text("Thêm lớp học mới",style: AppStyle.txtRobotoRegular20,)),
         listTextFiled: ListView(
         children: [
           CustomTextForm(
             enabled: false,
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập mã sinh viên';
+                return 'Vui lòng nhập mã phòng';
               }
             },
-            controller: controller.ma_sinh_vien,
-            label:'Mã sinh viên',
+            controller: controller.ma_phong,
+            label:MaPhong.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -168,11 +196,11 @@ Widget image(String text){
           CustomTextForm(
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập tên sinh viên';
+                return 'Vui lòng nhập tên phòng';
               }
             },
-            controller: controller.ten_sinh_vien,
-            label:'Tên sinh viên',
+            controller: controller.ten_phong,
+            label:TenPhong.value,
             obscureText: false,
             onChanged: (p0) {
             },
@@ -180,84 +208,26 @@ Widget image(String text){
           CustomTextForm(
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập khoa';
+                return 'Vui lòng nhập tên máy quét';
               }
             },
-            controller: controller.khoa,
-            label:'Khoa',
+            controller: controller.ten_may_quet,
+            label:TenMayQuet.value,
             obscureText: false,
             onChanged: (p0) {
             },
           ),CustomTextForm(
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập ngày sinh';
+                return 'Vui lòng nhập mô tả';
               }
             },
-            controller: controller.ngay_sinh,
-            label:'Ngày sinh',
-            obscureText: false,
-            onChanged: (p0) {
-            },
-            ontap: ()=> DatePicker.showDatePicker(Get.context!,
-              showTitleActions: true,
-              minTime: DateTime(1980, 6, 7),
-              maxTime: DateTime(2005, 6, 7), 
-              // onChanged: (date) {
-              //   print('change $date');
-              // }, 
-              onConfirm: (date) {
-                controller.ngay_sinh.text = date.toString().substring(0,10);
-              }, 
-              currentTime: DateTime.now(), locale: LocaleType.vi),
-          ),CustomTextForm(
-            validator: (p0) {
-              if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập giới tính';
-              }
-            },
-            controller: controller.gioi_tinh,
-            label:'Giới tính',
+            controller: controller.mo_ta,
+            label:Mota.value,
             obscureText: false,
             onChanged: (p0) {
             },
           ),
-          CustomTextForm(
-            validator: (p0) {
-              if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập cccd';
-              }
-            },
-            controller: controller.cccd,
-            label:'CCCD',
-            obscureText: false,
-            onChanged: (p0) {
-            },
-          ),
-          CustomTextForm(
-            validator: (p0) {
-              if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập gmail';
-              }
-            },
-            controller: controller.email,
-            label:'G-mail',
-            obscureText: false,
-            onChanged: (p0) {
-            },
-          ),
-          CustomTextForm(
-            validator: (p0) {
-              if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập số điện thoại';
-              }
-            },
-            controller: controller.so_dien_thoai,
-            label:'Số điện thoại',
-            obscureText: false,
-            onChanged: (p0) {
-            },
-          )
         ],
       ),
       onPressedDisable: () {
@@ -265,15 +235,11 @@ Widget image(String text){
       },
       onPressedEisable: () {
         if (_formKey.currentState!.validate()) {
-            controller.updateUser(
-              controller.ten_sinh_vien.text,
-              controller.ma_sinh_vien.text,
-              controller.khoa.text,
-              controller.ngay_sinh.text,
-              controller.gioi_tinh.text,
-              controller.cccd.text,
-              controller.email.text,
-              controller.so_dien_thoai.text
+            controller.updateClass(
+              controller.ten_phong.text,
+              controller.ma_phong.text,
+              controller.ten_may_quet.text,
+              controller.mo_ta.text,
             );
             Get.back();
         }

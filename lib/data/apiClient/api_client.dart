@@ -179,9 +179,9 @@ class ApiClient {
   }
   //update user
    Future<void> updateUser(
-    String ten_sinh_vien,
-    String ma_sinh_vien,
-    String khoa,
+    String ten_giang_vien,
+    String ma_giang_vien,
+    String chuyen_nganh,
     String ngay_sinh,
     String gioi_tinh,
     String cccd,
@@ -189,9 +189,9 @@ class ApiClient {
     String so_dien_thoai
   ) async{
     Map data ={
-      "MaSV":ma_sinh_vien, 
-      "TenSV":ten_sinh_vien,
-      "Khoa":khoa,
+      "MaGV":ma_giang_vien, 
+      "TenGV":ten_giang_vien,
+      "ChuyenNganh":chuyen_nganh,
       "NamSinh":ngay_sinh,
       "GioiTinh":gioi_tinh,
       "CCCD":cccd,
@@ -203,7 +203,7 @@ class ApiClient {
 
     try{
       return await dio.patch(
-        '$baseUrl/update-user',
+        '$baseUrl/update-teacher',
         data: body
         ).then((value){
           print('HoangNH: ${value.statusCode}');
@@ -282,6 +282,77 @@ class ApiClient {
             , '',backgroundColor: error);
     }
   }
+  //update teacher
+   Future<void> updateTeacher(
+    String ten_sinh_vien,
+    String ma_sinh_vien,
+    String khoa,
+    String ngay_sinh,
+    String gioi_tinh,
+    String cccd,
+    String gmail,
+    String so_dien_thoai
+  ) async{
+    Map data ={
+      "MaSV":ma_sinh_vien, 
+      "TenSV":ten_sinh_vien,
+      "Khoa":khoa,
+      "NamSinh":ngay_sinh,
+      "GioiTinh":gioi_tinh,
+      "CCCD":cccd,
+      "Email":gmail,
+      "SoDT":so_dien_thoai
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.patch(
+        '$baseUrl/update-user',
+        data: body
+        ).then((value){
+          print('HoangNH: ${value.statusCode}');
+        if(value.statusCode == 200){
+          Get.snackbar(
+            'Cập nhật thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Cập nhật không thành công'
+          , '',backgroundColor: error);
+    }
+
+  }
+  //delete teacher
+   Future<void> deleteTeacher (ma_giang_vien) async {
+      Map data ={
+      "MaGV":ma_giang_vien, 
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.delete(
+        '$baseUrl/delete-teacher',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Xoá thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Xoá không thành công'
+            , '',backgroundColor: error);
+    }
+
+  }
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get list department
   Future<List<DepartmentModel>> getDepartment() async {
@@ -332,6 +403,68 @@ class ApiClient {
     }
   }
 
+  //update department
+   Future<void> updateDepartment(
+    String ten_don_vi,
+    String ma_don_vi,
+    String mo_ta,
+  ) async{
+    Map data ={
+      "MaDV":ma_don_vi, 
+      "TenDV":ten_don_vi,
+      "Mota":mo_ta,
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.patch(
+        '$baseUrl/update-department',
+        data: body
+        ).then((value){
+          print('HoangNH: ${value.statusCode}');
+        if(value.statusCode == 200){
+          Get.snackbar(
+            'Cập nhật thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Cập nhật không thành công'
+          , '',backgroundColor: error);
+    }
+
+  }
+  //xoa phong ban
+   Future<void> deleteDepartment(String ma_don_vi) async {
+      Map data ={
+      "MaDV":ma_don_vi, 
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.delete(
+        '$baseUrl/delete-department',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Xoá thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Xoá không thành công'
+            , '',backgroundColor: error);
+    }
+
+  }
+
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get list subject
   Future<List<SubjectModel>> getSubject() async {
@@ -351,16 +484,24 @@ class ApiClient {
 
   //create department
   Future<void> createSubject(
-    String ten_don_vi,
-    String ma_don_vi,
+    String khoi_kien_thuc,
+    String ma_hoc_phan,
+    String ten_hoc_phan,
+    String ki_thu,
+    String so_tin_chi,
+    String tong_so_tiet,
+    String dktq,
     String mo_ta,
-    String ten_may_quet,
   ) async{
     Map data ={
-      "MaPhong":ma_don_vi, 
-      "TenPhong":ten_don_vi,
-      "Mota":mo_ta,
-      "TenMayQuet":ten_may_quet,
+     "KhoiKienThuc" : khoi_kien_thuc,
+      "MaHocPhan":ma_hoc_phan,
+      "TenHocPhan":ten_hoc_phan,
+      "KiThu":ki_thu,
+      "SotinChi":so_tin_chi,
+      "TongSoTiet":tong_so_tiet,
+      "DKTQ":dktq,
+      "MoTa":mo_ta
     };
 
     String body = json.encode(data);
@@ -382,6 +523,79 @@ class ApiClient {
             'Thêm giảng viên mới không thành công'
             , '',backgroundColor: error);
     }
+  }
+
+    //update subject
+   Future<void> updateSubject(
+    String khoi_kien_thuc,
+    String ma_hoc_phan,
+    String ten_hoc_phan,
+    String ki_thu,
+    String so_tin_chi,
+    String tong_so_tiet,
+    String dktq,
+    String mo_ta,
+  ) async{
+    Map data ={
+      "KhoiKienThuc" : khoi_kien_thuc,
+      "MaHocPhan":ma_hoc_phan,
+      "TenHocPhan":ten_hoc_phan,
+      "KiThu":ki_thu,
+      "SotinChi":so_tin_chi,
+      "TongSoTiet":tong_so_tiet,
+      "DKTQ":dktq,
+      "MoTa":mo_ta
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.patch(
+        '$baseUrl/update-subject',
+        data: body
+        ).then((value){
+          print('HoangNH: ${value.statusCode}');
+        if(value.statusCode == 200){
+          Get.snackbar(
+            'Cập nhật thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Cập nhật không thành công'
+          , '',backgroundColor: error);
+    }
+
+  }
+
+    //xoa hoc phan
+   Future<void> deleteSubject(String ma_hoc_phan) async {
+      Map data ={
+      "MaHocPhan":ma_hoc_phan, 
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.delete(
+        '$baseUrl/delete-subject',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Xoá thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Xoá không thành công'
+            , '',backgroundColor: error);
+    }
+
   }
 
 
@@ -439,6 +653,69 @@ class ApiClient {
     }
   }
 
+   //update class
+   Future<void> updateClass(
+    String ten_phong,
+    String ma_phong,
+    String ten_may_quet,
+    String mo_ta,
+  ) async{
+    Map data ={
+      "TenPhong":ten_phong, 
+      "MaPhong":ma_phong,
+      "TenMayQuet":ten_may_quet,
+      "Mota":mo_ta,
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.patch(
+        '$baseUrl/update-class',
+        data: body
+        ).then((value){
+          print('HoangNH: ${value.statusCode}');
+        if(value.statusCode == 200){
+          Get.snackbar(
+            'Cập nhật thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Cập nhật không thành công'
+          , '',backgroundColor: error);
+    }
+
+  }
+    //xoa lop hoc
+   Future<void> deleteClass(String ma_phong) async {
+      Map data ={
+      "MaPhong":ma_phong, 
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.delete(
+        '$baseUrl/delete-classs',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Xoá thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Xoá không thành công'
+            , '',backgroundColor: error);
+    }
+
+  }
 
 
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
