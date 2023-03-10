@@ -1,3 +1,4 @@
+import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/components/radial_painter.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,8 @@ class UsersByDevice extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: appPadding),
       child: Container(
-        height: 350,
+        height: Get.height,
+        margin: EdgeInsets.all(appPadding),
         decoration: BoxDecoration(
           color: colorItem,
           borderRadius: BorderRadius.circular(10),
@@ -31,7 +33,7 @@ class UsersByDevice extends StatelessWidget {
             Container(
               margin: EdgeInsets.all(appPadding),
               padding: EdgeInsets.all(appPadding),
-              height: 230,
+              height: 130,
               child: CustomPaint(
                 foregroundPainter: RadialPainter(
                   bgColor: textColor.withOpacity(0.1),

@@ -137,10 +137,13 @@ Widget labelAndAvt(int index, String text,String Masv,String url) {
                     Icons.person,
                     color: darkTextColor,
                   ),
-                height: 100,
-                width: 100,
+                height: Get.height,
+                width: Get.width,
               )
               : FadeInImage(
+                  height: Get.height,
+                  width: Get.width,
+                  fit: BoxFit.cover,
                   placeholder: AssetImage('assets/images/image_not_found.png'),
                   image: NetworkImage(
                     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHr-PpS2eEnnDOLRJO6xS2NjvrWFBpVixlnw&usqp=CAU',

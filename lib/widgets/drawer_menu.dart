@@ -1,12 +1,14 @@
 import 'package:do_an_tot_nghiep/core/app_export.dart';
+import 'package:do_an_tot_nghiep/data/apiClient/api_client.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/components/drawer_list_tile.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/slide_menu.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashboard_controller.dart';
 import 'package:flutter/material.dart';
 class DrawerMenu extends StatelessWidget {
-  const DrawerMenu({Key? key,required this.controller}) : super(key: key);
+  DrawerMenu({Key? key,required this.controller}) : super(key: key);
   final DashBoardController controller;
+  final apiClient = ApiClient();
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
@@ -100,9 +102,9 @@ class DrawerMenu extends StatelessWidget {
             ),
             DrawerListTile(
                   color:controller.name_tab.value == settings?ColorConstant.colorBackgroud:bgColor,
-                  title: 'Thông tin chung',
+                  title: 'Trợ giúp',
                   colorText: controller.name_tab.value == settings?ColorConstant.colorBackgroud:textColor,
-                  icon: Icon(Icons.settings,color: controller.name_tab.value == settings?ColorConstant.colorBackgroud:textColor,),
+                  icon: Icon(Icons.help_outline_rounded,color: controller.name_tab.value == settings?ColorConstant.colorBackgroud:textColor,),
                   tap: () {
                     controller.name_tab.value = settings;      
                   }),
@@ -112,6 +114,7 @@ class DrawerMenu extends StatelessWidget {
                   colorText: textColor,
                   icon: Icon(Icons.logout,color:textColor),
                   tap: () {
+                    apiClient.logout();
                     controller.name_tab.value = "";
                   }),
           ],

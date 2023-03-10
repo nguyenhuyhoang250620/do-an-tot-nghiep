@@ -1,3 +1,4 @@
+import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/components/view_line_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +11,9 @@ class Viewers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 350,
+      height: Get.height,
       padding: EdgeInsets.all(appPadding),
+      margin: EdgeInsets.symmetric(horizontal: appPadding*2,vertical: appPadding),
       decoration: BoxDecoration(
         color: colorItem,
         borderRadius: BorderRadius.circular(10),
@@ -20,7 +22,7 @@ class Viewers extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Viewers',
+            'Tần suất',
             style: TextStyle(
               color: textColor,
               fontWeight: FontWeight.w700,

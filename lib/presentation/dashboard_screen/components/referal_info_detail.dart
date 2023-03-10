@@ -3,11 +3,13 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/models/referal_in
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../data/models/teacher_models.dart';
+
 
 class ReferalInfoDetail extends StatelessWidget {
   const ReferalInfoDetail({Key? key, required this.info}) : super(key: key);
 
-  final ReferalInfoModel info;
+  final TeacherModel info;
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +23,10 @@ class ReferalInfoDetail extends StatelessWidget {
             height: 40,
             width: 40,
             decoration: BoxDecoration(
-              color: info.color!.withOpacity(0.1),
+              color: bgColor,
               borderRadius: BorderRadius.circular(30),
             ),
-            child: SvgPicture.asset(
-              info.svgSrc!,
-              color: info.color!,
-            ),
+            child: Icon(Icons.person)
           ),
           Expanded(
             child: Padding(
@@ -36,7 +35,7 @@ class ReferalInfoDetail extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    info.title!,
+                    info.TenGV!,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -44,7 +43,7 @@ class ReferalInfoDetail extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${info.count!}',
+                    '${info.NamSinh!}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: textColor,

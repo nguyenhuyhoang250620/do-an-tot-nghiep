@@ -88,7 +88,7 @@ class SubjectState extends State<SubjectManagement> {
                                   onChanged: (p0) {
                                     controller.search(_controller.text,selectedOptions);
                                   },
-                                  titleButtonLeft: 'Thêm nhân viên mới',
+                                  titleButtonLeft: 'Thêm tín chỉ mới',
                                   titleButtonRight: 'Import excel',
                                   titleButtonBetween: 'Export excel',
                                   onPressedBetween: () {

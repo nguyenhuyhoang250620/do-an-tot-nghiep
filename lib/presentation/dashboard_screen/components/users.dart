@@ -1,3 +1,4 @@
+import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +11,10 @@ class Users extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 400,
+      height: Get.height,
       width: double.infinity,
       padding: EdgeInsets.all(appPadding),
+      margin: EdgeInsets.symmetric(horizontal: appPadding*2,vertical: appPadding),
       decoration: BoxDecoration(
         color: colorItem,
         borderRadius: BorderRadius.circular(10),
@@ -21,7 +23,7 @@ class Users extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Users",
+            "Tổng sinh viên",
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 15,

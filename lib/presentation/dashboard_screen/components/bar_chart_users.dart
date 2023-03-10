@@ -17,20 +17,41 @@ class BarChartUsers extends StatelessWidget {
                 showTitles: true,
                 margin: appPadding,
                 getTitles: (double value) {
+                  if (value == 1) {
+                    return 'T1';
+                  }
                   if (value == 2) {
-                    return 'jan 6';
-                  } if (value == 4) {
-                    return 'jan 8';
-                  }if (value == 6) {
-                    return 'jan 10';
-                  } if (value == 8) {
-                    return 'jan 12';
-                  }if (value == 10) {
-                    return 'jan 14';
-                  }if (value == 12) {
-                    return 'jan 16';
-                  }if (value == 14) {
-                    return 'jan 18';
+                    return 'T2';
+                  }
+                  if (value == 3) {
+                    return 'T3';
+                  }
+                  if (value == 4) {
+                    return 'T4';
+                  }
+                  if (value == 5) {
+                    return 'T5';
+                  }
+                  if (value == 6) {
+                    return 'T6';
+                  }
+                  if (value == 7) {
+                    return 'T7';
+                  }
+                  if (value == 8) {
+                    return 'T8';
+                  }
+                  if (value == 9) {
+                    return 'T9';
+                  }
+                  if (value == 10) {
+                    return 'T10';
+                  }
+                  if (value == 11) {
+                    return 'T11';
+                  }
+                  if (value == 12) {
+                    return 'T12';
                   }else {
                     return '';
                   }
@@ -39,14 +60,26 @@ class BarChartUsers extends StatelessWidget {
               showTitles: true,
               margin: appPadding,
               getTitles: (double value) {
-                if (value == 2) {
-                  return '1K';
-                } if (value == 6) {
-                  return '2K';
-                } if (value == 10) {
-                  return '3K';
-                }if (value == 14) {
-                  return '4K';
+                if (value == 1) {
+                  return '1';
+                }if (value == 2) {
+                  return '2';
+                }if (value == 3) {
+                  return '3';
+                }if (value == 4) {
+                  return '4';
+                }if (value == 5) {
+                  return '5';
+                }if (value == 6) {
+                  return '6';
+                }if (value == 7) {
+                  return '7';
+                }if (value == 8) {
+                  return '8';
+                }if (value == 9) {
+                  return '9';
+                }if (value == 10) {
+                  return '10';
                 }else {
                   return '';
                 }
@@ -144,22 +177,6 @@ class BarChartUsers extends StatelessWidget {
           BarChartGroupData(x: 12, barRods: [
             BarChartRodData(
                 y: 2,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 13, barRods: [
-            BarChartRodData(
-                y: 13,
-                width: 20,
-                colors: [primaryColor],
-                borderRadius: BorderRadius.circular(5)
-            )
-          ]),
-          BarChartGroupData(x: 14, barRods: [
-            BarChartRodData(
-                y: 15,
                 width: 20,
                 colors: [primaryColor],
                 borderRadius: BorderRadius.circular(5)

@@ -11,25 +11,6 @@ class ProfileInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(appPadding),
-          child: Stack(
-            children: [
-              Icon(Icons.notifications),
-              Positioned(
-                right: 0,
-                child: Container(
-                  height: 10,
-                  width: 10,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: red,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
         Container(
           margin: EdgeInsets.only(left: appPadding),
           padding: EdgeInsets.symmetric(
@@ -39,12 +20,7 @@ class ProfileInfo extends StatelessWidget {
           child: Row(
             children: [
               ClipRRect(
-                child: Image.asset(
-                  'assets/images/image_not_found.png',
-                  height: 38,
-                  width: 38,
-                  fit: BoxFit.cover,
-                ),
+                child: Icon(Icons.person),
                 borderRadius: BorderRadius.circular(30),
               ),
               if(!Responsive.isMobile(context))

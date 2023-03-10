@@ -61,17 +61,17 @@ class _ViewLineChartState extends State<ViewLineChart> {
           ),
           minX: 0,
           maxX: 20,
-          maxY: 0,
-          minY: 6,
+          maxY: 10,
+          minY: 0,
           lineBarsData: [
             LineChartBarData(
                 spots: [
-                  FlSpot(0, 3),
+                  FlSpot(0, 1),
                   FlSpot(4, 2),
-                  FlSpot(9, 4),
+                  FlSpot(9, 1),
                   FlSpot(12, 3),
                   FlSpot(15, 5),
-                  FlSpot(18, 3),
+                  FlSpot(18, 6),
                   FlSpot(20, 4),
                 ],
                 isCurved: true,

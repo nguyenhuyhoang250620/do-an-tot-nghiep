@@ -1,3 +1,4 @@
+import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/components/analytic_cards.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/components/custom_appbar.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/components/top_referals.dart';
@@ -18,92 +19,48 @@ class DashboardContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
+      child: Container(
+        height: Get.height,
+        width: Get.width,
         padding: EdgeInsets.all(appPadding*2),
         child: Column(
           children: [
             CustomAppbar(),
-            SizedBox(
-              height: appPadding,
+            Divider(),
+            Expanded(
+              flex: 2,
+              child:  CustomWidgetAction(),
             ),
-            Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 6,
-                      child: Column(
-                        children: [
-                          // CustomWidgetAction(),
-                          SizedBox(
-                            height: appPadding,
-                          ),
-                          Users(),
-                        ],
-                      ),
-                    ),
-                    if (!Responsive.isMobile(context))
-                      Expanded(
-                        flex: 2,
-                        child: Discussions(),
-                      ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            Expanded(
+              flex: 8,
+              child: Container(
+                height: Get.height,
+                width: Get.width,
+                child: Column(
                   children: [
                     Expanded(
                       flex: 5,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: appPadding,
-                          ),
-                          Row(
-                            children: [
-                              if(!Responsive.isMobile(context))
-                                Expanded(
-                                  child: TopReferals(),
-                                  flex: 2,
-                                ),
-                              if(!Responsive.isMobile(context))
-                                SizedBox(width: appPadding,),
-                              Expanded(
-                                flex: 3,
-                                child: Viewers(),
-                              ),
-                            ],
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                          ),
-                          SizedBox(
-                            height: appPadding,
-                          ),
-                          if (Responsive.isMobile(context))
-                            SizedBox(
-                              height: appPadding,
-                            ),
-                          if (Responsive.isMobile(context)) TopReferals(),
-                          if (Responsive.isMobile(context))
-                            SizedBox(
-                              height: appPadding,
-                            ),
-                          if (Responsive.isMobile(context)) UsersByDevice(),
-                        ],
+                      child: Container(
+                        height: Get.height,
+                        width: Get.width,
+                        padding: EdgeInsets.all(appPadding),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(child: TopReferals()),
+                            Expanded(child: Viewers()),
+                          ],
+                        ),
                       ),
                     ),
-                    if (!Responsive.isMobile(context))
-                      SizedBox(
-                        width: appPadding,
-                      ),
-                    if (!Responsive.isMobile(context))
-                      Expanded(
-                        flex: 2,
-                        child: UsersByDevice(),
-                      ),
+                    Expanded(flex: 5,child: Container(
+                      height: Get.height,
+                      width: Get.width,
+                      padding: EdgeInsets.all(appPadding),
+                      child: Users())),
                   ],
                 ),
-              ],
+              ),
             ),
 
           ],

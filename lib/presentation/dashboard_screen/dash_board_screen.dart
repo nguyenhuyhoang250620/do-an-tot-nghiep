@@ -81,7 +81,9 @@ class DashBoardScreen extends GetWidget<DashBoardController> {
                else if(controller.name_tab.value == quan_ly_ca_hoc){
                 return Expanded(
                   flex: 8,
-                  child: ShiftManagement()
+                  child: ShiftManagement(
+                    dashboardController: controller,
+                  )
                 );
               }
                else if(controller.name_tab.value == cau_hinh_he_thong_diem_danh){
@@ -93,7 +95,9 @@ class DashBoardScreen extends GetWidget<DashBoardController> {
                else if(controller.name_tab.value == settings){
                 return Expanded(
                   flex: 8,
-                  child: SettingsManagement()
+                  child: SettingsManagement(
+                    texts: ["1","2","3","4","5","6"],
+                  )
                 );
               }
               return Container();

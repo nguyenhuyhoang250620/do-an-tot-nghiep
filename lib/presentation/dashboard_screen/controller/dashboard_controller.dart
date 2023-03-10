@@ -8,6 +8,7 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/slide_m
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../data/models/shift_models.dart';
 import '/core/app_export.dart';
 
 class DashBoardController extends GetxController {
@@ -20,6 +21,7 @@ class DashBoardController extends GetxController {
   var isLoadingDepartment = false.obs;
   var isLoadingSubject = false.obs;
   var isLoadingClass= false.obs;
+  var isLoadingShift= false.obs;
 
 
   var sum_student = 0.obs;
@@ -42,6 +44,11 @@ class DashBoardController extends GetxController {
   RxList<ClassModel> getClassList = <ClassModel>[].obs;
   RxList<Map<String, dynamic>> getClassListMap = <Map<String, dynamic>>[].obs;
 
+  RxList<ShiftModel> getShiftList = <ShiftModel>[].obs;
+  RxList<Map<String, dynamic>> getShiftListMap = <Map<String, dynamic>>[].obs;
+
+
+
   List<String> listGioiTinh = ['Nam', 'Nữ', 'Khác', 'Chọn'];
     RxString selectedGioiTinh = "Chọn".obs;
   List<dynamic> listKhoa = [];
@@ -51,6 +58,7 @@ class DashBoardController extends GetxController {
     getDepartment();
     getSubject();
     getClass();
+    getShift();
     super.onInit();
   }
 
@@ -205,6 +213,32 @@ class DashBoardController extends GetxController {
       getClassList.value = data;
       getClassListMap.value =getClassList.map((person) => person.toJson()).toList();
       getClassListMap.refresh();
+    });
+  }
+
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //get du lieu vi tri phong hoc
+  Future<void> getShift() async {
+    List<ShiftModel> dataGet = [];
+    List<ShiftModel> data = [];
+    await apiClient.getShift().then((value) {
+      dataGet = value;
+    }).whenComplete(() {
+      dataGet.map((e) {
+        ShiftModel models = ShiftModel(
+          id: e.id,
+          MaCa: e.MaCa,
+          Mota: e.Mota,
+          SoCa: e.SoCa,
+          TenCa: e.TenCa,
+          ThoiGian: e.ThoiGian
+        );
+        data.add(models);
+      }).toList();
+      isLoadingShift.value = true;
+      getShiftList.value = data;
+      getShiftListMap.value =getShiftList.map((person) => person.toJson()).toList();
+      getShiftListMap.refresh();
     });
   }
 }

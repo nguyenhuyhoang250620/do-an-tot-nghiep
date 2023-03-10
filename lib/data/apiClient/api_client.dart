@@ -8,6 +8,7 @@ import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:dio/dio.dart';
 import 'package:do_an_tot_nghiep/data/models/class_models.dart';
 import 'package:do_an_tot_nghiep/data/models/department_models.dart';
+import 'package:do_an_tot_nghiep/data/models/shift_models.dart';
 import 'package:do_an_tot_nghiep/data/models/subject_models.dart';
 import 'package:do_an_tot_nghiep/data/models/teacher_models.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
@@ -54,7 +55,7 @@ class ApiClient {
 
   Future<void> logout() async{
       try {
-      final response = await dio.post('$baseUrl/signout',);
+      final response = await dio.post('$baseUrl/logout',);
 
       // Xử lý kết quả trả về từ API
       if (response.statusCode == 200) {
@@ -138,14 +139,14 @@ class ApiClient {
         ).then((value){
         if(value.statusCode == 201){
           Get.snackbar(
-            'Thêm sinh viên mới thành công'
+            'Thêm mới thành công'
             , '',backgroundColor: succes);
         }
       });
     }
     catch(e){
           Get.snackbar(
-            'Thêm sinh viên mới không thành công'
+            'Thêm mới không thành công'
             , '',backgroundColor: error);
     }
 
@@ -271,14 +272,14 @@ class ApiClient {
         ).then((value){
         if(value.statusCode == 201){
           Get.snackbar(
-            'Thêm giang viên mới thành công'
+            'Thêm mới thành công'
             , '',backgroundColor: succes);
         }
       });
     }
     catch(e){
           Get.snackbar(
-            'Thêm giảng viên mới không thành công'
+            'Thêm mới không thành công'
             , '',backgroundColor: error);
     }
   }
@@ -391,14 +392,14 @@ class ApiClient {
         ).then((value){
         if(value.statusCode == 201){
           Get.snackbar(
-            'Thêm giang viên mới thành công'
+            'Thêm mới thành công'
             , '',backgroundColor: succes);
         }
       });
     }
     catch(e){
           Get.snackbar(
-            'Thêm giảng viên mới không thành công'
+            'Thêm mới không thành công'
             , '',backgroundColor: error);
     }
   }
@@ -513,14 +514,14 @@ class ApiClient {
         ).then((value){
         if(value.statusCode == 201){
           Get.snackbar(
-            'Thêm giang viên mới thành công'
+            'Thêm mới thành công'
             , '',backgroundColor: succes);
         }
       });
     }
     catch(e){
           Get.snackbar(
-            'Thêm giảng viên mới không thành công'
+            'Thêm mới không thành công'
             , '',backgroundColor: error);
     }
   }
@@ -641,14 +642,14 @@ class ApiClient {
         ).then((value){
         if(value.statusCode == 201){
           Get.snackbar(
-            'Thêm giang viên mới thành công'
+            'Thêm mới thành công'
             , '',backgroundColor: succes);
         }
       });
     }
     catch(e){
           Get.snackbar(
-            'Thêm giảng viên mới không thành công'
+            'Thêm mới không thành công'
             , '',backgroundColor: error);
     }
   }
@@ -699,7 +700,7 @@ class ApiClient {
 
     try{
       return await dio.delete(
-        '$baseUrl/delete-classs',
+        '$baseUrl/delete-class',
         data: body
         ).then((value){
         if(value.statusCode == 201){
@@ -739,6 +740,126 @@ class ApiClient {
       return;
     });
   }
+
+
+   //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //get list class
+  Future<List<ShiftModel>> getShift() async {
+    return await dio.get('$baseUrl/get-shift',)
+      .then((response) {
+      List<ShiftModel> shiftList = [];
+      if (response.statusCode == 201) {
+        for (var item in response.data) {
+          shiftList.add(ShiftModel.fromJson(item));
+        }
+      }
+      return shiftList;
+    }).catchError((err) {
+      print('HoangNH: ${err}');
+    });
+  }
+    //create department
+  Future<void> createShift(
+    String ma_ca,
+    String ten_ca,
+    String so_ca,
+    String mo_ta,
+    String thoi_gian,
+  ) async{
+    Map data ={
+      "MaCa" : ma_ca,
+      "TenCa":ten_ca,
+      "SoCa":so_ca,
+      "Mota":mo_ta,
+      "ThoiGian":thoi_gian
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.post(
+        '$baseUrl/create-shift',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Thêm mới thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Thêm mới không thành công'
+            , '',backgroundColor: error);
+    }
+  }
+    //update class
+   Future<void> updateShift(
+      String ma_ca,
+      String ten_ca,
+      String so_ca,
+      String mo_ta,
+      String thoi_gian,
+  ) async{
+    Map data ={
+      "MaCa" : ma_ca,
+      "TenCa":ten_ca,
+      "SoCa":so_ca,
+      "Mota":mo_ta,
+      "ThoiGian":thoi_gian
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.patch(
+        '$baseUrl/update-shift',
+        data: body
+        ).then((value){
+          print('HoangNH: ${value.statusCode}');
+        if(value.statusCode == 200){
+          Get.snackbar(
+            'Cập nhật thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Cập nhật không thành công'
+          , '',backgroundColor: error);
+    }
+
+  }
+    //xoa lop hoc
+   Future<void> deleteShift(String ma_ca) async {
+      Map data ={
+      "MaCa":ma_ca, 
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.delete(
+        '$baseUrl/delete-shift',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Xoá thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Xoá không thành công'
+            , '',backgroundColor: error);
+    }
+
+  }
+
 
 
   ApiClient._internal();
