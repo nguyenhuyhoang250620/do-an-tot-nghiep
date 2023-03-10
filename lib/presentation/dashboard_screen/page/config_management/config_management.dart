@@ -28,32 +28,37 @@ class ConfigState extends State<ConfigManagement>{
   String? _name;
   String? _description;
 
-  void _addNewItem() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
+  Widget _addNewItem() {
+    return AlertDialog(
         title: Text("Add New Item"),
         content: Form(
           key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                decoration: InputDecoration(labelText: "Name"),
-                validator: (value) => value!.isEmpty ? "Please enter name" : null,
-                onSaved: (value) => _name = value!,
-              ),
-              TextFormField(
-                decoration: InputDecoration(labelText: "Description"),
-                onSaved: (value) => _description = value!,
-              ),
-            ],
+          child: Container(
+            height: Get.height*0.7,
+            width: Get.width*0.5,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(labelText: "Name"),
+                  validator: (value) => value!.isEmpty ? "Please enter name" : null,
+                  onSaved: (value) => _name = value!,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: "Description"),
+                  onSaved: (value) => _description = value!,
+                ),
+              ],
+            ),
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
+          CustomButtonAlert(
+            titileDisable: 'Huỷ',
+            titileEnable: 'Thêm',
+            onPressedDisable: () => Get.back(),
+            onPressedEnable: () {
+            if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 final newItem = Item(
                   id: items.length + 1,
@@ -63,20 +68,12 @@ class ConfigState extends State<ConfigManagement>{
                 setState(() {
                   items.add(newItem);
                 });
-                Navigator.pop(context);
+                Get.back();
               }
-            },
-            child: Text("Add"),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text("Cancel"),
-          ),
+              },
+          )
         ],
-      ),
-    );
+      );
   }
 
   void _editItem(Item item) {
@@ -258,7 +255,7 @@ return Scaffold(
     ),
   ),
   floatingActionButton: FloatingActionButton(
-    onPressed: _addNewItem,
+    onPressed: () => Get.dialog(_addNewItem()),
     child: Icon(Icons.add),
     tooltip: 'Thêm cấu hình mới',
   ));  

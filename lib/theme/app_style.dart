@@ -135,7 +135,7 @@ class AppStyle {
    static TextStyle textData = TextStyle(
     color: darkTextColor,
     fontSize: getFontSize(
-      12,
+      14,
     ),
     fontFamily: 'Inter',
     fontWeight: FontWeight.w400,

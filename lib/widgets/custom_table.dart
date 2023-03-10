@@ -81,10 +81,10 @@ class _MyPaginatedDataTableState extends State<MyPaginatedDataTable> {
               width: 200,
               child: DropdownButtonFormField2(
             decoration: InputDecoration(
-              labelText: 'Thuộc tính',
-              labelStyle: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),
+              labelStyle: AppStyle.txtInterRegular18.copyWith(color: darkTextColor),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(4.0),
+                borderSide: BorderSide.none
               ),
             ),
             items: widget.items!.map((e) => _childDropDownItem(e)).toList(),
