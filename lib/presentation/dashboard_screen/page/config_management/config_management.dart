@@ -1,6 +1,7 @@
 import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/components/custom_appbar.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashboard_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/config_management/controller/config_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/config_management/widget/config_sources.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_table.dart';
@@ -8,6 +9,7 @@ import 'package:do_an_tot_nghiep/widgets/custom_widget_action.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../widgets/custom_button_alert.dart';
+import '../../../../widgets/custom_dropdow_button.dart';
 import 'model/config_models.dart';
 
 class ConfigManagement extends StatefulWidget{
@@ -27,10 +29,14 @@ class ConfigState extends State<ConfigManagement>{
   int? _selectedItemId;
   String? _name;
   String? _description;
-
+  final controller = Get.find<DashBoardController>();
+  var selectedOptions = '';
   Widget _addNewItem() {
+    controller.getTeacherList.map((element) {
+      selectedOptions = element.TenGV!;
+    },).toList();
     return AlertDialog(
-        title: Text("Add New Item"),
+        title: Center(child: Text("Thêm một cấu hình mới")),
         content: Form(
           key: _formKey,
           child: Container(
@@ -43,6 +49,13 @@ class ConfigState extends State<ConfigManagement>{
                   decoration: InputDecoration(labelText: "Name"),
                   validator: (value) => value!.isEmpty ? "Please enter name" : null,
                   onSaved: (value) => _name = value!,
+                ),
+                CustomDropDownButton(
+                  hintText: 'Lựa chọn giảng viên',
+                  items: controller.getTeacherList.map((element) => element.TenGV.toString()).toList(),
+                  onChangedlistSelect: (p0) {
+                    selectedOptions = p0 as String;
+                  },
                 ),
                 TextFormField(
                   decoration: InputDecoration(labelText: "Description"),

@@ -14,7 +14,7 @@ class DrawerMenu extends StatelessWidget {
     return Obx(() => Container(
       height: Get.height,
       width: Get.width,
-      padding: EdgeInsets.all(appPadding),
+      padding: EdgeInsets.symmetric(horizontal:appPadding,vertical: appPadding*2),
       child: Drawer(
         elevation: 2,
         backgroundColor: bgColor,

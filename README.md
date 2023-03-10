@@ -12,7 +12,6 @@
     and make changes to your App
   </p>
 </div>
-flutter run -d chrome --web-port=54638 --web-renderer html
 flutter run -d chrome  --web-renderer html
 
 
