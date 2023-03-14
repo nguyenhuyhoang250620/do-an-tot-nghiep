@@ -120,6 +120,7 @@ Widget alertAvt(ShiftController controller){
         listTextFiled: ListView(
         children: [
           CustomTextForm(
+            suffixIcon: Icon(Icons.qr_code_2), 
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập tên mã ca';
@@ -132,6 +133,7 @@ Widget alertAvt(ShiftController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.near_me), 
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập tên ca';
@@ -144,6 +146,7 @@ Widget alertAvt(ShiftController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.format_list_numbered), 
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập số tiết';
@@ -156,6 +159,7 @@ Widget alertAvt(ShiftController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.description), 
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập mô tả';
@@ -168,6 +172,7 @@ Widget alertAvt(ShiftController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.lock_clock), 
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập thời gian';

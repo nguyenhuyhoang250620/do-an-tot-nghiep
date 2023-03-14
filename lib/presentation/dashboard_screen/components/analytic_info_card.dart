@@ -27,7 +27,7 @@ class AnalyticInfoCard extends StatelessWidget {
       decoration: BoxDecoration(
           color: colors, borderRadius: BorderRadius.circular(10)),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
@@ -46,7 +46,7 @@ class AnalyticInfoCard extends StatelessWidget {
                   "${content}",
                   style: TextStyle(
                     color: secondaryColor,
-                    fontSize: 18,
+                    fontSize: 22,
                     fontWeight: FontWeight.w800,
                   ),
                 ),

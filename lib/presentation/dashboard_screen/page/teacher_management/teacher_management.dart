@@ -128,6 +128,7 @@ Widget alertAvt(TeacherController controller){
         listTextFiled: ListView(
         children: [
           CustomTextForm(
+            suffixIcon: Icon(Icons.person),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập tên giảng viên';
@@ -140,6 +141,7 @@ Widget alertAvt(TeacherController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.qr_code_2),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập mã giảng viên';
@@ -152,6 +154,7 @@ Widget alertAvt(TeacherController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.subject),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập chuyên ngành';
@@ -163,6 +166,7 @@ Widget alertAvt(TeacherController controller){
             onChanged: (p0) {
             },
           ),CustomTextForm(
+            suffixIcon: Icon(Icons.date_range),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập ngày sinh';
@@ -185,6 +189,7 @@ Widget alertAvt(TeacherController controller){
               }, 
               currentTime: DateTime.now(), locale: LocaleType.vi),
           ),CustomTextForm(
+            suffixIcon: Icon(Icons.person_outline),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập giới tính';
@@ -197,6 +202,7 @@ Widget alertAvt(TeacherController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.branding_watermark),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập cccd';
@@ -209,6 +215,7 @@ Widget alertAvt(TeacherController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.email),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập gmail';
@@ -221,6 +228,7 @@ Widget alertAvt(TeacherController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.phone),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập số điện thoại';

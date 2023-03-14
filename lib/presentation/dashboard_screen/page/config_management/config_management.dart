@@ -1,4 +1,5 @@
 import 'package:do_an_tot_nghiep/core/app_export.dart';
+import 'package:do_an_tot_nghiep/data/models/config_models.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/components/custom_appbar.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashboard_controller.dart';
@@ -171,6 +172,39 @@ Widget _deleteItem(Item item) {
     ),
   );
 }
+Widget _view(List<ConfigModel> item,int index){
+  return AlertDialog(
+      title: Center(child: Text("Delete")),
+      content: Container(
+        height: 600,
+        width: 800,
+        child: ListView.builder(
+          itemCount: item.length,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                Text("${item[index].cccd}"),
+                Text("${item[index].maca.MaCa}"),
+                Text("${item[index].maca.TenCa}"),
+                Text("${item[index].madv.TenDV}"),
+                Text("${item[index].magv.TenGV}"),
+                Text("${item[index].mahocphan.TenHocPhan}"),
+                Text("${item[index].maphong.TenPhong}"),
+              ],
+            );
+          },
+        ),
+      ),
+      actions: [
+        CustomButtonAlert(
+          titileDisable: 'Huỷ',
+          titileEnable: 'Xong',
+          onPressedDisable: () => Get.back(),
+          onPressedEnable: () => Get.back(),
+        )
+      ],
+    );
+}
 
 @override
 Widget build(BuildContext context) {
@@ -194,7 +228,7 @@ return Scaffold(
             width: Get.width,
             padding: EdgeInsets.all(appPadding*3),
             child: GridView.builder(
-              itemCount: items.length,
+              itemCount: controller.getConfigList.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
                   mainAxisSpacing: 10.0,
@@ -212,10 +246,10 @@ return Scaffold(
                           color: bgColor,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
+                              color: Colors.grey.withOpacity(0.8),
                               spreadRadius: 2,
                               blurRadius: 2,
-                              offset: Offset(0, 4), // changes position of shadow
+                              offset: Offset(0, 2), // changes position of shadow
                             ),
                           ],
                         ),
@@ -223,36 +257,40 @@ return Scaffold(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
-                              flex: 9,
+                              flex: 8,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(item.name!),
+                                  Text(controller.getConfigList.value[index].tenGV),
                                   SizedBox(height: 8.0),
-                                  Text(item.description!),
+                                  Text(controller.getConfigList.value[index].maGV),
+                                  SizedBox(height: 8.0),
+                                  Text(controller.getConfigList.value[index].chuyenNganh),
+                                  SizedBox(height: 8.0),
+                                  Text(controller.getConfigList.value[index].soDT),
                                 ],
                               ),
                             ),
                             Expanded(
-                              flex: 1,
+                              flex: 2,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   IconButton(
-                                    onPressed: () =>_editItem(item),
-                                    icon: Icon(Icons.account_box,color: cardA,),
+                                    onPressed: () =>Get.dialog(_view(controller.getConfigList.value,index)),
+                                    icon: Icon(Icons.account_box,color: cardA,size: 35,),
                                     tooltip: 'Chi tiết',
                                   ),
                                   IconButton(
                                     onPressed: () =>_editItem(item),
-                                    icon: Icon(Icons.edit,color: cardD,),
+                                    icon: Icon(Icons.edit,color: cardD,size: 35),
                                     tooltip: 'Chỉnh sửa',
                                   ),
                                   IconButton(
                                     onPressed: () =>Get.dialog(_deleteItem(item)),
-                                    icon: Icon(Icons.delete,color: cardC,),
+                                    icon: Icon(Icons.delete,color: cardC,size: 35),
                                     tooltip: 'Xoá',
                                   ),
                                 ],

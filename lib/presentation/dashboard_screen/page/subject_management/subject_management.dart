@@ -137,6 +137,7 @@ Widget alertAvt(SubjectController controller){
         listTextFiled: ListView(
         children: [
           CustomTextForm(
+            suffixIcon: Icon(Icons.near_me),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập tên tín chỉ';
@@ -149,6 +150,7 @@ Widget alertAvt(SubjectController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.rectangle_outlined),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập khối kiến thức';
@@ -161,6 +163,7 @@ Widget alertAvt(SubjectController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.qr_code_2),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập mã học phần';
@@ -173,6 +176,7 @@ Widget alertAvt(SubjectController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.format_list_numbered), 
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập kì';
@@ -185,6 +189,7 @@ Widget alertAvt(SubjectController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.format_list_numbered), 
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập số tín chỉ';
@@ -197,6 +202,7 @@ Widget alertAvt(SubjectController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.format_list_numbered), 
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập tổng số tiết';
@@ -209,6 +215,7 @@ Widget alertAvt(SubjectController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.warning_rounded), 
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập DKTQ';
@@ -221,6 +228,7 @@ Widget alertAvt(SubjectController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.description), 
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập mô tả';

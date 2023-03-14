@@ -36,7 +36,7 @@ class SettingsState extends State<SettingsManagement> with TickerProviderStateMi
       children: [
         Expanded(
           flex: 1,
-          child: Center(child: Text("Link tham khảo",style: AppStyle.txtInterMedium32.copyWith(fontWeight: FontWeight.bold),)),
+          child: Center(child: Text("Ý tưởng phát triển",style: AppStyle.txtInterMedium32.copyWith(fontWeight: FontWeight.bold),)),
         ),
         Expanded(
           flex: 9,

@@ -1,5 +1,6 @@
 import 'package:do_an_tot_nghiep/data/apiClient/api_client.dart';
 import 'package:do_an_tot_nghiep/data/models/class_models.dart';
+import 'package:do_an_tot_nghiep/data/models/config_models.dart';
 import 'package:do_an_tot_nghiep/data/models/department_models.dart';
 import 'package:do_an_tot_nghiep/data/models/subject_models.dart';
 import 'package:do_an_tot_nghiep/data/models/teacher_models.dart';
@@ -47,6 +48,8 @@ class DashBoardController extends GetxController {
   RxList<ShiftModel> getShiftList = <ShiftModel>[].obs;
   RxList<Map<String, dynamic>> getShiftListMap = <Map<String, dynamic>>[].obs;
 
+  RxList<ConfigModel> getConfigList = <ConfigModel>[].obs;
+
 
 
   List<String> listGioiTinh = ['Nam', 'Nữ', 'Khác', 'Chọn'];
@@ -59,6 +62,7 @@ class DashBoardController extends GetxController {
     getSubject();
     getClass();
     getShift();
+    getConfig();
     super.onInit();
   }
 
@@ -239,6 +243,17 @@ class DashBoardController extends GetxController {
       getShiftList.value = data;
       getShiftListMap.value =getShiftList.map((person) => person.toJson()).toList();
       getShiftListMap.refresh();
+    });
+  }
+
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //get du lieu vi tri phong hoc
+  Future<void> getConfig() async {
+    List<ConfigModel> dataGet = [];
+    await apiClient.getConfig().then((value) {
+      dataGet = value;
+    }).whenComplete(() {
+      getConfigList.value = dataGet;
     });
   }
 }

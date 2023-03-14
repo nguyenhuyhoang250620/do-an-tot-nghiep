@@ -59,8 +59,8 @@ class CustomTextForm extends StatelessWidget {
             validator: validator,
             controller: controller,
             decoration: InputDecoration(
-              suffixIcon: suffixIcon,
-              prefixIcon: prefixIcon,
+              suffixIcon: prefixIcon,
+              prefixIcon: suffixIcon,
               labelText: label,
               fillColor: context.theme.colorScheme.onBackground,
               focusedBorder: OutlineInputBorder(

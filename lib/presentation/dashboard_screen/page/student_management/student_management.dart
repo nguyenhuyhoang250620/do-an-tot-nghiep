@@ -135,7 +135,7 @@ Widget alertAvt(StudentController controller) {
       listTextFiled: ListView(
         children: [
           CustomTextForm(
-            prefixIcon: Icon(Icons.person),
+            suffixIcon: Icon(Icons.person),
             validator: (p0) {
               if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập tên sinh viên';
@@ -147,7 +147,7 @@ Widget alertAvt(StudentController controller) {
             onChanged: (p0) {},
           ),
           CustomTextForm(
-            prefixIcon: Icon(Icons.qr_code_2_outlined),
+            suffixIcon: Icon(Icons.qr_code_2_outlined),
             validator: (p0) {
               if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập mã sinh viên';
@@ -159,7 +159,7 @@ Widget alertAvt(StudentController controller) {
             onChanged: (p0) {},
           ),
           CustomTextForm(
-            prefixIcon: Icon(Icons.subject),
+            suffixIcon: Icon(Icons.subject),
             validator: (p0) {
               if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập khoa';
@@ -171,7 +171,7 @@ Widget alertAvt(StudentController controller) {
             onChanged: (p0) {},
           ),
           CustomTextForm(
-            prefixIcon: Icon(Icons.date_range),
+            suffixIcon: Icon(Icons.date_range),
             validator: (p0) {
               if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập ngày sinh';
@@ -193,7 +193,7 @@ Widget alertAvt(StudentController controller) {
             }, currentTime: DateTime.now(), locale: LocaleType.vi),
           ),
           CustomTextForm(
-            prefixIcon: Icon(Icons.people),
+            suffixIcon: Icon(Icons.people),
             validator: (p0) {
               if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập giới tính';
@@ -205,7 +205,7 @@ Widget alertAvt(StudentController controller) {
             onChanged: (p0) {},
           ),
           CustomTextForm(
-            prefixIcon: Icon(Icons.branding_watermark),
+            suffixIcon: Icon(Icons.branding_watermark),
             validator: (p0) {
               if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập cccd';
@@ -217,7 +217,7 @@ Widget alertAvt(StudentController controller) {
             onChanged: (p0) {},
           ),
           CustomTextForm(
-            prefixIcon: Icon(Icons.email),
+            suffixIcon: Icon(Icons.email),
             validator: (p0) {
               if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập gmail';
@@ -229,7 +229,7 @@ Widget alertAvt(StudentController controller) {
             onChanged: (p0) {},
           ),
           CustomTextForm(
-            prefixIcon: Icon(Icons.contact_phone),
+            suffixIcon: Icon(Icons.contact_phone),
             validator: (p0) {
               if (p0 == null || p0.isEmpty) {
                 return 'Vui lòng nhập số điện thoại';

@@ -7,6 +7,7 @@ import 'dart:typed_data';
 import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:dio/dio.dart';
 import 'package:do_an_tot_nghiep/data/models/class_models.dart';
+import 'package:do_an_tot_nghiep/data/models/config_models.dart';
 import 'package:do_an_tot_nghiep/data/models/department_models.dart';
 import 'package:do_an_tot_nghiep/data/models/shift_models.dart';
 import 'package:do_an_tot_nghiep/data/models/subject_models.dart';
@@ -858,6 +859,24 @@ class ApiClient {
             , '',backgroundColor: error);
     }
 
+  }
+
+
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //get list config
+  Future<List<ConfigModel>> getConfig() async {
+    return await dio.get('$baseUrl/get-config',)
+      .then((response) {
+      List<ConfigModel> userList = [];
+      if (response.statusCode == 200) {
+        for (var item in response.data) {
+          userList.add(ConfigModel.fromJson(item));
+        }
+      }
+      return userList;
+    }).catchError((err) {
+      print('HoangNH: ${err}');
+    });
   }
 
 

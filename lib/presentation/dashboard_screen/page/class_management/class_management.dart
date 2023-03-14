@@ -123,13 +123,14 @@ Widget alertAvt(ClassController controller){
   return Form(
     key: _formKey,
     child: CustomAlertAvt(
-        title: Center(child: Text("Thêm giảng viên",style: AppStyle.txtRobotoRegular20,)),
+        title: Center(child: Text("Thêm phòng học",style: AppStyle.txtRobotoRegular20,)),
         listTextFiled: ListView(
         children: [
           CustomTextForm(
+            suffixIcon: Icon(Icons.near_me),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập tên sinh viên';
+                return 'Vui lòng nhập tên phòng học';
               }
             },
             controller: controller.ten_phong,
@@ -139,9 +140,10 @@ Widget alertAvt(ClassController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.qr_code_2),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập mã sinh viên';
+                return 'Vui lòng nhập mã phòng';
               }
             },
             controller: controller.ma_phong,
@@ -151,9 +153,10 @@ Widget alertAvt(ClassController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.video_camera_back),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập khoa';
+                return 'Vui lòng nhập tên máy quét';
               }
             },
             controller: controller.ten_may_quet,
@@ -163,9 +166,10 @@ Widget alertAvt(ClassController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.description),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
-                return 'Vui lòng nhập khoa';
+                return 'Vui lòng nhập mô tả';
               }
             },
             controller: controller.mo_ta,

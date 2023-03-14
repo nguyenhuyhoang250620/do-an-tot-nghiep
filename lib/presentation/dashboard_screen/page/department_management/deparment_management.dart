@@ -123,6 +123,7 @@ Widget alertAvt(DepartmentController controller){
         listTextFiled: ListView(
         children: [
           CustomTextForm(
+            suffixIcon: Icon(Icons.room_preferences),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập tên đơn vị';
@@ -135,6 +136,7 @@ Widget alertAvt(DepartmentController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.qr_code_2),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng nhập mã đơn vị';
@@ -147,6 +149,7 @@ Widget alertAvt(DepartmentController controller){
             },
           ),
           CustomTextForm(
+            suffixIcon: Icon(Icons.description),
             validator: (p0) {
               if(p0==null||p0.isEmpty){
                 return 'Vui lòng mô tả';
