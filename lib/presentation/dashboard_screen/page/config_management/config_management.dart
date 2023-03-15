@@ -6,11 +6,15 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashbo
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/config_management/controller/config_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/config_management/widget/config_sources.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_table.dart';
+import 'package:do_an_tot_nghiep/widgets/custom_textfiled.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_widget_action.dart';
 import 'package:flutter/material.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
+import '../../../../data/models/user_models.dart';
 import '../../../../widgets/custom_button_alert.dart';
 import '../../../../widgets/custom_dropdow_button.dart';
+import '../../../../widgets/custom_widget_row.dart';
 import 'model/config_models.dart';
 
 class ConfigManagement extends StatefulWidget{
@@ -31,11 +35,15 @@ class ConfigState extends State<ConfigManagement>{
   String? _name;
   String? _description;
   final controller = Get.find<DashBoardController>();
+  final configController = Get.find<ConfigController>();
   var selectedOptions = '';
   Widget _addNewItem() {
     controller.getTeacherList.map((element) {
       selectedOptions = element.TenGV!;
     },).toList();
+    final _items = controller.getUserList
+    .map((element) => MultiSelectItem<UserModel>(element, element.TenSV!))
+    .toList();
     return AlertDialog(
         title: Center(child: Text("Thêm một cấu hình mới")),
         content: Form(
@@ -43,24 +51,139 @@ class ConfigState extends State<ConfigManagement>{
           child: Container(
             height: Get.height*0.7,
             width: Get.width*0.5,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+            child: ListView(
               children: [
-                TextFormField(
-                  decoration: InputDecoration(labelText: "Name"),
-                  validator: (value) => value!.isEmpty ? "Please enter name" : null,
-                  onSaved: (value) => _name = value!,
+                CustomTextForm(
+                  label: 'Tên cấu hình',
+                  obscureText: false,
+                  suffixIcon:Icon(Icons.near_me),
+                  controller: configController.ten_cau_hinh,
                 ),
-                CustomDropDownButton(
-                  hintText: 'Lựa chọn giảng viên',
-                  items: controller.getTeacherList.map((element) => element.TenGV.toString()).toList(),
-                  onChangedlistSelect: (p0) {
-                    selectedOptions = p0 as String;
-                  },
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: darkTextColor.withOpacity(0.2)),
+                    borderRadius: BorderRadius.circular(4.0)
+                  ),
+                  child: CustomDropDownButton(   
+                    icon: Icon(Icons.person),             
+                    hintText: 'Lựa chọn giảng viên',
+                    items:controller.getTeacherList.map((e) => _childDropDownItem(e.TenGV!,e.MaGV!)).toList(),
+                    onChangedlistSelect: (p0) {
+                      configController.ma_giang_vien.value = p0 as String;
+                    },
+                  ),
                 ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: "Description"),
-                  onSaved: (value) => _description = value!,
+                SizedBox(height: 20,),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: darkTextColor.withOpacity(0.2)),
+                    borderRadius: BorderRadius.circular(4.0)
+                  ),
+                  child: CustomDropDownButton(
+                    icon: Icon(Icons.class_),  
+                    hintText: 'Lựa chọn phòng ban',
+                    items: controller.getDepartmentList.map((e) => _childDropDownItem(e.TenDV!,e.MaDV!)).toList(),
+                    onChangedlistSelect: (p0) {
+                      configController.ma_phong_ban.value = p0 as String;
+                    },
+                  ),
+                ),
+                SizedBox(height: 20,),
+                 Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: darkTextColor.withOpacity(0.2)),
+                    borderRadius: BorderRadius.circular(4.0)
+                  ),
+                   child: CustomDropDownButton(
+                    icon: Icon(Icons.room), 
+                    hintText: 'Lựa chọn phòng học',
+                    items: controller.getClassList.map((e) => _childDropDownItem(e.TenPhong!,e.MaPhong!)).toList(),
+                    onChangedlistSelect: (p0) {
+                      configController.ma_phong_hoc.value = p0 as String;
+                    },
+                                 ),
+                 ),
+                 SizedBox(height: 20,),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: darkTextColor.withOpacity(0.2)),
+                    borderRadius: BorderRadius.circular(4.0)
+                  ),
+                  child: CustomDropDownButton(
+                    icon: Icon(Icons.lock_clock), 
+                    hintText: 'Lựa chọn ca học',
+                    items: controller.getShiftList.map((e) => _childDropDownItem(e.TenCa!,e.MaCa!)).toList(),
+                    onChangedlistSelect: (p0) {
+                      configController.ma_ca.value = p0 as String;
+                    },
+                  ),
+                ),
+                SizedBox(height: 20,),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: darkTextColor.withOpacity(0.2)),
+                    borderRadius: BorderRadius.circular(4.0)
+                  ),
+                  child: CustomDropDownButton(
+                    icon: Icon(Icons.subject), 
+                    hintText: 'Lựa chọn môn dậy ',
+                    items: controller.getSubjectList.map((e) => _childDropDownItem(e.TenHocPhan!,e.MaHocPhan!)).toList(),
+                    onChangedlistSelect: (p0) {
+                      configController.ma_hoc_phan.value = p0 as String;
+                    },
+                  ),
+                ),
+                SizedBox(height: 20,),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: darkTextColor.withOpacity(0.2)),
+                    borderRadius: BorderRadius.circular(4.0)
+                  ),
+                  child: MultiSelectDialogField<UserModel>(
+                    items: _items,
+                    title: Text("Nhân viên"),
+                    selectedColor: context.theme.colorScheme.onSurface,
+                    searchable: true,
+                    searchTextStyle: TextStyle(color: darkTextColor),
+                    itemsTextStyle: TextStyle(color: darkTextColor),
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                      border: Border.all(
+                        color: context.theme.colorScheme.onBackground,
+                        width: 1,
+                      ),
+                    ),
+                    buttonIcon: Icon(
+                      Icons.person_add,
+                    ),
+                    buttonText: Text(
+                      "Chọn sinh viên",
+                      style: TextStyle(
+                        color:  darkTextColor.withOpacity(0.6),
+                        fontSize: 16,
+                      ),
+                    ),
+                    chipDisplay:MultiSelectChipDisplay(
+                      scroll: true,
+                      scrollBar: HorizontalScrollBar(isAlwaysShown: true),
+                
+                    ),
+                    onSelectionChanged: (p0) {
+                    },
+                    onConfirm: (results) {
+                      results.map((e) {
+                        configController.danh_sach_sinh_vien.add(e.MaSV!);
+                      }).toList();
+                      // controller.listEmployees = results;
+                    },
+                  ),
+                ),
+                CustomTextForm(
+                  label: 'Ghi chú',
+                  obscureText: false,
+                  suffixIcon: Icon(Icons.note),
+                  controller: configController.ghi_chu,
                 ),
               ],
             ),
@@ -72,18 +195,17 @@ class ConfigState extends State<ConfigManagement>{
             titileEnable: 'Thêm',
             onPressedDisable: () => Get.back(),
             onPressedEnable: () {
-            if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                final newItem = Item(
-                  id: items.length + 1,
-                  name: _name,
-                  description: _description,
+                configController.createConfig(
+                  configController.ten_cau_hinh.text,
+                  configController.ma_giang_vien.value,
+                  configController.ma_phong_ban.value,
+                  configController.ma_phong_hoc.value,
+                  configController.ma_ca.value,
+                  configController.ma_hoc_phan.value,
+                  configController.danh_sach_sinh_vien,
+                  configController.ghi_chu.text,
                 );
-                setState(() {
-                  items.add(newItem);
-                });
                 Get.back();
-              }
               },
           )
         ],
@@ -154,7 +276,7 @@ Widget _deleteItem(Item item) {
         height: 100,
         width: 100,
         alignment: Alignment.center,
-        child: Text('Bạn có chắc muốn xoá ${item.name} không?')
+        child: Text('Bạn có chắc muốn xoá không?')
         ),
       actions: [
         CustomButtonAlert(
@@ -221,9 +343,16 @@ return Scaffold(
           flex: 2,
           child: CustomWidgetAction(),
         ),
+        Container(
+          height: 50,
+          width: Get.width,
+          margin: EdgeInsets.all(appPadding*3),
+          color: darkTextColor.withOpacity(0.1),
+          child: Center(child: Text("Danh sách giảng dạy",style: AppStyle.txtInterMedium24,),),
+        ),
         Expanded(
           flex: 8,
-          child: Container(
+          child: Obx(() => Container(
             height: Get.height,
             width: Get.width,
             padding: EdgeInsets.all(appPadding*3),
@@ -231,18 +360,17 @@ return Scaffold(
               itemCount: controller.getConfigList.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
+                  mainAxisExtent: 450,
                   mainAxisSpacing: 10.0,
                   crossAxisSpacing: 10.0,
+                  childAspectRatio: 1
                   ),
                   itemBuilder: (context, index) {
                       final item = items[index];
                       return Container(
-                        height: 200,
-                        width: 200,
                         margin: EdgeInsets.all(appPadding),
-                        padding: EdgeInsets.all(appPadding),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(8),
                           color: bgColor,
                           boxShadow: [
                             BoxShadow(
@@ -253,54 +381,122 @@ return Scaffold(
                             ),
                           ],
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Stack(
                           children: [
-                            Expanded(
-                              flex: 8,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(controller.getConfigList.value[index].tenGV),
-                                  SizedBox(height: 8.0),
-                                  Text(controller.getConfigList.value[index].maGV),
-                                  SizedBox(height: 8.0),
-                                  Text(controller.getConfigList.value[index].chuyenNganh),
-                                  SizedBox(height: 8.0),
-                                  Text(controller.getConfigList.value[index].soDT),
-                                ],
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: Container(decoration: BoxDecoration(color: cardD,borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0),topRight: Radius.circular(8.0)),),),
+                                ),
+                                Expanded(
+                                  flex: 6,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(height: 30.0),
+                                      Text(controller.getConfigList.value[index].tenGV,style: AppStyle.txtInterMedium24,),
+                                      SizedBox(height: 15.0),
+                                      CustomWidgetRow(
+                                        left: Icon(Icons.email),
+                                        right: Text(controller.getConfigList.value[index].email),
+                                        distance: 15,
+                                        paddingLeft: appPadding*4,
+                                      ),
+                                      SizedBox(height: 15.0),
+                                      CustomWidgetRow(
+                                        left: Icon(Icons.qr_code_2),
+                                        right: Text(controller.getConfigList.value[index].maGV),
+                                        distance: 15,
+                                        paddingLeft: appPadding*4,
+                                      ),
+                                      SizedBox(height: 15.0),
+                                      CustomWidgetRow(
+                                        left: Icon(Icons.phone),
+                                        right: Text(controller.getConfigList.value[index].soDT),
+                                        distance: 15,
+                                        paddingLeft: appPadding*4,
+                                      ),
+                                      SizedBox(height: 15.0),
+                                      CustomWidgetRow(
+                                        left: Icon(Icons.subject),
+                                        right: Text(controller.getConfigList.value[index].chuyenNganh),
+                                        distance: 15,
+                                        paddingLeft: appPadding*4,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () =>Get.dialog(_view(controller.getConfigList.value,index)),
+                                        icon: Icon(Icons.account_box,color: cardA,size: 35,),
+                                        tooltip: 'Chi tiết',
+                                      ),
+                                      IconButton(
+                                        onPressed: () =>_editItem(item),
+                                        icon: Icon(Icons.edit,color: cardD,size: 35),
+                                        tooltip: 'Chỉnh sửa',
+                                      ),
+                                      IconButton(
+                                        onPressed: () =>Get.dialog(_deleteItem(item)),
+                                        icon: Icon(Icons.delete,color: cardC,size: 35),
+                                        tooltip: 'Xoá',
+                                      ),
+                                    ],
+                                  )
+                                ),
+                            ],),
+                            Positioned(
+                              left: 100,
+                              right: 100,
+                              top: 12,
+                              child: Container(
+                                padding: EdgeInsets.all(3),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: bgColor
+                                ),
+                                child: controller.getConfigList.value[index].url!=''?Container(
+                                  // width: 100,
+                                  height: 110,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image:DecorationImage(
+                                      fit: BoxFit.cover,
+                                      onError: (exception, stackTrace) => Icon(
+                                        Icons.person,
+                                        color: darkTextColor,
+                                        size: 40,
+                                      ),
+                                      image: NetworkImage(
+                                        controller.getConfigList.value[index].url,
+                                      ),
+                                    )
+                                  ),
+                                ):Container(
+                                  height: 100,
+                                  child: Icon(
+                                    Icons.person,
+                                    color: darkTextColor,
+                                    size: 60,
+                                  ),
+                                )
                               ),
                             ),
-                            Expanded(
-                              flex: 2,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  IconButton(
-                                    onPressed: () =>Get.dialog(_view(controller.getConfigList.value,index)),
-                                    icon: Icon(Icons.account_box,color: cardA,size: 35,),
-                                    tooltip: 'Chi tiết',
-                                  ),
-                                  IconButton(
-                                    onPressed: () =>_editItem(item),
-                                    icon: Icon(Icons.edit,color: cardD,size: 35),
-                                    tooltip: 'Chỉnh sửa',
-                                  ),
-                                  IconButton(
-                                    onPressed: () =>Get.dialog(_deleteItem(item)),
-                                    icon: Icon(Icons.delete,color: cardC,size: 35),
-                                    tooltip: 'Xoá',
-                                  ),
-                                ],
-                              )
-                            ),
-                        ],),
+                          ],
+                        )
                     );
               },
             ),
-          ),
+          ),)
         )
       ],
     ),
@@ -311,5 +507,14 @@ return Scaffold(
     tooltip: 'Thêm cấu hình mới',
   ));  
   }
+}
+DropdownMenuItem _childDropDownItem(String title,String value) {
+  return DropdownMenuItem<String>(
+    value: value,
+    child: Text(
+      title,
+      style: AppStyle.textData,
+    ),
+  );
 }
 

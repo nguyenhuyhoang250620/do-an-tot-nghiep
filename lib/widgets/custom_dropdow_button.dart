@@ -6,22 +6,24 @@ import 'package:flutter/widgets.dart';
 import '../theme/app_style.dart';
 
 class CustomDropDownButton extends StatelessWidget{
-  CustomDropDownButton({this.items,this.hintText,this.onChangedlistSelect});
-  final List<String>? items;
+  CustomDropDownButton({this.items,this.hintText,this.onChangedlistSelect,this.icon});
   final String? hintText;
   final Function(dynamic)? onChangedlistSelect;
+  final Widget?icon;
+  List<DropdownMenuItem<dynamic>>? items;
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField2(
           decoration: InputDecoration(
             hintText: hintText,
+            prefixIcon: icon,
             labelStyle: AppStyle.txtInterRegular18.copyWith(color: darkTextColor),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4.0),
-              borderSide: BorderSide.none
+              borderSide: BorderSide.none,
             ),
           ),
-          items: items!.map((e) => _childDropDownItem(e)).toList(),
+          items: items,
           buttonDecoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4.0),
           ),
@@ -39,13 +41,4 @@ class CustomDropDownButton extends StatelessWidget{
         );
   }
 
-}
-DropdownMenuItem _childDropDownItem(String title) {
-  return DropdownMenuItem<String>(
-    value: title,
-    child: Text(
-      title,
-      style: AppStyle.textData,
-    ),
-  );
 }

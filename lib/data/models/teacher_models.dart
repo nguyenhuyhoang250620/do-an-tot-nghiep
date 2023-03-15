@@ -8,10 +8,11 @@ class TeacherModel {
   String? MaGV;
   String? GioiTinh;
   String? ChuyenNganh;
+  String? url;
 
 
   TeacherModel(
-      {this.id, this.NamSinh, this.CCCD, this.Email, this.SoDT, this.TenGV,this.GioiTinh,this.ChuyenNganh,this.MaGV});
+      {this.id, this.NamSinh, this.CCCD, this.Email, this.SoDT, this.TenGV,this.GioiTinh,this.ChuyenNganh,this.MaGV,this.url});
   factory TeacherModel.fromJson(Map<String, dynamic> json) {
     return TeacherModel(
         id: json['id'] ?? "",
@@ -23,6 +24,7 @@ class TeacherModel {
         GioiTinh: json['GioiTinh'] ?? "",
         ChuyenNganh: json['ChuyenNganh'] ?? "",
         MaGV: json['MaGV'] ?? "",
+        url: json['url'] ?? "",
         );
   }
 
@@ -35,6 +37,7 @@ class TeacherModel {
         "TenGV": TenGV,
         "MaGV": MaGV,
         "GioiTinh": GioiTinh,
-        "ChuyenNganh": ChuyenNganh
+        "ChuyenNganh": ChuyenNganh,
+        "url": url,
       };
 }

@@ -131,6 +131,7 @@ class DashBoardController extends GetxController {
             NamSinh: e.NamSinh,
             SoDT: e.SoDT,
             TenGV: e.TenGV,
+            url: e.url,
             id: e.id);
         data.add(models);
       }).toList();

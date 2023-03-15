@@ -724,10 +724,16 @@ class ApiClient {
   //upload avatar
   Future<void>UpdateAvatar({
     required String masv,
+    required String magv,
     XFile? files,
   }) async {
     Map<String, dynamic> map = {};
-    map.addAll({"masv": masv});
+    if(masv!=''){
+      map.addAll({"masv": masv});
+    }
+    if(magv!=''){
+      map.addAll({"magv": magv});
+    }
     if (files != null && files.length().toString() != '0') {
       Uint8List bytes = await files.readAsBytes();
       String fileName = files.name;
@@ -741,7 +747,6 @@ class ApiClient {
       return;
     });
   }
-
 
    //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get list class

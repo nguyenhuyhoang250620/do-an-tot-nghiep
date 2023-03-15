@@ -13,6 +13,7 @@ class ConfigModel {
   SubjectModel mahocphan;
   String maGV;
   String soDT;
+  String url;
   TeacherModel magv;
   String gioiTinh;
   ClassModel maphong;
@@ -30,6 +31,7 @@ class ConfigModel {
       required this.mahocphan,
       required this.maGV,
       required this.soDT,
+      required this.url,
       required this.magv,
       required this.gioiTinh,
       required this.maphong,
@@ -50,6 +52,7 @@ class ConfigModel {
         mahocphan: SubjectModel.fromJson(json['mahocphan']),
         maGV: json['MaGV'],
         soDT: json['SoDT'],
+        url: json['url']?? "",
         magv: TeacherModel.fromJson(json['magv']),
         gioiTinh: json['GioiTinh'],
         maphong: ClassModel.fromJson(json['maphong']),

@@ -114,9 +114,9 @@ class TeacherController extends GetxController {
   }
 
   //upload avarta
-  Future<void> uploadAvatar(String masv,XFile? files,) async{
-    await apiClient.UpdateAvatar(masv: masv,files: files);
-    dashBoardController.getUser();
+  Future<void> uploadAvatar(String magv,XFile? files,) async{
+    await apiClient.UpdateAvatar(magv: magv,files: files,masv: '');
+    dashBoardController.getTeacher();
   }
 
 //tim kiem theo thuoc tinh
