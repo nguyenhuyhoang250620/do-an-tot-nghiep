@@ -1,8 +1,9 @@
 import 'package:do_an_tot_nghiep/core/app_export.dart';
+import 'package:do_an_tot_nghiep/data/apiClient/api_client.dart';
 import 'package:flutter/material.dart';
 
 class ConfigController extends GetxController{
-   
+   final apiClient = ApiClient();
   TextEditingController ten_cau_hinh = TextEditingController();
   TextEditingController ghi_chu = TextEditingController();
   var ma_giang_vien = "".obs;
@@ -30,5 +31,9 @@ class ConfigController extends GetxController{
     print('HoangNH: ${ma_hoc_phan}');
     print('HoangNH: ${danh_sach_sinh_vien.toString()}');
     print('HoangNH: ${ghi_chu}');
+  }
+
+  Future<void> permission(String magv,String ten_giang_vien) async{
+    apiClient.permission(magv);
   }
 }

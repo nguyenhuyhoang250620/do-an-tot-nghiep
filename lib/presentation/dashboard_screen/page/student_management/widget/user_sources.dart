@@ -120,39 +120,38 @@ Widget labelAndAvt(int index, String text,String Masv,String url) {
             );
           },
           child: Container(
-            height: 40,
-            width: 40,
+            height: 50,
+            width: 50,
+            padding: EdgeInsets.all(3),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(500 / 2),
-                border: Border.all(color: darkTextColor)),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(500 / 2),
-              child:url.isNotEmpty?
-              FadeInImage(
-                placeholder: AssetImage('assets/images/image_not_found.png'),
-                image: NetworkImage(
-                  url,
-                ),
-                imageErrorBuilder: (context, error, stackTrace) =>Icon(
-                    Icons.person,
-                    color: darkTextColor,
-                  ),
-                height: Get.height,
-                width: Get.width,
-              )
-              : FadeInImage(
-                  height: Get.height,
-                  width: Get.width,
-                  fit: BoxFit.cover,
-                  placeholder: AssetImage('assets/images/image_not_found.png'),
-                  image: NetworkImage(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHr-PpS2eEnnDOLRJO6xS2NjvrWFBpVixlnw&usqp=CAU',
-                  ),
-                  imageErrorBuilder: (context, error, stackTrace) => Icon(
-                    Icons.person,
-                    color: darkTextColor,
-                  )),
+              shape: BoxShape.circle,
+              color: bgColor
             ),
+            child:url!=''?Container(
+              // width: 100,
+              height: 110,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image:DecorationImage(
+                  fit: BoxFit.cover,
+                  onError: (exception, stackTrace) => Icon(
+                    Icons.person,
+                    color: darkTextColor,
+                    size: 40,
+                  ),
+                  image: NetworkImage(
+                    url,
+                  ),
+                )
+              ),
+            ):Container(
+              height: 100,
+              child: Icon(
+                Icons.person,
+                color: darkTextColor,
+                size: 30,
+              ),
+            )
           ),
         ),
         Padding(

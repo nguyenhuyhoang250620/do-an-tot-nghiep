@@ -14,6 +14,7 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 import '../../../../data/models/user_models.dart';
 import '../../../../widgets/custom_button_alert.dart';
 import '../../../../widgets/custom_dropdow_button.dart';
+import '../../../../widgets/custom_richtext.dart';
 import '../../../../widgets/custom_widget_row.dart';
 import 'model/config_models.dart';
 
@@ -205,6 +206,10 @@ class ConfigState extends State<ConfigManagement>{
                   configController.danh_sach_sinh_vien,
                   configController.ghi_chu.text,
                 );
+                configController.permission(
+                  configController.ma_giang_vien.value,
+                  configController.ma_giang_vien.value,
+                );
                 Get.back();
               },
           )
@@ -296,26 +301,40 @@ Widget _deleteItem(Item item) {
 }
 Widget _view(List<ConfigModel> item,int index){
   return AlertDialog(
-      title: Center(child: Text("Delete")),
+      title: Center(child: Text("Thông tin chi tiết điểm danh")),
       content: Container(
-        height: 600,
+        height: 800,
         width: 800,
-        child: ListView.builder(
-          itemCount: item.length,
-          itemBuilder: (context, index) {
-            return Column(
+        child: Column(
               children: [
-                Text("${item[index].cccd}"),
-                Text("${item[index].maca.MaCa}"),
-                Text("${item[index].maca.TenCa}"),
-                Text("${item[index].madv.TenDV}"),
-                Text("${item[index].magv.TenGV}"),
-                Text("${item[index].mahocphan.TenHocPhan}"),
-                Text("${item[index].maphong.TenPhong}"),
+                CustomRichText(
+                  textLeft: 'Tên ca',
+                  textRight:'${item[index].maca.TenCa}',
+                ),
+                Text("$index"),
+                Text("${item[index].maca.SoCa} so ca"),
+                Text("${item[index].maca.ThoiGian} thoi gian"),
+                Text("${item[index].mahocphan.TenHocPhan} ten hoc phan"),
+                Text("${item[index].mahocphan.KiThu} ki thu"),
+                Text("${item[index].mahocphan.TongSoTiet} tong so tiet"),
+                Text("${item[index].mahocphan.SotinChi} so tin chi"),
+                Text("${item[index].maphong.TenPhong} ten phong"),
+                Text("${item[index].maphong.TenMayQuet} ten may quet"),
+                Expanded(
+                  flex: 8,
+                  child: Container(
+                    height: Get.height,
+                    width: Get.width,
+                    child: ListView.builder(
+                      itemCount: item[index].danhsach.length,
+                      itemBuilder: (context, indexs) {
+                        return   Text("${item[index].danhsach[indexs].TenSV}");
+                      },),
+                  ),
+                ),
+                Divider()
               ],
-            );
-          },
-        ),
+            )
       ),
       actions: [
         CustomButtonAlert(
@@ -436,7 +455,15 @@ return Scaffold(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       IconButton(
-                                        onPressed: () =>Get.dialog(_view(controller.getConfigList.value,index)),
+                                        onPressed: (){
+                                           print('$index');
+                                          controller.getConfigList.map((element){
+                                            if(element.maGV == controller.getConfigList.value[index].maGV){
+                                                Get.dialog(_view(controller.getConfigList,index));
+                                            }
+                                          }).toList();
+                                          
+                                        },
                                         icon: Icon(Icons.account_box,color: cardA,size: 35,),
                                         tooltip: 'Chi tiết',
                                       ),
@@ -449,6 +476,13 @@ return Scaffold(
                                         onPressed: () =>Get.dialog(_deleteItem(item)),
                                         icon: Icon(Icons.delete,color: cardC,size: 35),
                                         tooltip: 'Xoá',
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                    
+                                        },
+                                        icon: Icon(Icons.check_box,color: orange,size: 35),
+                                        tooltip: 'Cấp quyền',
                                       ),
                                     ],
                                   )

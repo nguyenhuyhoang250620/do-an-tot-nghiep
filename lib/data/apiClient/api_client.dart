@@ -886,6 +886,39 @@ class ApiClient {
 
 
 
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //get list config
+  Future<void> permission(
+    String magv,
+  ) async{
+    Map data ={
+      "email":'${magv}@gmail.com', 
+      "password":'${magv}@gmail.com',
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.post(
+        '$baseUrl/signup',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Thêm mới thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Thêm mới không thành công'
+            , '',backgroundColor: error);
+    }
+  }
+
+
+
   ApiClient._internal();
 }
 
