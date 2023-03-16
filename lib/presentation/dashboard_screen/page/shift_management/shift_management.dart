@@ -62,8 +62,7 @@ class ShiftState extends State<ShiftManagement>{
                 child: Container(
                     child: Obx(
                       () =>widget.dashboardController!.isLoadingShift.value
-                            ?widget.dashboardController!.getShiftList.isNotEmpty
-                              ? MyPaginatedDataTable(
+                            ?MyPaginatedDataTable(
                                   value: selectedOptions,
                                   onChangedlistSelect: (p0) {
                                     selectedOptions= p0 as String;
@@ -97,9 +96,7 @@ class ShiftState extends State<ShiftManagement>{
                                           .dashboardController!.getShiftListMap.value),
                                   rowsPerPage: 6,
                                 )
-                              : Center(
-                                  child: Text("Không có dữ liệu"),
-                            ):Center(
+                              :Center(
                               child: CustomLoading(),
                             ),
                     )),

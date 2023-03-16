@@ -71,8 +71,7 @@ class ClassState extends State<ClassManagement> {
                 child: Container(
                     child: Obx(
                       () =>widget.dashboardController!.isLoadingClass.value
-                            ?widget.dashboardController!.getClassList.isNotEmpty
-                              ? MyPaginatedDataTable(
+                            ?MyPaginatedDataTable(
                                   value: selectedOptions,
                                   onChangedlistSelect: (p0) {
                                     selectedOptions= p0 as String;
@@ -104,9 +103,7 @@ class ClassState extends State<ClassManagement> {
                                           .dashboardController!.getClassListMap.value),
                                   rowsPerPage: 6,
                                 )
-                              : Center(
-                                  child: Text("Không có dữ liệu"),
-                            ):Center(
+                              :Center(
                               child: CustomLoading(),
                             ),
                     )),

@@ -294,7 +294,7 @@ packages:
       name: excel
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.4"
   fake_async:
     dependency: transitive
     description:

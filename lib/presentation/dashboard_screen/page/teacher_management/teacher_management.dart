@@ -67,8 +67,7 @@ class TeacherState extends State<TeacherManagement> {
                 child: Container(
                     child: Obx(
                       () =>widget.dashboardController!.isLoadingTeacher.value
-                            ?widget.dashboardController!.getTeacherList.isNotEmpty
-                              ? MyPaginatedDataTable(
+                            ?MyPaginatedDataTable(
                                   value: selectedOptions,
                                   onChangedlistSelect: (p0) {
                                     selectedOptions= p0 as String;
@@ -105,9 +104,7 @@ class TeacherState extends State<TeacherManagement> {
                                           .dashboardController!.getTeacherListMap.value),
                                   rowsPerPage: 6,
                                 )
-                              : Center(
-                                  child: Text("Không có dữ liệu"),
-                            ):Center(
+                              :Center(
                               child: CustomLoading(),
                             ),
                     )),

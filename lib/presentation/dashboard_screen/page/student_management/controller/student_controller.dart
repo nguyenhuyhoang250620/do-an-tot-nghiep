@@ -1,25 +1,22 @@
+
+
 import 'dart:convert';
 import 'dart:html';
-// import 'dart:html';
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:do_an_tot_nghiep/data/apiClient/api_client.dart';
 import 'package:do_an_tot_nghiep/data/models/user_models.dart';
-import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/slide_menu.dart';
-import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashboard_controller.dart';
-import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/student_management/widget/env_student.dart';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
 import '../../../constants/constants.dart';
-import '../../../models/analytic_info_model.dart';
-import '/core/app_export.dart';
+import '../../../constants/slide_menu.dart';
+import '../../../controller/dashboard_controller.dart';
+import '../widget/env_student.dart';
 
 class StudentController extends GetxController {
   var name_tab = tong_quat.obs;
@@ -168,28 +165,27 @@ class StudentController extends GetxController {
     globalStyle1.wrapText = true;
     globalStyle1.hAlign = HAlignType.center;
     globalStyle1.vAlign = VAlignType.center;
-    final Range range1 = sheet.getRangeByName('A1:F1');
-    range1.merge();
-    final Range range2 = sheet.getRangeByName('A2:F2');
-    range2.merge();
-    final Range range3 = sheet.getRangeByName('A3:F3');
-    range3.merge();
-    sheet.getRangeByName('A4:I4').cellStyle = globalStyle;
-    sheet.getRangeByName('A5:I${dashBoardController.getUserList.length + 4}').cellStyle = globalStyle1;
-    sheet.getRangeByIndex(4, 1).setText('STT');
-    sheet.getRangeByIndex(4, 2).setText(TenSV.value);
-    sheet.getRangeByIndex(4, 3).setText(MaSV.value);
-    sheet.getRangeByIndex(4, 4).setText(Email.value);
-    sheet.getRangeByIndex(4, 5).setText(NamSinh.value);
-    sheet.getRangeByIndex(4, 6).setText(GioiTinh.value);
-    sheet.getRangeByIndex(4, 7).setText(Khoa.value);
-    sheet.getRangeByIndex(4, 8).setText(SoDT.value);
-    sheet.getRangeByIndex(4, 9).setText(CCCD.value);
+    // final Range range1 = sheet.getRangeByName('A1:F1');
+    // range1.merge();
+    // final Range range2 = sheet.getRangeByName('A2:F2');
+    // range2.merge();
+    // final Range range3 = sheet.getRangeByName('A3:F3');
+    // range3.merge();
+    sheet.getRangeByName('A1:H4').cellStyle = globalStyle;
+    sheet.getRangeByName('A2:H${dashBoardController.getUserList.length+1}').cellStyle = globalStyle1;
+    sheet.getRangeByIndex(1, 1).setText(TenSV.value);
+    sheet.getRangeByIndex(1, 2).setText(MaSV.value);
+    sheet.getRangeByIndex(1, 3).setText(Email.value);
+    sheet.getRangeByIndex(1, 4).setText(NamSinh.value);
+    sheet.getRangeByIndex(1, 5).setText(GioiTinh.value);
+    sheet.getRangeByIndex(1, 6).setText(Khoa.value);
+    sheet.getRangeByIndex(1, 7).setText(SoDT.value);
+    sheet.getRangeByIndex(1, 8).setText(CCCD.value);
 
-    int row = 5;
+    int row = 2;
     for (int i = 0; i < dashBoardController.getUserList.length; i++) {
-      int column = 1;
-      sheet.getRangeByIndex(row, column).setValue(i);
+      int column = 0;
+      // sheet.getRangeByIndex(row, column).setValue(i);
       column++;
       sheet.getRangeByIndex(row, column).setText(dashBoardController.getUserList[i].TenSV);
       column++;
@@ -238,40 +234,28 @@ class StudentController extends GetxController {
       if (pickedFile != null) {
       var bytes = pickedFile.files.single.bytes;
       var excel = Excel.decodeBytes(bytes!);
-      excel.tables.values.map(
-        (e) {
-          print('HoangNH: ${e.sheetName}');
-        },
-      ).toList();
       Sheet sheetObject = excel[excel.tables.values.first.sheetName];
-      print(sheetObject.maxRows);
-
       var lengthRow = sheetObject.maxRows;
       for(int i =1;i<lengthRow;i++){
-        var account = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:0,rowIndex: i)).value.toString();
-        var email = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:1,rowIndex: i)).value.toString();
-        var fullname = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:2,rowIndex: i)).value.toString();
-        print('HoangNH: $account');
-        print('HoangNH: $email');
-        print('HoangNH: $fullname');
-      //   GetAllInformationUser model = GetAllInformationUser(
-      //   createdDate: DateTime.now().toString(),
-      //   fullname: fullname,
-      //   email: email,
-      //   username: account,
-      //   imageUrl: '',
-      //   id: Random().nextInt(1000)
-      // );
-      // employeesData.add(model);
-      // employeesData.refresh();
+        var ten_sinh_vien = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:0,rowIndex: i)).value.toString();
+        var ma_sinh_vien = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:1,rowIndex: i)).value.toString();
+        var email = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:2,rowIndex: i)).value.toString();
+        var ngay_sinh = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:3,rowIndex: i)).value.toString();
+        var gioi_tinh = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:4,rowIndex: i)).value.toString();
+        var khoa = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:5,rowIndex: i)).value.toString();
+        var so_dien_thoai = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:6,rowIndex: i)).value.toString();
+        var cccd = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:7,rowIndex: i)).value.toString();
+        await apiClient.createUser(ten_sinh_vien, ma_sinh_vien, khoa, ngay_sinh, gioi_tinh, cccd, email, so_dien_thoai);
+        dashBoardController.getUser();
       }
-      // await apiClient.register(username, email, fullname, password)
-      Get.snackbar(
-        'Import file excel thành công'
-        , '',backgroundColor: succes);
     }
+      Get.snackbar(
+      'Import file excel thành công'
+      , '',backgroundColor: succes,
+      );
     }
     catch(e){
+      print('HoangNH: $e');
       Get.snackbar(
         'File không đúng định dạng'
         , '',backgroundColor: error);

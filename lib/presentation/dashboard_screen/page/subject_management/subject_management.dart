@@ -77,8 +77,7 @@ class SubjectState extends State<SubjectManagement> {
                 child: Container(
                     child: Obx(
                       () =>widget.dashboardController!.isLoadingSubject.value
-                            ?widget.dashboardController!.getSubjectList.isNotEmpty
-                              ? MyPaginatedDataTable(
+                            ? MyPaginatedDataTable(
                                   value: selectedOptions,
                                   onChangedlistSelect: (p0) {
                                     selectedOptions= p0 as String;
@@ -114,9 +113,7 @@ class SubjectState extends State<SubjectManagement> {
                                           .dashboardController!.getSubjectListMap.value),
                                   rowsPerPage: 6,
                                 )
-                              : Center(
-                                  child: Text("Không có dữ liệu"),
-                            ):Center(
+                              :Center(
                               child: CustomLoading(),
                             ),
                     )),

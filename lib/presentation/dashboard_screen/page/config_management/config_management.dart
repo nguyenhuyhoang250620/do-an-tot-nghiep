@@ -216,61 +216,6 @@ class ConfigState extends State<ConfigManagement>{
         ],
       );
   }
-
-  void _editItem(Item item) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("Edit Item"),
-        content: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                initialValue: item.name,
-                decoration: InputDecoration(labelText: "Name"),
-                validator: (value) => value!.isEmpty ? "Please enter name" : null,
-                onSaved: (value) => _name = value!,
-              ),
-              TextFormField(
-                initialValue: item.description,
-                decoration: InputDecoration(labelText: "Description"),
-                onSaved: (value) =>_description = value!,
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                final editedItem = Item(
-                  id: item.id,
-                  name: _name,
-                  description: _description,
-                );
-                setState(() {
-                  final index = items.indexWhere((element) => element.id == item.id);
-                  items[index] = editedItem;
-                });
-                Navigator.pop(context);
-              }
-            },
-          child: Text("Save"),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text("Cancel"),
-          ),
-        ],
-      ),
-    );    
-  }
-
 Widget _deleteItem(Item item) {
   return Container(
     height: 100,
@@ -466,11 +411,6 @@ return Scaffold(
                                         },
                                         icon: Icon(Icons.account_box,color: cardA,size: 35,),
                                         tooltip: 'Chi tiết',
-                                      ),
-                                      IconButton(
-                                        onPressed: () =>_editItem(item),
-                                        icon: Icon(Icons.edit,color: cardD,size: 35),
-                                        tooltip: 'Chỉnh sửa',
                                       ),
                                       IconButton(
                                         onPressed: () =>Get.dialog(_deleteItem(item)),
