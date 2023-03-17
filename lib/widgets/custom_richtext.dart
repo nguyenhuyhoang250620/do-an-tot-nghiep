@@ -1,3 +1,4 @@
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
 import 'package:do_an_tot_nghiep/theme/app_style.dart';
 import 'package:flutter/material.dart';
 
@@ -7,18 +8,21 @@ class CustomRichText extends StatelessWidget{
   final String? textRight;
   @override
   Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: textLeft,
-            style: AppStyle.txtInterMedium12
-          ),
-          TextSpan(
-            text: textRight,
-            style: AppStyle.txtInterRegular14
-          ),
-        ],
+    return Padding(
+      padding: EdgeInsets.all(appPadding),
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: textLeft,
+              style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor.withOpacity(0.8))
+            ),
+            TextSpan(
+              text: textRight,
+              style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor,)
+            ),
+          ],
+        ),
       ),
     );
   }

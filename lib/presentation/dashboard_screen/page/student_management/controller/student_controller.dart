@@ -232,23 +232,23 @@ class StudentController extends GetxController {
         allowMultiple: false,
       );
       if (pickedFile != null) {
-      var bytes = pickedFile.files.single.bytes;
-      var excel = Excel.decodeBytes(bytes!);
-      Sheet sheetObject = excel[excel.tables.values.first.sheetName];
-      var lengthRow = sheetObject.maxRows;
-      for(int i =1;i<lengthRow;i++){
-        var ten_sinh_vien = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:0,rowIndex: i)).value.toString();
-        var ma_sinh_vien = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:1,rowIndex: i)).value.toString();
-        var email = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:2,rowIndex: i)).value.toString();
-        var ngay_sinh = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:3,rowIndex: i)).value.toString();
-        var gioi_tinh = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:4,rowIndex: i)).value.toString();
-        var khoa = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:5,rowIndex: i)).value.toString();
-        var so_dien_thoai = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:6,rowIndex: i)).value.toString();
-        var cccd = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:7,rowIndex: i)).value.toString();
-        await apiClient.createUser(ten_sinh_vien, ma_sinh_vien, khoa, ngay_sinh, gioi_tinh, cccd, email, so_dien_thoai);
-        dashBoardController.getUser();
+        var bytes = pickedFile.files.single.bytes;
+        var excel = Excel.decodeBytes(bytes!);
+        Sheet sheetObject = excel[excel.tables.values.first.sheetName];
+        var lengthRow = sheetObject.maxRows;
+        for(int i =1;i<lengthRow;i++){
+          var ten_sinh_vien = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:0,rowIndex: i)).value.toString();
+          var ma_sinh_vien = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:1,rowIndex: i)).value.toString();
+          var email = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:2,rowIndex: i)).value.toString();
+          var ngay_sinh = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:3,rowIndex: i)).value.toString();
+          var gioi_tinh = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:4,rowIndex: i)).value.toString();
+          var khoa = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:5,rowIndex: i)).value.toString();
+          var so_dien_thoai = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:6,rowIndex: i)).value.toString();
+          var cccd = sheetObject.cell(CellIndex.indexByColumnRow(columnIndex:7,rowIndex: i)).value.toString();
+          await apiClient.createUser(ten_sinh_vien, ma_sinh_vien, khoa, ngay_sinh, gioi_tinh, cccd, email, so_dien_thoai);
+          dashBoardController.getUser();
+        }
       }
-    }
       Get.snackbar(
       'Import file excel thành công'
       , '',backgroundColor: succes,

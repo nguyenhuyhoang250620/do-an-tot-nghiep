@@ -883,6 +883,49 @@ class ApiClient {
       print('HoangNH: ${err}');
     });
   }
+// [ '"12huy", "1828384858", "1874802010012222", "1874802010012"' ]
+// ['12huy','1828384858','1874802010012222','1874802010012','18748020100122221']
+  //create config
+    Future<void> createConfig(
+    String magv,
+    String maphong,
+    String madv,
+    String maca,
+    String mahocphan,
+    List<String> masv,
+  ) async{
+    List<String> stringList = [...masv.map((number) => number.toString())];
+    print('HoangNH: $stringList');
+    Map data ={
+      "MaGV" : magv,
+      "MaPhong":maphong,
+      "MaDV":madv,
+      "MaCa":maca,
+      "MaHocPhan":mahocphan,
+      "MaSV":stringList,
+    };
+
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.post(
+        '$baseUrl/create-config',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Thêm mới thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Thêm mới không thành công'
+            , '',backgroundColor: error);
+    }
+  }
 
 
 

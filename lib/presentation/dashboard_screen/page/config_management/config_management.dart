@@ -244,36 +244,95 @@ Widget _deleteItem(Item item) {
     ),
   );
 }
-Widget _view(List<ConfigModel> item,int index){
+Widget viewBuild (List<ConfigModel> item,int index){
   return AlertDialog(
       title: Center(child: Text("Thông tin chi tiết điểm danh")),
       content: Container(
         height: 800,
         width: 800,
         child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CustomRichText(
-                  textLeft: 'Tên ca',
-                  textRight:'${item[index].maca.TenCa}',
+                  textLeft: 'Môn học:',
+                  textRight:' ${item[index].mahocphan.TenHocPhan}',
                 ),
-                Text("$index"),
-                Text("${item[index].maca.SoCa} so ca"),
-                Text("${item[index].maca.ThoiGian} thoi gian"),
-                Text("${item[index].mahocphan.TenHocPhan} ten hoc phan"),
-                Text("${item[index].mahocphan.KiThu} ki thu"),
-                Text("${item[index].mahocphan.TongSoTiet} tong so tiet"),
-                Text("${item[index].mahocphan.SotinChi} so tin chi"),
-                Text("${item[index].maphong.TenPhong} ten phong"),
-                Text("${item[index].maphong.TenMayQuet} ten may quet"),
+                CustomRichText(
+                  textLeft: 'Số tiết:',
+                  textRight:' ${item[index].maca.SoCa}',
+                ),
+                CustomRichText(
+                  textLeft: 'Thời gian:',
+                  textRight:' ${item[index].maca.ThoiGian}',
+                ),
+                CustomRichText(
+                  textLeft: 'Phòng học:',
+                  textRight:' ${item[index].maphong.TenPhong}',
+                ),
+                CustomRichText(
+                  textLeft: 'Số tín chỉ:',
+                  textRight:' ${item[index].mahocphan.SotinChi}',
+                ),
+                CustomRichText(
+                  textLeft: 'Tổng số tiết:',
+                  textRight:' ${item[index].mahocphan.TongSoTiet}',
+                ),
+                Divider(color: darkTextColor),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text("Danh sách sinh viên trong lớp",style: AppStyle.txtInterRegular16,),
+                ),
                 Expanded(
                   flex: 8,
                   child: Container(
+                    padding: EdgeInsets.all(appPadding),
                     height: Get.height,
                     width: Get.width,
                     child: ListView.builder(
                       itemCount: item[index].danhsach.length,
                       itemBuilder: (context, indexs) {
-                        return   Text("${item[index].danhsach[indexs].TenSV}");
+                        return   Container(
+                          margin: EdgeInsets.symmetric(vertical: appPadding),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: darkTextColor),
+                            borderRadius: BorderRadius.circular(8.0)
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: Container(
+                                  padding: EdgeInsets.all(appPadding/2),
+                                  child: item[index].danhsach[indexs].url!.isNotEmpty
+                                  ?Image.network('${item[index].danhsach[indexs].url}',height: 150,)
+                                  :Icon(Icons.person,size: 40,)
+                                ),
+                              ),
+                              Expanded(
+                                flex: 7,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                      CustomRichText(
+                                        textLeft: 'Họ và tên:',
+                                        textRight:' ${item[index].danhsach[indexs].TenSV}',
+                                      ),
+                                      CustomRichText(
+                                        textLeft: 'Mã sinh viên:',
+                                        textRight:' ${item[index].danhsach[indexs].MaSV}',
+                                      ),
+                                      CustomRichText(
+                                        textLeft: 'Khoa:',
+                                        textRight:' ${item[index].danhsach[indexs].Khoa}',
+                                      ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          )
+                        );
                       },),
                   ),
                 ),
@@ -285,8 +344,8 @@ Widget _view(List<ConfigModel> item,int index){
         CustomButtonAlert(
           titileDisable: 'Huỷ',
           titileEnable: 'Xong',
-          onPressedDisable: () => Get.back(),
-          onPressedEnable: () => Get.back(),
+          onPressedDisable: () => Navigator.pop(context),
+          onPressedEnable: () =>Navigator.pop(context),
         )
       ],
     );
@@ -306,13 +365,6 @@ return Scaffold(
         Expanded(
           flex: 2,
           child: CustomWidgetAction(),
-        ),
-        Container(
-          height: 50,
-          width: Get.width,
-          margin: EdgeInsets.all(appPadding*3),
-          color: darkTextColor.withOpacity(0.1),
-          child: Center(child: Text("Danh sách giảng dạy",style: AppStyle.txtInterMedium24,),),
         ),
         Expanded(
           flex: 8,
@@ -401,13 +453,12 @@ return Scaffold(
                                     children: [
                                       IconButton(
                                         onPressed: (){
-                                           print('$index');
-                                          controller.getConfigList.map((element){
-                                            if(element.maGV == controller.getConfigList.value[index].maGV){
-                                                Get.dialog(_view(controller.getConfigList,index));
-                                            }
-                                          }).toList();
-                                          
+                                          // controller.getConfigList.map((element){
+                                          //   if(element.maGV == controller.getConfigList.value[index].maGV){
+                                                
+                                          //   }
+                                          // }).toList();
+                                          Get.dialog(viewBuild(controller.getConfigList,index)); 
                                         },
                                         icon: Icon(Icons.account_box,color: cardA,size: 35,),
                                         tooltip: 'Chi tiết',
