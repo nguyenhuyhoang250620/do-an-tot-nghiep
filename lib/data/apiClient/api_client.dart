@@ -6,6 +6,7 @@ import 'dart:typed_data';
 // ignore: library_prefixes
 import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:dio/dio.dart';
+import 'package:do_an_tot_nghiep/core/utils/authorcation.dart';
 import 'package:do_an_tot_nghiep/data/models/class_models.dart';
 import 'package:do_an_tot_nghiep/data/models/config_models.dart';
 import 'package:do_an_tot_nghiep/data/models/department_models.dart';
@@ -39,9 +40,12 @@ class ApiClient {
 
       // Xử lý kết quả trả về từ API
       if (response.statusCode == 200) {
-        // Lưu token vào local storage hoặc truyền vào trang khác để sử dụng
-        final token = response.data['token'];
-        Get.offAndToNamed(AppRoutes.dashBoardScreen);
+        if(response.data['user']['email']=='admin@gmail.com'){
+          Get.offAndToNamed(AppRoutes.dashBoardScreen);
+        }
+        else{
+          Get.offAndToNamed(AppRoutes.clientScreen);
+        }
         // ...
       } else {
         // Đăng nhập thất bại, xử lý thông báo lỗi hoặc hiển thị form đăng nhập lại

@@ -89,6 +89,14 @@ class DrawerMenu extends StatelessWidget {
                     controller.name_tab.value = quan_ly_ca_hoc;      
                   }),
             DrawerListTile(
+                  color: controller.name_tab.value == quan_ly_thuc_don?ColorConstant.colorBackgroud:bgColor,
+                  title: 'Quản lý thực đơn',
+                  colorText: controller.name_tab.value == quan_ly_thuc_don?ColorConstant.colorBackgroud:textColor,
+                  icon: Icon(Icons.kitchen,color:  controller.name_tab.value == quan_ly_thuc_don?ColorConstant.colorBackgroud:textColor,),
+                  tap: () {
+                    controller.name_tab.value = quan_ly_thuc_don;      
+                  }),
+            DrawerListTile(
                   color:controller.name_tab.value == cau_hinh_he_thong_diem_danh?ColorConstant.colorBackgroud:bgColor,
                   title: 'Cấu hình hệ thống điểm danh',
                   colorText:  controller.name_tab.value == cau_hinh_he_thong_diem_danh?ColorConstant.colorBackgroud:textColor,

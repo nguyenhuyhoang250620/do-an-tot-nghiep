@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../page/class_management/controller/class_controller.dart';
 import '../page/config_management/controller/config_controller.dart';
 import '../page/department_management/controller/department_controller.dart';
+import '../page/food_management/food_management_controller/food_management_controller.dart';
 import '../page/shift_management/controller/shift_controller.dart';
 import '../page/subject_management/controller/subject_controller.dart';
 
@@ -20,5 +21,6 @@ class DashBoardBinding extends Bindings {
     Get.lazyPut(() => ClassController());
     Get.lazyPut(() => ShiftController());
     Get.lazyPut(() => ConfigController());
+    Get.lazyPut(() => FoodManagementController());
   }
 }

@@ -119,7 +119,7 @@ class _MyPaginatedDataTableState extends State<MyPaginatedDataTable> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Expanded(
+                        widget.titleButtonLeft == null?Container():Expanded(
                           child: CustomButtonCommon(
                             icon: Icon(Icons.person_add),
                             title: widget.titleButtonLeft,
@@ -129,7 +129,7 @@ class _MyPaginatedDataTableState extends State<MyPaginatedDataTable> {
                           ),
                         ),
                         SizedBox(width: 10,),
-                        Expanded(
+                        widget.titleButtonBetween == null?Container():Expanded(
                           child: CustomButtonCommon(
                             icon: Icon(Icons.download),
                             title: widget.titleButtonBetween,
@@ -139,7 +139,7 @@ class _MyPaginatedDataTableState extends State<MyPaginatedDataTable> {
                           ),
                         ),
                         SizedBox(width: 10,),
-                        Expanded(
+                        widget.titleButtonRight==null?Container():Expanded(
                           child: CustomButtonCommon(
                             icon: Icon(Icons.upload_outlined),
                             title: widget.titleButtonRight,

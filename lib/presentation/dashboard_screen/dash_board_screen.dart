@@ -8,6 +8,7 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashbo
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/class_management/class_management.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/config_management/config_management.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/department_management/deparment_management.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/food_management/food_management.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/settings/settings_management.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/shift_management/shift_management.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/subject_management/subject_management.dart';
@@ -82,6 +83,14 @@ class DashBoardScreen extends GetWidget<DashBoardController> {
                 return Expanded(
                   flex: 8,
                   child: ShiftManagement(
+                    dashboardController: controller,
+                  )
+                );
+              }
+              else if(controller.name_tab.value == quan_ly_thuc_don){
+                return Expanded(
+                  flex: 8,
+                  child: FoodManagement(
                     dashboardController: controller,
                   )
                 );
