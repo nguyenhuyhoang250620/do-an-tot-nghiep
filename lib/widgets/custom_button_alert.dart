@@ -18,11 +18,11 @@ class CustomButtonAlert extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-          Expanded(
-            flex: 1,
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 150),
+          Container(
+              margin: EdgeInsets.symmetric(horizontal: 10),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -34,14 +34,11 @@ class CustomButtonAlert extends StatelessWidget{
                 child: Text('${titileDisable}',style: AppStyle.txtRobotoRegular16.copyWith(color:bgColor)),
               ),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
+           Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
               ),
-              margin: EdgeInsets.symmetric(horizontal: 150),
+              margin: EdgeInsets.symmetric(horizontal: 10),
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -53,7 +50,6 @@ class CustomButtonAlert extends StatelessWidget{
                 child: Text('${titileEnable}',style: AppStyle.txtRobotoRegular16.copyWith(color: bgColor),),
               ),
             ),
-          )
         ],
       );
   }

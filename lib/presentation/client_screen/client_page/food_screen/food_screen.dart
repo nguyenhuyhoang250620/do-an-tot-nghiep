@@ -24,7 +24,8 @@ class FoodScreen extends GetWidget<FoodController>{
               padding: EdgeInsets.all(appPadding*2),
               margin: EdgeInsets.symmetric(vertical: appPadding,horizontal: appPadding*2),
               decoration: BoxDecoration(
-                border: Border.all(color: darkTextColor)
+                border: Border.all(color: darkTextColor),
+                borderRadius: BorderRadius.circular(8.0)
               ),
               child: Column(
                 children: [
@@ -97,7 +98,8 @@ class FoodScreen extends GetWidget<FoodController>{
               padding: EdgeInsets.all(appPadding),
               margin: EdgeInsets.symmetric(vertical: appPadding,horizontal: appPadding*2),
               decoration: BoxDecoration(
-                border: Border.all(color: darkTextColor)
+                border: Border.all(color: darkTextColor),
+                borderRadius: BorderRadius.circular(8.0)
               ),
               child: Obx(() {
                 if(controller.name_tab.value == mon_an){

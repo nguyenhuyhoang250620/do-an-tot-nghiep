@@ -48,16 +48,6 @@ class ClientController extends GetxController{
       getConfigListMap.value =result.map((person) => person.toJson()).toList();
       getConfigListMap.refresh();
     }
-    else if(options == Khoa.value){
-      var result = element.danhsach.where((product) => product.Khoa!.contains(query)).toList();
-      getConfigListMap.value =result.map((person) => person.toJson()).toList();
-      getConfigListMap.refresh();
-    }
-    else if(options == CCCD.value){
-      var result = element.danhsach.where((product) => product.CCCD!.contains(query)).toList();
-      getConfigListMap.value =result.map((person) => person.toJson()).toList();
-      getConfigListMap.refresh();
-    }
     }).toList();
   }
 

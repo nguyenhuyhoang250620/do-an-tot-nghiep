@@ -9,19 +9,21 @@ import '../../../../widgets/custom_loading.dart';
 import '../../../../widgets/custom_table.dart';
 import '../../../dashboard_screen/constants/constants.dart';
 import '../../../dashboard_screen/page/student_management/widget/env_student.dart';
-import '../../widget/client_source.dart';
+import 'statis_widget/statis_source.dart';
 
 class StatisScreen extends GetWidget<StatisController>{
   final clientController = Get.find<ClientController>();
   final TextEditingController _controller = TextEditingController();
-  RxList<String> listLabel = [TenSV.value,MaSV.value,Khoa.value,CCCD.value].obs;
+  RxList<String> listLabel = [TenSV.value,MaSV.value].obs;
   var selectedOptions = TenSV.value;
   List<DataColumn> columns = [
     DataColumn2(label: buildLabel(TenSV.value)),
     DataColumn2(label: buildLabel(MaSV.value),),
-    DataColumn2(label: buildLabel(Khoa.value)),
-    DataColumn2(label: buildLabel(CCCD.value)),
-    DataColumn2(label: buildLabelActive('Hoạt động')),
+    DataColumn2(label: buildLabel('Điểm chuyên cần')),
+    DataColumn2(label: buildLabel('Điểm giữa kì')),
+    DataColumn2(label: buildLabel('Điểm cuối kì')),
+    DataColumn2(label: buildLabel('Điểm trung bình')),
+    DataColumn2(label: buildLabel('Hoạt động')),
   ];
   @override
   Widget build(BuildContext context) {
@@ -40,28 +42,22 @@ class StatisScreen extends GetWidget<StatisController>{
             onChanged: (p0) {
               clientController.search(_controller.text,selectedOptions);
             },
-            // titleButtonLeft: 'Thêm sinh viên mới',
-            titleButtonRight: 'Import excel',
+            titleButtonLeft: 'Lựa chọn lớp',
             titleButtonBetween: 'Export excel',
+            titleButtonRight: 'Tính trung bình',
             onPressedBetween: () {
               // controller.exportData();
             },
+            iconLeft: 'left',
+            iconRight: 'right',
             onPressedLeft: () {
-              // controller.ten_sinh_vien.text = "";
-              // controller.ma_sinh_vien.text = "";
-              // controller.khoa.text = "";
-              // controller.ngay_sinh.text = "";
-              // controller.gioi_tinh.text = "";
-              // controller.cccd.text = "";
-              // controller.email.text = "";
-              // controller.so_dien_thoai.text = "";
-              // Get.dialog(alertAvt(controller));
+              controller.isEdit.value = false;
             },
             onPressedRight: () {
-              // controller.importFileExcel();
+              controller.averagedFunction('phan_van_tien');
             },
             columns: columns,
-            source: ClientDataTableSource(
+            source: StatisDataTableSource(
             data: clientController.getConfigListMap.value),
             rowsPerPage: 6,
           ):Center(child: CustomLoading(),))
@@ -73,17 +69,6 @@ class StatisScreen extends GetWidget<StatisController>{
 Widget buildLabel(String text) {
   return Container(
     padding: EdgeInsets.only(left: appPadding * 3),
-    alignment: Alignment.centerLeft,
-    child: Text(
-      text,
-      style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),
-      maxLines: 1,
-      overflow: TextOverflow.fade,
-    ),
-  );
-}
-Widget buildLabelActive(String text) {
-  return Container(
     alignment: Alignment.center,
     child: Text(
       text,

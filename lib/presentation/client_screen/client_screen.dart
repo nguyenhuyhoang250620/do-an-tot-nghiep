@@ -5,7 +5,7 @@ import 'package:do_an_tot_nghiep/presentation/client_screen/client_controller/cl
 import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/food_screen/food_screen.dart';
 import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/note_screen/note_screen.dart';
 import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/statis_screen/statis_screen.dart';
-import 'package:do_an_tot_nghiep/presentation/client_screen/widget/client_source.dart';
+import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/statis_screen/statis_widget/statis_source.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/slide_menu.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/student_management/widget/env_student.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_loading.dart';
@@ -30,8 +30,20 @@ class ClientScreen extends GetWidget<ClientController>{
               flex: 1,
               child: Container(
                 margin: EdgeInsets.only(left: 10),
-                alignment: Alignment.topLeft,
-                child: Image.asset('assets/images/top_backgrouds.png')),
+                child: Row(
+                  children: [
+                    Image.asset('assets/images/top_backgrouds.png'),
+                    Expanded(flex: 8,child: Container(),),
+                    Text('Xin chào 👋, Phan Văn Tiến',style: AppStyle.txtInterRegular14,),
+                    Container(
+                      padding: EdgeInsets.all(appPadding*2),
+                      child: TextButton(
+                        onPressed: () {
+                          controller.logout();
+                        },  
+                      child: Text("Đăng xuất",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == don_phieu?darkTextColor:null),))),
+                  ],
+                )),
             ),
             Expanded(
               flex: 1,
@@ -78,14 +90,6 @@ class ClientScreen extends GetWidget<ClientController>{
                       flex: 6,
                       child: Container(),
                     ),
-                    Text('Xin chào 👋, Phan Văn Tiến',style: AppStyle.txtInterRegular14,),
-                    Container(
-                      padding: EdgeInsets.all(appPadding*2),
-                      child: TextButton(
-                        onPressed: () {
-                          controller.logout();
-                        },  
-                      child: Text("Đăng xuất",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == don_phieu?darkTextColor:null),))),
                   ],
                 ),
               ),)

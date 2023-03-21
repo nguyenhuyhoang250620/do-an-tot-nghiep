@@ -31,6 +31,8 @@ class MyPaginatedDataTable extends StatefulWidget {
   final List<String>? items;
   final dynamic value;
   final Function(dynamic)? onChangedlistSelect;
+  final String? iconLeft;
+  final String? iconRight;
 
   const MyPaginatedDataTable({
     Key? key,
@@ -55,7 +57,9 @@ class MyPaginatedDataTable extends StatefulWidget {
     this.value,
     this.onChangedlistSelect,
     this.onPressedBetween,
-    this.titleButtonBetween
+    this.titleButtonBetween,
+    this.iconLeft,
+    this.iconRight
   }) : super(key: key);
 
   @override
@@ -121,7 +125,7 @@ class _MyPaginatedDataTableState extends State<MyPaginatedDataTable> {
                       children: [
                         widget.titleButtonLeft == null?Container():Expanded(
                           child: CustomButtonCommon(
-                            icon: Icon(Icons.person_add),
+                            icon: widget.iconLeft=='left'?Icon(Icons.class_):Icon(Icons.person_add),
                             title: widget.titleButtonLeft,
                             onPressed: widget.onPressedLeft,
                             color: Colors.blueAccent,
@@ -141,7 +145,7 @@ class _MyPaginatedDataTableState extends State<MyPaginatedDataTable> {
                         SizedBox(width: 10,),
                         widget.titleButtonRight==null?Container():Expanded(
                           child: CustomButtonCommon(
-                            icon: Icon(Icons.upload_outlined),
+                            icon: widget.iconRight == 'right'?Icon(Icons.calculate):Icon(Icons.upload_outlined),
                             title: widget.titleButtonRight,
                             onPressed: widget.onPressedRight,
                             color: Colors.blueAccent,

@@ -940,7 +940,7 @@ class ApiClient {
   ) async{
     Map data ={
       "email":'${magv}@gmail.com', 
-      "password":'${magv}@gmail.com',
+      "password":'123456',
     };
 
     String body = json.encode(data);
@@ -964,6 +964,105 @@ class ApiClient {
     }
   }
 
+
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
+    //create point
+  Future<void> createPoint(
+    String ma_giang_vien,
+    String ma_sinh_vien,
+    String diem_chuyen_can,
+    String diem_giua_ki,
+    String diem_cuoi_ki,
+    String diem_trung_binh,
+  ) async{
+    Map data ={
+      "magv" : ma_giang_vien,
+      "masv":ma_sinh_vien,
+      "DiemChuyenCan":diem_chuyen_can,
+      "DiemGiuaKi":diem_giua_ki,
+      "DiemCuoiKi":diem_cuoi_ki,
+      "DiemTrungBinh":diem_trung_binh,
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.post(
+        '$baseUrl/create-point',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Thêm mới thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Thêm mới không thành công'
+            , '',backgroundColor: error);
+    }
+  }
+  //sum avarage
+  Future<void> sumAravage(
+    String ma_giang_vien,
+  ) async{
+    Map data ={
+      "magv" : ma_giang_vien,
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.post(
+        '$baseUrl/sum-avarage',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Thêm mới thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Thêm mới không thành công'
+            , '',backgroundColor: error);
+    }
+  }
+
+  //delete student
+  Future<void> deleteStudent(
+    String ma_giang_vien,
+    String ma_sinh_vien
+  ) async{
+    Map data ={
+      "magv" : ma_giang_vien,
+      "masv":ma_sinh_vien
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.delete(
+        '$baseUrl/delete-student',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Thêm mới thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Thêm mới không thành công'
+            , '',backgroundColor: error);
+    }
+  }
 
 
   ApiClient._internal();
