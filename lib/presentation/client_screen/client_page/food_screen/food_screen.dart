@@ -1,9 +1,9 @@
 import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:do_an_tot_nghiep/presentation/client_screen/client_controller/client_controller.dart';
-import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/food_screen/env.dart';
 import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/food_screen/food_controller/food_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/food_screen/widget/custom_list.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/food_management/env/env.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
@@ -33,7 +33,7 @@ class FoodScreen extends GetWidget<FoodController>{
                     flex: 1,
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text("Menu hôm nay",style: AppStyle.txtInterRegular18.copyWith(fontWeight: FontWeight.bold),)),
+                      child: Text("Thực đơn món ăn",style: AppStyle.txtInterRegular18.copyWith(fontWeight: FontWeight.bold),)),
                   ),
                   Divider(),
                   Expanded(
@@ -45,28 +45,28 @@ class FoodScreen extends GetWidget<FoodController>{
                         children: [
                           InkWell(
                             onTap: () {
-                              controller.name_tab.value = mon_an;
+                              controller.name_tab.value = mon_ans;
                             },
                             child: Container(
                               padding: EdgeInsets.all(appPadding),
                               height: 50,
-                              color: controller.name_tab.value == mon_an?backgroundTitleTable:null,
+                              color: controller.name_tab.value == mon_ans?backgroundTitleTable:null,
                               child: Align(
                                 alignment: Alignment.centerLeft,
-                                child: Text("Món ăn")),
+                                child: Text(mon_ans.value)),
                             ),
                           ),
                           InkWell(
                             onTap: () {
-                              controller.name_tab.value = do_uong;
+                              controller.name_tab.value = nuoc_uong;
                             },
                             child: Container(
                               padding: EdgeInsets.all(appPadding),
                               height: 50,
-                              color: controller.name_tab.value == do_uong?backgroundTitleTable:null,
+                              color: controller.name_tab.value == nuoc_uong?backgroundTitleTable:null,
                               child: Align(
                                 alignment: Alignment.centerLeft,
-                                child: Text("Đồ uống")),
+                                child: Text(nuoc_uong.value)),
                             ),
                           ),
                           InkWell(
@@ -102,20 +102,23 @@ class FoodScreen extends GetWidget<FoodController>{
                 borderRadius: BorderRadius.circular(8.0)
               ),
               child: Obx(() {
-                if(controller.name_tab.value == mon_an){
+                if(controller.name_tab.value == mon_ans){
                   return CustomList(
-                    title: "1",
+                    
+                    data: clientController.getDishList,
                     clientController: clientController,
                   );
                 }
-                else if(controller.name_tab.value == do_uong){
+                else if(controller.name_tab.value == nuoc_uong){
                   return CustomList(
-                    title: "2",
+                  
+                    data: clientController.getDrinksList,
                     clientController: clientController,
                   );
                 }
                 return CustomList(
-                  title: "3",
+                  
+                  data: clientController.getDessertList,
                   clientController: clientController,
                 );
               }),

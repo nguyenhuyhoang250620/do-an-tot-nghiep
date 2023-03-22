@@ -3,21 +3,24 @@ import 'package:do_an_tot_nghiep/presentation/client_screen/client_controller/cl
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../data/models/food_model.dart';
 class CustomList extends StatelessWidget{
 
   CustomList({
-    this.title,
-    this.clientController
+    this.clientController,
+    required this.data
   });
-  final String? title;
   final ClientController? clientController;
+  List<FoodModel> data =[];
   @override
   Widget build(BuildContext context) {
     return Container(
       height: Get.height,
       width: Get.width,
+      color: bgColor,
       child: ListView.builder(
-        itemCount: 5,
+        itemCount: data.length,
         itemBuilder: (context, index) {
           return Container(
             margin: EdgeInsets.all(appPadding),
@@ -34,16 +37,26 @@ class CustomList extends StatelessWidget{
             children: [
               Expanded(
                 flex: 2,
-                child: Image.network('https://cdn.pixabay.com/photo/2015/12/09/17/11/vegetables-1085063__340.jpg')
+                child: data[index].url==null?
+                  Container(
+                    height: Get.height,
+                    width: Get.width,
+                    child: Image.asset('assets/images/image_not_found.png'),
+                  ):
+                  Container(
+                    height: Get.height,
+                    width: Get.width,
+                    child:Image.network('${data[index].url}',height: 150,fit: BoxFit.cover,))
               ),
               Expanded(
                 flex: 6,
                 child: Container(
+                  padding: EdgeInsets.all(appPadding),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Gà rang muối",style: AppStyle.txtInterRegular16.copyWith(fontWeight: FontWeight.bold),),
+                      Text("${data[index].tenMonAn}",style: AppStyle.txtInterRegular16.copyWith(fontWeight: FontWeight.bold),),
                       SizedBox(height: appPadding,),
                       Text("Thành phần:",style: AppStyle.txtInterRegular14,),
                       Expanded(
@@ -60,7 +73,7 @@ class CustomList extends StatelessWidget{
                                       style: AppStyle.txtInterRegular14
                                     ),
                                     TextSpan(
-                                      text: '464 Kcal',
+                                      text: '${data[index].calo}',
                                       style: AppStyle.txtInterRegular12.copyWith(color: darkTextColor)
                                     ),
                                   ],
@@ -75,7 +88,7 @@ class CustomList extends StatelessWidget{
                                       style: AppStyle.txtInterRegular14
                                     ),
                                     TextSpan(
-                                      text: '240g',
+                                      text: '${data[index].khoiLuong}',
                                       style: AppStyle.txtInterRegular12.copyWith(color: darkTextColor)
                                     ),
                                   ],
@@ -90,7 +103,7 @@ class CustomList extends StatelessWidget{
                                       style: AppStyle.txtInterRegular14
                                     ),
                                     TextSpan(
-                                      text: 'Gà, mắm, muối, mì chính,..',
+                                      text: '${data[index].chiTiet}',
                                       style: AppStyle.txtInterRegular12.copyWith(color: darkTextColor)
                                     ),
                                   ],
@@ -133,25 +146,23 @@ class CustomList extends StatelessWidget{
                           SizedBox(width: 1,),
                           TextButton(
                             onPressed: () {
-                              if(index.isEven){
-                                if(clientController!.so_luong.value == 0){
-                                  clientController!.so_luong.value =0;
+                              if(data[index].so_luong!.value == 0){
+                                  data[index].so_luong!.value =0;
                                   }
                                   else{
-                                    clientController!.so_luong.value--;
-                                  } 
-                              }    
+                                    data[index].so_luong!.value--;
+                                  }    
                             },
                             child: Text('-')),
                           SizedBox(width: 1,),
                           Padding(
                             padding: EdgeInsets.only(top: 5),
-                            child: Obx(() => Text('${clientController!.so_luong.value}')),
+                            child: Obx(() => Text('${data[index].so_luong}')),
                           ),
                           SizedBox(width: 1,),
                           TextButton(
                             onPressed: () {
-                               clientController!.so_luong.value++;
+                               data[index].so_luong!.value++;
                             },
                             child: Text('+')),
                         ]),

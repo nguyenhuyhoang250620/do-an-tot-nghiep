@@ -45,7 +45,7 @@ class AnalyticInfoCard extends StatelessWidget {
                 Text(
                   "${content}",
                   style: TextStyle(
-                    color: secondaryColor,
+                    color: white,
                     fontSize: 22,
                     fontWeight: FontWeight.w800,
                   ),
@@ -55,7 +55,7 @@ class AnalyticInfoCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: secondaryColor,
+                    color: white,
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                   ),

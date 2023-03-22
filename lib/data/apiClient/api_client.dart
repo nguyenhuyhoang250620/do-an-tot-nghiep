@@ -10,6 +10,7 @@ import 'package:do_an_tot_nghiep/core/utils/authorcation.dart';
 import 'package:do_an_tot_nghiep/data/models/class_models.dart';
 import 'package:do_an_tot_nghiep/data/models/config_models.dart';
 import 'package:do_an_tot_nghiep/data/models/department_models.dart';
+import 'package:do_an_tot_nghiep/data/models/food_model.dart';
 import 'package:do_an_tot_nghiep/data/models/shift_models.dart';
 import 'package:do_an_tot_nghiep/data/models/subject_models.dart';
 import 'package:do_an_tot_nghiep/data/models/teacher_models.dart';
@@ -729,6 +730,7 @@ class ApiClient {
   Future<void>UpdateAvatar({
     required String masv,
     required String magv,
+    required String ma_mon,
     XFile? files,
   }) async {
     Map<String, dynamic> map = {};
@@ -737,6 +739,9 @@ class ApiClient {
     }
     if(magv!=''){
       map.addAll({"magv": magv});
+    }
+    if(ma_mon!=''){
+      map.addAll({"ma_mon": ma_mon});
     }
     if (files != null && files.length().toString() != '0') {
       Uint8List bytes = await files.readAsBytes();
@@ -1064,6 +1069,129 @@ class ApiClient {
     }
   }
 
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //get food
+  Future<List<FoodModel>> getFood() async {
+    return await dio.get('$baseUrl/get-food',)
+      .then((response) {
+      List<FoodModel> foodList = [];
+      if (response.statusCode == 201) {
+        for (var item in response.data) {
+          foodList.add(FoodModel.fromJson(item));
+        }
+      }
+      return foodList;
+    }).catchError((err) {
+      print('HoangNH: ${err}');
+    });
+  }
+    //create department
+  Future<void> createFood(
+    String ma_mon,
+    String ten_mon_an,
+    String calo,
+    String khoi_luong,
+    String chi_tiet,
+    String hinh_anh,
+    String type,
+  ) async{
+    Map data ={
+      "ma_mon":ma_mon,
+      "ten_mon_an":ten_mon_an,
+      "calo":calo, 
+      "khoi_luong":khoi_luong,
+      "chi_tiet":chi_tiet,
+      "hinh_anh":hinh_anh,
+      "type":type
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.post(
+        '$baseUrl/create-food',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Thêm mới thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Thêm mới không thành công'
+            , '',backgroundColor: error);
+    }
+  }
+  Future<void> updateFood(
+    String ma_mon,
+    String ten_mon_an,
+    String calo,
+    String khoi_luong,
+    String chi_tiet,
+    String type,
+  ) async{
+    Map data ={
+      "ma_mon":ma_mon,
+      "ten_mon_an":ten_mon_an,
+      "calo":calo, 
+      "khoi_luong":khoi_luong,
+      "chi_tiet":chi_tiet,
+      "type":type
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.patch(
+        '$baseUrl/update-food',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Thêm mới thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Thêm mới không thành công'
+            , '',backgroundColor: error);
+    }
+  }
+
+
+
+  //xoa food
+   Future<void> deleteFood(String ma_mon) async {
+      Map data ={
+      "ma_mon":ma_mon, 
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.delete(
+        '$baseUrl/delete-food',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Xoá thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Xoá không thành công'
+            , '',backgroundColor: error);
+    }
+
+  }
 
   ApiClient._internal();
 }

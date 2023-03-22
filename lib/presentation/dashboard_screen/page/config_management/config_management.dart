@@ -366,171 +366,194 @@ return Scaffold(
           flex: 2,
           child: CustomWidgetAction(),
         ),
+        // Container(
+        //   padding: EdgeInsets.symmetric(horizontal: appPadding*2),
+        //   child: Card(
+        //     elevation: 4.0,
+        //     child: Container(
+        //       height: 50,
+        //       child: Center(child: Text("Danh sách lớp học",style: AppStyle.txtInterRegular18,)),
+        //     ),
+        //   ),
+        // ),
         Expanded(
           flex: 8,
-          child: Obx(() => Container(
+          child: Container(
             height: Get.height,
             width: Get.width,
             padding: EdgeInsets.all(appPadding*3),
-            child: GridView.builder(
-              itemCount: controller.getConfigList.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  mainAxisExtent: 450,
-                  mainAxisSpacing: 10.0,
-                  crossAxisSpacing: 10.0,
-                  childAspectRatio: 1
-                  ),
-                  itemBuilder: (context, index) {
-                      final item = items[index];
-                      return Container(
-                        margin: EdgeInsets.all(appPadding),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: bgColor,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.8),
-                              spreadRadius: 2,
-                              blurRadius: 2,
-                              offset: Offset(0, 2), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Stack(
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: Container(decoration: BoxDecoration(color: cardD,borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0),topRight: Radius.circular(8.0)),),),
-                                ),
-                                Expanded(
-                                  flex: 6,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(height: 30.0),
-                                      Text(controller.getConfigList.value[index].tenGV,style: AppStyle.txtInterMedium24,),
-                                      SizedBox(height: 15.0),
-                                      CustomWidgetRow(
-                                        left: Icon(Icons.email),
-                                        right: Text(controller.getConfigList.value[index].email),
-                                        distance: 15,
-                                        paddingLeft: appPadding*4,
-                                      ),
-                                      SizedBox(height: 15.0),
-                                      CustomWidgetRow(
-                                        left: Icon(Icons.qr_code_2),
-                                        right: Text(controller.getConfigList.value[index].maGV),
-                                        distance: 15,
-                                        paddingLeft: appPadding*4,
-                                      ),
-                                      SizedBox(height: 15.0),
-                                      CustomWidgetRow(
-                                        left: Icon(Icons.phone),
-                                        right: Text(controller.getConfigList.value[index].soDT),
-                                        distance: 15,
-                                        paddingLeft: appPadding*4,
-                                      ),
-                                      SizedBox(height: 15.0),
-                                      CustomWidgetRow(
-                                        left: Icon(Icons.subject),
-                                        right: Text(controller.getConfigList.value[index].chuyenNganh),
-                                        distance: 15,
-                                        paddingLeft: appPadding*4,
-                                      ),
-                                    ],
+            child: Scaffold(
+              appBar: AppBar(
+                backgroundColor: bgColor,
+                elevation: 3.0,
+                toolbarHeight: 40,
+                title: Text("Danh sách lớp học",style: AppStyle.txtInterMedium20,),
+              ),
+              body: Obx(() => Container(
+              height: Get.height,
+              width: Get.width,
+              padding: EdgeInsets.symmetric(horizontal:appPadding*3),
+              child: GridView.builder(
+                itemCount: controller.getConfigList.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                    mainAxisExtent: 450,
+                    mainAxisSpacing: 10.0,
+                    crossAxisSpacing: 10.0,
+                    childAspectRatio: 1
+                    ),
+                    itemBuilder: (context, index) {
+                        final item = items[index];
+                        return Container(
+                          margin: EdgeInsets.all(appPadding),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: bgColor,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.8),
+                                spreadRadius: 2,
+                                blurRadius: 2,
+                                offset: Offset(0, 2), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Stack(
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Container(decoration: BoxDecoration(color: cardD,borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0),topRight: Radius.circular(8.0)),),),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      IconButton(
-                                        onPressed: (){
-                                          // controller.getConfigList.map((element){
-                                          //   if(element.maGV == controller.getConfigList.value[index].maGV){
-                                                
-                                          //   }
-                                          // }).toList();
-                                          Get.dialog(viewBuild(controller.getConfigList,index)); 
-                                        },
-                                        icon: Icon(Icons.account_box,color: cardA,size: 35,),
-                                        tooltip: 'Chi tiết',
-                                      ),
-                                      IconButton(
-                                        onPressed: () =>Get.dialog(_deleteItem(item)),
-                                        icon: Icon(Icons.delete,color: cardC,size: 35),
-                                        tooltip: 'Xoá',
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                    
-                                        },
-                                        icon: Icon(Icons.check_box,color: orange,size: 35),
-                                        tooltip: 'Cấp quyền',
-                                      ),
-                                    ],
-                                  )
-                                ),
-                            ],),
-                            Positioned(
-                              left: 100,
-                              right: 100,
-                              top: 12,
-                              child: Container(
-                                padding: EdgeInsets.all(3),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: bgColor
-                                ),
-                                child: controller.getConfigList.value[index].url!=''?Container(
-                                  // width: 100,
-                                  height: 110,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image:DecorationImage(
-                                      fit: BoxFit.cover,
-                                      onError: (exception, stackTrace) => Icon(
-                                        Icons.person,
-                                        color: darkTextColor,
-                                        size: 40,
-                                      ),
-                                      image: NetworkImage(
-                                        controller.getConfigList.value[index].url,
-                                      ),
+                                  Expanded(
+                                    flex: 6,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(height: 30.0),
+                                        Text(controller.getConfigList.value[index].tenGV,style: AppStyle.txtInterMedium24,),
+                                        SizedBox(height: 15.0),
+                                        CustomWidgetRow(
+                                          left: Icon(Icons.email),
+                                          right: Text(controller.getConfigList.value[index].email),
+                                          distance: 15,
+                                          paddingLeft: appPadding*4,
+                                        ),
+                                        SizedBox(height: 15.0),
+                                        CustomWidgetRow(
+                                          left: Icon(Icons.qr_code_2),
+                                          right: Text(controller.getConfigList.value[index].maGV),
+                                          distance: 15,
+                                          paddingLeft: appPadding*4,
+                                        ),
+                                        SizedBox(height: 15.0),
+                                        CustomWidgetRow(
+                                          left: Icon(Icons.phone),
+                                          right: Text(controller.getConfigList.value[index].soDT),
+                                          distance: 15,
+                                          paddingLeft: appPadding*4,
+                                        ),
+                                        SizedBox(height: 15.0),
+                                        CustomWidgetRow(
+                                          left: Icon(Icons.subject),
+                                          right: Text(controller.getConfigList.value[index].chuyenNganh),
+                                          distance: 15,
+                                          paddingLeft: appPadding*4,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        IconButton(
+                                          onPressed: (){
+                                            // controller.getConfigList.map((element){
+                                            //   if(element.maGV == controller.getConfigList.value[index].maGV){
+                                                  
+                                            //   }
+                                            // }).toList();
+                                            Get.dialog(viewBuild(controller.getConfigList,index)); 
+                                          },
+                                          icon: Icon(Icons.account_box,color: cardA,size: 35,),
+                                          tooltip: 'Chi tiết',
+                                        ),
+                                        IconButton(
+                                          onPressed: () =>Get.dialog(_deleteItem(item)),
+                                          icon: Icon(Icons.delete,color: cardC,size: 35),
+                                          tooltip: 'Xoá',
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                      
+                                          },
+                                          icon: Icon(Icons.check_box,color: orange,size: 35),
+                                          tooltip: 'Cấp quyền',
+                                        ),
+                                      ],
                                     )
                                   ),
-                                ):Container(
-                                  height: 100,
-                                  child: Icon(
-                                    Icons.person,
-                                    color: darkTextColor,
-                                    size: 60,
+                              ],),
+                              Positioned(
+                                left: 100,
+                                right: 100,
+                                top: 12,
+                                child: Container(
+                                  padding: EdgeInsets.all(3),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: bgColor
                                   ),
-                                )
+                                  child: controller.getConfigList.value[index].url!=''?Container(
+                                    // width: 100,
+                                    height: 110,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image:DecorationImage(
+                                        fit: BoxFit.cover,
+                                        onError: (exception, stackTrace) => Icon(
+                                          Icons.person,
+                                          color: darkTextColor,
+                                          size: 40,
+                                        ),
+                                        image: NetworkImage(
+                                          controller.getConfigList.value[index].url,
+                                        ),
+                                      )
+                                    ),
+                                  ):Container(
+                                    height: 100,
+                                    child: Icon(
+                                      Icons.person,
+                                      color: darkTextColor,
+                                      size: 60,
+                                    ),
+                                  )
+                                ),
                               ),
-                            ),
-                          ],
-                        )
-                    );
-              },
+                            ],
+                          )
+                      );
+                },
+              ),
+            ),),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => Get.dialog(_addNewItem()),
+              child: Icon(Icons.add),
+              tooltip: 'Thêm cấu hình mới',
             ),
-          ),)
+            ),
+          )
         )
       ],
     ),
-  ),
-  floatingActionButton: FloatingActionButton(
-    onPressed: () => Get.dialog(_addNewItem()),
-    child: Icon(Icons.add),
-    tooltip: 'Thêm cấu hình mới',
-  ));  
+  ),);  
   }
 }
 DropdownMenuItem _childDropDownItem(String title,String value) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // Colors used in this app
 const primaryColor = Color.fromRGBO(17, 159, 250, 1);
-const secondaryColor = Colors.white;
+const white = Colors.white;
 const bgColor = Color.fromRGBO(247, 251, 254, 1);
 const textColor = Colors.grey;
 final backgroundTitleTable = Colors.grey.withOpacity(0.2);

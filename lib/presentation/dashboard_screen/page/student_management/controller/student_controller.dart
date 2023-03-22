@@ -113,7 +113,7 @@ class StudentController extends GetxController {
   }
   //upload avarta
   Future<void> uploadAvatar(String masv,XFile? files,) async{
-    await apiClient.UpdateAvatar(masv: masv,files: files,magv: '');
+    await apiClient.UpdateAvatar(masv: masv,files: files,magv: '',ma_mon: '');
     dashBoardController.getUser();
   }
 

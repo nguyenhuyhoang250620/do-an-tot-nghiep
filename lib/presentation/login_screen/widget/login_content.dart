@@ -36,10 +36,8 @@ class _LoginContentState extends State<LoginContent> {
           image: DecorationImage(
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
-                bgColor.withOpacity(0.8), BlendMode.dstATop),
-            image: const NetworkImage(
-              'https://images.pexels.com/photos/2246476/pexels-photo-2246476.jpeg?auto=compress&cs=tinysrgb&w=1600',
-            ),
+                bgColor, BlendMode.dstATop),
+            image: AssetImage("assets/images/school.jpeg"),
           ),
         ),
         child: Center(
@@ -49,7 +47,7 @@ class _LoginContentState extends State<LoginContent> {
               children: [
                 Card(
                   elevation: 5,
-                  color:darkTextColor.withOpacity(0.5),
+                  color:bgColor.withOpacity(0.9),
                   child: Container(
                     width: 400,
                     padding: const EdgeInsets.all(40.0),
@@ -61,14 +59,14 @@ class _LoginContentState extends State<LoginContent> {
                       children: [
                         FadeAnimation(
                           delay: 0.8,
-                          child: Image.asset("assets/images/logo_drawer_top.png")
+                          child: Image.asset("assets/images/logo_naem.png",width: 100,)
                         ),
                         FadeAnimation(
                           delay: 1,
                           child: const Text(
                             "Vui lòng đăng nhập để tiếp tục",
                             style: TextStyle(
-                                color: bgColor, letterSpacing: 0.5),
+                                color: darkTextColor, letterSpacing: 0.5),
                           ),
                         ),
                         const SizedBox(
@@ -85,7 +83,6 @@ class _LoginContentState extends State<LoginContent> {
                                   ? enabled
                                   : backgroundColor,
                             ),
-                            padding: const EdgeInsets.all(5.0),
                             child: TextField(
                               controller: widget.loginController!.emailController,
                               onTap: () {
@@ -133,7 +130,6 @@ class _LoginContentState extends State<LoginContent> {
                                 color: selected == FormData.password
                                     ? enabled
                                     : backgroundColor),
-                            padding: const EdgeInsets.all(5.0),
                             child: TextField(
                               controller: widget.loginController!.passwordController,
                               onTap: () {
@@ -206,7 +202,7 @@ class _LoginContentState extends State<LoginContent> {
                                 ),
                               ),
                               style: TextButton.styleFrom(
-                                  backgroundColor: Color(0xFF2697FF),
+                                  backgroundColor: blue,
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 20.0, horizontal: 80),
                                   shape: RoundedRectangleBorder(
@@ -226,7 +222,7 @@ class _LoginContentState extends State<LoginContent> {
                               }),
                               child: Text("Quên mật khẩu?",
                                   style: TextStyle(
-                                    color: bgColor,
+                                    color: darkTextColor,
                                     letterSpacing: 0.5,
                                   )),
                             ),

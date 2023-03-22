@@ -49,7 +49,7 @@ class CustomWidgetActionState extends State<CustomWidgetAction>{
                 margin: EdgeInsets.all(appPadding),
                 child: Obx(() => AnalyticInfoCard(
                   content: controller.sum_student.value,
-                  icon:Icon(Icons.people,size: 80,color: secondaryColor,),
+                  icon:Icon(Icons.people,size: 80,color: white,),
                   title: 'Tổng số sinh viên',
                   colors: cardA,
                 ),)
@@ -63,7 +63,7 @@ class CustomWidgetActionState extends State<CustomWidgetAction>{
                 margin: EdgeInsets.all(appPadding),
                 child: Obx(() => AnalyticInfoCard(
                   content: controller.sum_teacher.value,
-                  icon:Icon(Icons.person,size: 80,color: secondaryColor,),
+                  icon:Icon(Icons.person,size: 80,color: white,),
                   title: 'Tổng số giảng viên',
                   colors: cardB,
                 ),)
@@ -77,7 +77,7 @@ class CustomWidgetActionState extends State<CustomWidgetAction>{
                 margin: EdgeInsets.all(appPadding),
                 child: Obx(() => AnalyticInfoCard(
                   content: controller.sum_department.value,
-                  icon:Icon(Icons.class_,size: 80,color: secondaryColor,),
+                  icon:Icon(Icons.class_,size: 80,color: white,),
                   title: 'Tổng số phòng ban',
                   colors: cardC,
                 ),)
@@ -91,7 +91,7 @@ class CustomWidgetActionState extends State<CustomWidgetAction>{
                 margin: EdgeInsets.all(appPadding),
                 child: Obx(() => AnalyticInfoCard(
                   content: controller.sum_class.value,
-                  icon:Icon(Icons.door_back_door,size: 80,color: secondaryColor,),
+                  icon:Icon(Icons.door_back_door,size: 80,color: white,),
                   title: 'Tổng số lớp học',
                   colors: cardD,
                 )),

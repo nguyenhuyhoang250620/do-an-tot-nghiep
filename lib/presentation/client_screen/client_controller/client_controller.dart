@@ -3,7 +3,10 @@ import 'package:do_an_tot_nghiep/data/apiClient/api_client.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/slide_menu.dart';
 
 import '../../../data/models/config_models.dart';
+import '../../../data/models/food_model.dart';
+import '../../dashboard_screen/page/food_management/env/env.dart';
 import '../../dashboard_screen/page/student_management/widget/env_student.dart';
+
 
 class ClientController extends GetxController{
 
@@ -14,10 +17,16 @@ class ClientController extends GetxController{
   var isLoadingConfig= false.obs;
   RxList<ConfigModel> getConfigList = <ConfigModel>[].obs;
   RxList<Map<String, dynamic>> getConfigListMap = <Map<String, dynamic>>[].obs;
+  RxList<FoodModel> getDishList = <FoodModel>[].obs;
+
+  RxList<FoodModel> getDrinksList = <FoodModel>[].obs;
+
+  RxList<FoodModel> getDessertList = <FoodModel>[].obs;
 
   @override
   void onInit() {
     getConfig();
+    getFood();
     super.onInit();
   }
 
@@ -53,5 +62,60 @@ class ClientController extends GetxController{
 
   Future<void> logout() async{
    await apiClient.logout();
+  }
+
+  Future<void> getFood() async {
+    getDishList.clear();
+    getDrinksList.clear();
+    getDessertList.clear();
+    List<FoodModel> dataGet = [];
+    await apiClient.getFood().then((value) {
+      dataGet = value;
+    }).whenComplete(() {
+      dataGet.forEach((e){
+        if(e.type == mon_ans.value){
+          FoodModel model = FoodModel(
+            id: e.id, 
+            maMon: e.maMon, 
+            khoiLuong: e.khoiLuong, 
+            chiTiet: e.chiTiet, 
+            tenMonAn: e.tenMonAn, 
+            type: e.type, 
+            calo: e.calo,
+            url: e.url,
+            so_luong: 0.obs
+          );
+          getDishList.add(model);
+        }
+        else if(e.type == nuoc_uong.value){
+          FoodModel model = FoodModel(
+            id: e.id, 
+            maMon: e.maMon, 
+            khoiLuong: e.khoiLuong, 
+            chiTiet: e.chiTiet, 
+            tenMonAn: e.tenMonAn, 
+            type: e.type, 
+            calo: e.calo,
+            url: e.url,
+            so_luong: 0.obs
+          );
+          getDrinksList.add(model);
+        }
+        else{
+          FoodModel model = FoodModel(
+            id: e.id, 
+            maMon: e.maMon, 
+            khoiLuong: e.khoiLuong, 
+            chiTiet: e.chiTiet, 
+            tenMonAn: e.tenMonAn, 
+            type: e.type, 
+            calo: e.calo,
+            url: e.url,
+            so_luong: 0.obs
+          );
+          getDessertList.add(model);
+        }
+      });
+    });
   }
 }

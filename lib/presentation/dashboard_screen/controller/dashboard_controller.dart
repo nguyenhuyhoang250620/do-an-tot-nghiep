@@ -6,9 +6,11 @@ import 'package:do_an_tot_nghiep/data/models/subject_models.dart';
 import 'package:do_an_tot_nghiep/data/models/teacher_models.dart';
 import 'package:do_an_tot_nghiep/data/models/user_models.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/slide_menu.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/food_management/env/env.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../data/models/food_model.dart';
 import '../../../data/models/shift_models.dart';
 import '/core/app_export.dart';
 
@@ -50,6 +52,12 @@ class DashBoardController extends GetxController {
 
   RxList<ConfigModel> getConfigList = <ConfigModel>[].obs;
 
+  RxList<FoodModel> getDishList = <FoodModel>[].obs;
+
+  RxList<FoodModel> getDrinksList = <FoodModel>[].obs;
+
+  RxList<FoodModel> getDessertList = <FoodModel>[].obs;
+
 
 
   List<String> listGioiTinh = ['Nam', 'Nữ', 'Khác', 'Chọn'];
@@ -63,6 +71,7 @@ class DashBoardController extends GetxController {
     getClass();
     getShift();
     getConfig();
+    getFood();
     super.onInit();
   }
 
@@ -255,6 +264,60 @@ class DashBoardController extends GetxController {
       dataGet = value;
     }).whenComplete(() {
       getConfigList.value = dataGet;
+    });
+  }
+
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //get thuc don
+  Future<void> getFood() async {
+    getDishList.clear();
+    getDrinksList.clear();
+    getDessertList.clear();
+    List<FoodModel> dataGet = [];
+    await apiClient.getFood().then((value) {
+      dataGet = value;
+    }).whenComplete(() {
+      dataGet.forEach((e){
+        if(e.type == mon_ans.value){
+          FoodModel model = FoodModel(
+            id: e.id, 
+            maMon: e.maMon, 
+            khoiLuong: e.khoiLuong, 
+            chiTiet: e.chiTiet, 
+            tenMonAn: e.tenMonAn, 
+            type: e.type, 
+            calo: e.calo,
+            url: e.url
+          );
+          getDishList.add(model);
+        }
+        else if(e.type == nuoc_uong.value){
+          FoodModel model = FoodModel(
+            id: e.id, 
+            maMon: e.maMon, 
+            khoiLuong: e.khoiLuong, 
+            chiTiet: e.chiTiet, 
+            tenMonAn: e.tenMonAn, 
+            type: e.type, 
+            calo: e.calo,
+            url: e.url
+          );
+          getDrinksList.add(model);
+        }
+        else{
+          FoodModel model = FoodModel(
+            id: e.id, 
+            maMon: e.maMon, 
+            khoiLuong: e.khoiLuong, 
+            chiTiet: e.chiTiet, 
+            tenMonAn: e.tenMonAn, 
+            type: e.type, 
+            calo: e.calo,
+            url: e.url
+          );
+          getDessertList.add(model);
+        }
+      });
     });
   }
 }

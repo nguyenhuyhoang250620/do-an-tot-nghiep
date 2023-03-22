@@ -14,7 +14,7 @@ class ViewLineChart extends StatefulWidget {
 class _ViewLineChartState extends State<ViewLineChart> {
   List<Color> gradientColors = [
     primaryColor,
-    secondaryColor,
+    white,
   ];
 
   @override

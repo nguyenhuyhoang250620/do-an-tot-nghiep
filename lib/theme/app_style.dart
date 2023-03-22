@@ -86,7 +86,7 @@ class AppStyle {
       24,
     ),
     fontFamily: 'Inter',
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.bold,
   );
 
   static TextStyle txtInterRegular14 = TextStyle(

@@ -17,6 +17,16 @@ import '../../theme/app_style.dart';
 import '../dashboard_screen/constants/constants.dart';
 import 'client_page/home_screen/home_screen.dart';
 
+        // Container(
+        //   height: Get.height,
+        //   width: Get.width,
+        //   decoration: BoxDecoration(
+        //     image: DecorationImage(
+        //       image: AssetImage("assets/images/banner.jpeg")
+        //     )
+        //   ),
+        // ),
+
 class ClientScreen extends GetWidget<ClientController>{
   @override
   Widget build(BuildContext context) {
@@ -48,66 +58,77 @@ class ClientScreen extends GetWidget<ClientController>{
             Expanded(
               flex: 1,
               child: Obx(() => Container(
-                height: Get.height,
-                width: Get.width,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Center(child: Text("𝕬𝖙𝖙𝖊𝖓𝖉𝖆𝖓𝖈𝖊",style: AppStyle.txtInterMedium24.copyWith(color: blue),)),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(appPadding*2),
-                      child: TextButton(
-                        onPressed: () {
-                          controller.name_menu.value = trang_chu;
-                        },
-                        child: Text("Trang chủ",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == trang_chu?darkTextColor:null),))),
-                    Container(
-                      padding: EdgeInsets.all(appPadding*2),
-                      child: TextButton(
-                        onPressed: () {
-                          controller.name_menu.value = thong_ke;
-                        },
-                        child: Text("Thống kê",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == thong_ke?darkTextColor:null),))),
-                    Container(
-                      padding: EdgeInsets.all(appPadding*2),
-                      child: TextButton(
-                        onPressed: () {
-                          controller.name_menu.value = am_thuc;
-                        },
-                        child: Text("Ẩm thực",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == am_thuc?darkTextColor:null),))),
-                    Container(
-                      padding: EdgeInsets.all(appPadding*2),
-                      child: TextButton(
-                        onPressed: () {
-                          controller.name_menu.value = don_phieu;
-                        },  
-                        child: Text("Đơn phiếu",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == don_phieu?darkTextColor:null),))),
-                    Expanded(
-                      flex: 6,
-                      child: Container(),
-                    ),
-                  ],
+                padding: EdgeInsets.symmetric(horizontal: appPadding,vertical: appPadding/2),
+                child: Card(
+                  // height: Get.height,
+                  // width: Get.width,
+                  // decoration: BoxDecoration(
+                  //   color: bgColor,
+                  //   border: Border(top: BorderSide(color: darkTextColor.withOpacity(0.2)))
+                  // ),
+                  elevation: 4.0,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Center(child: Text("𝕬𝖙𝖙𝖊𝖓𝖉𝖆𝖓𝖈𝖊",style: AppStyle.txtInterMedium24.copyWith(color: blue),)),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(appPadding*2),
+                        child: TextButton(
+                          onPressed: () {
+                            controller.name_menu.value = trang_chu;
+                          },
+                          child: Text("Trang chủ",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == trang_chu?darkTextColor:null),))),
+                      Container(
+                        padding: EdgeInsets.all(appPadding*2),
+                        child: TextButton(
+                          onPressed: () {
+                            controller.name_menu.value = thong_ke;
+                          },
+                          child: Text("Quản lý",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == thong_ke?darkTextColor:null),))),
+                      Container(
+                        padding: EdgeInsets.all(appPadding*2),
+                        child: TextButton(
+                          onPressed: () {
+                            controller.name_menu.value = am_thuc;
+                          },
+                          child: Text("Ẩm thực",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == am_thuc?darkTextColor:null),))),
+                      Container(
+                        padding: EdgeInsets.all(appPadding*2),
+                        child: TextButton(
+                          onPressed: () {
+                            controller.name_menu.value = don_phieu;
+                          },  
+                          child: Text("Đơn phiếu",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == don_phieu?darkTextColor:null),))),
+                      Expanded(
+                        flex: 6,
+                        child: Container(),
+                      ),
+                    ],
+                  ),
                 ),
               ),)
             ),
             Expanded(
-              flex: 7,
-              child: Obx(() {
-                if(controller.name_menu.value == trang_chu){
-                  return HomeScreen();
-                }
-                else if(controller.name_menu.value == thong_ke){
-                  return StatisScreen();
-                }
-                else if(controller.name_menu.value == am_thuc){
-                  return FoodScreen();
-                }
-                return NoteScreen();
-              },)
+              flex: 8,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: appPadding,vertical: appPadding/2),
+                child: Obx(() {
+                  if(controller.name_menu.value == trang_chu){
+                    return HomeScreen();
+                  }
+                  else if(controller.name_menu.value == thong_ke){
+                    return StatisScreen();
+                  }
+                  else if(controller.name_menu.value == am_thuc){
+                    return FoodScreen();
+                  }
+                  return NoteScreen();
+                },),
+              )
             )
           ],
         ),
