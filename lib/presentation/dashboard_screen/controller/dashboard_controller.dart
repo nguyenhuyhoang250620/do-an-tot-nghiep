@@ -2,6 +2,7 @@ import 'package:do_an_tot_nghiep/data/apiClient/api_client.dart';
 import 'package:do_an_tot_nghiep/data/models/class_models.dart';
 import 'package:do_an_tot_nghiep/data/models/config_models.dart';
 import 'package:do_an_tot_nghiep/data/models/department_models.dart';
+import 'package:do_an_tot_nghiep/data/models/order_food.dart';
 import 'package:do_an_tot_nghiep/data/models/subject_models.dart';
 import 'package:do_an_tot_nghiep/data/models/teacher_models.dart';
 import 'package:do_an_tot_nghiep/data/models/user_models.dart';
@@ -58,6 +59,8 @@ class DashBoardController extends GetxController {
 
   RxList<FoodModel> getDessertList = <FoodModel>[].obs;
 
+  RxList<orderFoodModel> getOrderFoodList = <orderFoodModel>[].obs;
+
 
 
   List<String> listGioiTinh = ['Nam', 'Nữ', 'Khác', 'Chọn'];
@@ -72,6 +75,7 @@ class DashBoardController extends GetxController {
     getShift();
     getConfig();
     getFood();
+    getOrderFood();
     super.onInit();
   }
 
@@ -320,4 +324,15 @@ class DashBoardController extends GetxController {
       });
     });
   }
+
+   // get orderfood
+  Future<void> getOrderFood() async {
+   List<orderFoodModel> dataGet = [];
+    await apiClient.getOrderfood().then((value) {
+      dataGet = value;
+    }).whenComplete(() {
+      getOrderFoodList.value = dataGet;
+    });
+  }
+
 }

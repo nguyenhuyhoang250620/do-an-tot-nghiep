@@ -8,6 +8,7 @@
   final quan_ly_thuc_don = 'quan_ly_thuc_don';
   final quan_ly_tin_chi = 'quan_ly_tin_chi';
   final cau_hinh_he_thong_diem_danh = 'cau_hinh_he_thong_diem_danh';
+  final order_food = 'order_food';
   final settings = 'settings';
 
   // định danh menu

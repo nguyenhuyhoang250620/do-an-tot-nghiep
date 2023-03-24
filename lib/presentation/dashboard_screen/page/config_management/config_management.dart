@@ -131,6 +131,11 @@ class ConfigState extends State<ConfigManagement>{
                     items: controller.getSubjectList.map((e) => _childDropDownItem(e.TenHocPhan!,e.MaHocPhan!)).toList(),
                     onChangedlistSelect: (p0) {
                       configController.ma_hoc_phan.value = p0 as String;
+                      controller.getSubjectList.map((element){
+                        if(element.MaHocPhan == configController.ma_hoc_phan.value ){
+                          configController.ten_hoc_phan.value = element.TenHocPhan!;
+                        }
+                      }).toList();
                     },
                   ),
                 ),
@@ -210,13 +215,21 @@ class ConfigState extends State<ConfigManagement>{
                   configController.ma_giang_vien.value,
                   configController.ma_giang_vien.value,
                 );
+                configController.createAttendance(
+                  configController.ma_giang_vien.value,
+                   configController.ma_hoc_phan.value,
+                   configController.ma_phong_hoc.value, 
+                   [],
+                  configController.ten_hoc_phan.value, 
+                   );
+                configController.danh_sach_sinh_vien.clear();
                 Get.back();
               },
           )
         ],
       );
   }
-Widget _deleteItem(Item item) {
+Widget _deleteItem() {
   return Container(
     height: 100,
     width: 100,
@@ -234,9 +247,7 @@ Widget _deleteItem(Item item) {
           titileEnable: 'Đồng ý',
           onPressedDisable: () => Get.back(),
           onPressedEnable: () {
-            setState(() {
-              items.removeWhere((element) => element.id == item.id);
-            });
+
             Get.back();
           },
         )
@@ -389,7 +400,7 @@ return Scaffold(
                 toolbarHeight: 40,
                 title: Text("Danh sách lớp học",style: AppStyle.txtInterMedium20,),
               ),
-              body: Obx(() => Container(
+              body: Obx(() => controller.getConfigList.isNotEmpty?Container(
               height: Get.height,
               width: Get.width,
               padding: EdgeInsets.symmetric(horizontal:appPadding*3),
@@ -403,7 +414,7 @@ return Scaffold(
                     childAspectRatio: 1
                     ),
                     itemBuilder: (context, index) {
-                        final item = items[index];
+                        final item = controller.getConfigList[index];
                         return Container(
                           margin: EdgeInsets.all(appPadding),
                           decoration: BoxDecoration(
@@ -434,7 +445,14 @@ return Scaffold(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         SizedBox(height: 30.0),
-                                        Text(controller.getConfigList.value[index].tenGV,style: AppStyle.txtInterMedium24,),
+                                        Text(controller.getConfigList.value[index].mahocphan.TenHocPhan!,style: AppStyle.txtInterMedium24,),
+                                        // SizedBox(height: 15.0),
+                                        // CustomWidgetRow(
+                                        //   left: Icon(Icons.person),
+                                        //   right: Text(controller.getConfigList.value[index].tenGV),
+                                        //   distance: 15,
+                                        //   paddingLeft: appPadding*4,
+                                        // ),
                                         SizedBox(height: 15.0),
                                         CustomWidgetRow(
                                           left: Icon(Icons.email),
@@ -458,8 +476,8 @@ return Scaffold(
                                         ),
                                         SizedBox(height: 15.0),
                                         CustomWidgetRow(
-                                          left: Icon(Icons.subject),
-                                          right: Text(controller.getConfigList.value[index].chuyenNganh),
+                                          left: Icon(Icons.class_),
+                                          right: Text(controller.getConfigList.value[index].maphong.TenPhong!),
                                           distance: 15,
                                           paddingLeft: appPadding*4,
                                         ),
@@ -485,7 +503,7 @@ return Scaffold(
                                           tooltip: 'Chi tiết',
                                         ),
                                         IconButton(
-                                          onPressed: () =>Get.dialog(_deleteItem(item)),
+                                          onPressed: () =>Get.dialog(_deleteItem()),
                                           icon: Icon(Icons.delete,color: cardC,size: 35),
                                           tooltip: 'Xoá',
                                         ),
@@ -542,7 +560,7 @@ return Scaffold(
                       );
                 },
               ),
-            ),),
+            ):Center(child: Text("Chưa có dữ liệu"),),),
             floatingActionButton: FloatingActionButton(
               onPressed: () => Get.dialog(_addNewItem()),
               child: Icon(Icons.add),

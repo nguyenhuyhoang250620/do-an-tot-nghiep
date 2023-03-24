@@ -22,7 +22,7 @@ class DrawerMenu extends StatelessWidget {
           children: [
             Container(
               padding: EdgeInsets.all(appPadding),
-              child: Image.asset("assets/images/logo_naem.png",height: 200,),
+              child: Image.asset("assets/images/logo_naem.png",height: 150,),
             ),
             Padding(
               padding: const EdgeInsets.only(
@@ -103,6 +103,14 @@ class DrawerMenu extends StatelessWidget {
                   icon: Icon(Icons.confirmation_num,color:  controller.name_tab.value == cau_hinh_he_thong_diem_danh?ColorConstant.colorBackgroud:textColor,),
                   tap: () {
                     controller.name_tab.value = cau_hinh_he_thong_diem_danh;      
+                  }),
+             DrawerListTile(
+                  color:controller.name_tab.value == order_food?ColorConstant.colorBackgroud:bgColor,
+                  title: 'Danh sách đặt món',
+                  colorText: controller.name_tab.value == order_food?ColorConstant.colorBackgroud:textColor,
+                  icon: Icon(Icons.list_alt,color: controller.name_tab.value == order_food?ColorConstant.colorBackgroud:textColor,),
+                  tap: () {
+                    controller.name_tab.value = order_food;      
                   }),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: appPadding * 2,vertical: appPadding*2),

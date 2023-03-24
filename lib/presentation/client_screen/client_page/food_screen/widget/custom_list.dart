@@ -1,5 +1,6 @@
 import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:do_an_tot_nghiep/presentation/client_screen/client_controller/client_controller.dart';
+import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/food_screen/food_controller/food_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class CustomList extends StatelessWidget{
   });
   final ClientController? clientController;
   List<FoodModel> data =[];
+  final controller  = Get.find<FoodController>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -130,7 +132,17 @@ class CustomList extends StatelessWidget{
                       title: 'Đặt món',
                       size: 15,
                       onPressed: () {
-                        
+                        controller.orderFood(
+                          clientController!.MaGV.value,
+                          data[index].maMon,
+                          data[index].tenMonAn,
+                          data[index].so_luong!.value,
+                          data[index].url!,
+                          DateTime.now().toString()
+                        );
+                        Future.delayed(Duration(seconds: 2),()=>{
+                          data[index].so_luong!.value =0
+                        });
                       },
                     ),
                     SizedBox(

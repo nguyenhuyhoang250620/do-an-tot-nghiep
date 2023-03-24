@@ -1,5 +1,6 @@
 
 import 'package:do_an_tot_nghiep/core/app_export.dart';
+import 'package:do_an_tot_nghiep/presentation/client_screen/client_controller/client_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/statis_screen/statuis_controller/statis_controller.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -167,6 +168,7 @@ Widget buildActive(
     int index) {
   BuildContext? context;
   final controller = Get.find<StatisController>();
+  final clientController = Get.find<ClientController>();
   return Container(
       decoration: BoxDecoration(
         border: Border(bottom: BorderSide(color: unline)),
@@ -195,7 +197,7 @@ Widget buildActive(
                       child: CustomLoading(),
                     ));
                     controller.deleteStudent(
-                      'phan_van_tien',
+                      clientController.MaGV.value,
                       ma_sinh_vien
                     );
                     Future.delayed(Duration(seconds: 2),() {
@@ -233,6 +235,7 @@ Widget buildUpdate(
     int index,
     StatisController controller
 ){
+  final clientController = Get.find<ClientController>();
   diem_chuyen_can == ''?controller.diem_chuyen_can.text ='-':controller.diem_chuyen_can.text = diem_chuyen_can;
   diem_giua_ki==''? controller.diem_giua_ki.text='-':controller.diem_giua_ki.text=diem_giua_ki;
   diem_cuoi_ki==''?controller.diem_cuoi_ki.text='-' :controller.diem_cuoi_ki.text=diem_cuoi_ki;
@@ -365,7 +368,7 @@ Widget buildUpdate(
               child: CustomLoading(),
             ));
             controller.createPoint(
-              'phan_van_tien',
+              clientController.MaGV.value,
               ma_sinh_vien,
               controller.diem_chuyen_can.text,
               controller.diem_giua_ki.text,

@@ -12,14 +12,7 @@ class SettingsManagement extends StatefulWidget{
   SettingsState createState() => SettingsState();
 }
 
-class SettingsState extends State<SettingsManagement> with TickerProviderStateMixin {
-  Color getRandomColor() {
-    Random random = Random();
-    int r = random.nextInt(255);
-    int g = random.nextInt(255);
-    int b = random.nextInt(255);
-    return Color.fromRGBO(r, g, b, 1.0); // giá trị alpha cố định là 1.0
-  }
+class SettingsState extends State<SettingsManagement>{
   @override
   void initState() {
     super.initState();
@@ -29,6 +22,16 @@ class SettingsState extends State<SettingsManagement> with TickerProviderStateMi
   void dispose() {
     super.dispose();
   }
+  List hello = [
+    'Quản lý phiếu',
+    'Chức năng tìm kiếm theo từng ngày',
+    'Bảng lương giảng viên',
+    'Quản lý sự kiện',
+    'Quản lý phương tiện',
+    'Quản lý bài kiểm tra',
+    'Phân quyền theo nhiều cấp độ',
+    'Hình thức thi trực tiếp trên các thiết bị điện thoại, máy tính'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,7 @@ class SettingsState extends State<SettingsManagement> with TickerProviderStateMi
           flex: 9,
           child: AnimationLimiter(
             child: ListView.builder(
-              itemCount: widget.texts.length,
+              itemCount: hello.length,
               itemBuilder: (BuildContext context, int index) {
                 return AnimationConfiguration.staggeredList(
                   position: index,
@@ -59,7 +62,7 @@ class SettingsState extends State<SettingsManagement> with TickerProviderStateMi
                           border: Border.all(color: darkTextColor),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        child: Text(widget.texts[index]),
+                        child: Center(child: Text(hello[index])),
                       ),
                     ),
                   ),

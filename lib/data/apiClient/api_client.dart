@@ -11,6 +11,7 @@ import 'package:do_an_tot_nghiep/data/models/class_models.dart';
 import 'package:do_an_tot_nghiep/data/models/config_models.dart';
 import 'package:do_an_tot_nghiep/data/models/department_models.dart';
 import 'package:do_an_tot_nghiep/data/models/food_model.dart';
+import 'package:do_an_tot_nghiep/data/models/order_food.dart';
 import 'package:do_an_tot_nghiep/data/models/shift_models.dart';
 import 'package:do_an_tot_nghiep/data/models/subject_models.dart';
 import 'package:do_an_tot_nghiep/data/models/teacher_models.dart';
@@ -21,7 +22,9 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart' as _dio;
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/selectionPopupModel/attendance_model.dart';
 import '../models/user_models.dart';
 
 class ApiClient {
@@ -46,15 +49,20 @@ class ApiClient {
         }
         else{
           Get.offAndToNamed(AppRoutes.clientScreen);
+          String MaGV = response.data['user']['email'].replaceAll("@gmail.com", "");
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('MaGV', MaGV);
         }
         // ...
       } else {
         // Đăng nhập thất bại, xử lý thông báo lỗi hoặc hiển thị form đăng nhập lại
         // ...
       }
-    } catch (error) {
+    } catch (e) {
       // Xử lý lỗi khi gọi API
-      print('HoangNH: Thất bại');
+      Get.snackbar(
+            'Tài khoản không tồn tại, hoặc chưa được cấp'
+            , '',backgroundColor: error);
       // ...
     }
   }
@@ -67,6 +75,8 @@ class ApiClient {
       if (response.statusCode == 200) {
         // Lưu token vào local storage hoặc truyền vào trang khác để sử dụng
         final token = response.data['token'];
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.remove('MaGV');
         Get.offAndToNamed(AppRoutes.loginScreen);
         // ...
       } else {
@@ -892,6 +902,38 @@ class ApiClient {
       print('HoangNH: ${err}');
     });
   }
+  
+  //get config client
+  Future<List<ConfigModel>> getConfigClient(String MaGV) async {
+    return await dio.get('$baseUrl/get-config?MaGV=$MaGV',)
+      .then((response) {
+      List<ConfigModel> userList = [];
+      if (response.statusCode == 200) {
+        for (var item in response.data) {
+          userList.add(ConfigModel.fromJson(item));
+        }
+      }
+      return userList;
+    }).catchError((err) {
+      print('HoangNH: ${err}');
+    });
+  }
+
+    //get config client mahocphan
+  Future<List<ConfigModel>> getConfigMaHocPhanClient(String MaGV,String MaHocPhan) async {
+    return await dio.get('$baseUrl/get-config?MaGV=$MaGV&MaHocPhan=$MaHocPhan',)
+      .then((response) {
+      List<ConfigModel> userList = [];
+      if (response.statusCode == 200) {
+        for (var item in response.data) {
+          userList.add(ConfigModel.fromJson(item));
+        }
+      }
+      return userList;
+    }).catchError((err) {
+      print('HoangNH: ${err}');
+    });
+  }
 // [ '"12huy", "1828384858", "1874802010012222", "1874802010012"' ]
 // ['12huy','1828384858','1874802010012222','1874802010012','18748020100122221']
   //create config
@@ -937,6 +979,45 @@ class ApiClient {
   }
 
 
+   
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //create attendance
+    Future<void> createAttendance(
+    String magv,
+    String mahocphan,
+    String maphong,
+    List<dynamic>diemdanh,
+    String tenhocphan,
+  ) async{
+    Map data ={
+      "MaGV" : magv,
+      "MaHocPhan":mahocphan,
+      "MaPhong":maphong,
+      "DiemDanh":diemdanh,
+      "TenHocPhan":tenhocphan,
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.post(
+        '$baseUrl/create-attendance',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Thêm mới thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Thêm mới không thành công'
+            , '',backgroundColor: error);
+    }
+  }
+
 
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get list config
@@ -963,9 +1044,9 @@ class ApiClient {
       });
     }
     catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+          // Get.snackbar(
+          //   'Thêm mới không thành công'
+          //   , '',backgroundColor: error);
     }
   }
 
@@ -1191,6 +1272,80 @@ class ApiClient {
             , '',backgroundColor: error);
     }
 
+  }
+
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //order food
+
+  Future<void> createOrderFood(
+    String MaGV,
+    String maMon,
+    String tenMonAn,
+    int so_luong,
+    String url,
+    String thoiGian
+  ) async{
+    Map data ={
+      "MaGV":MaGV, 
+      "maMon":maMon,
+      "tenMonAn":tenMonAn,
+      "soLuong":so_luong.toString(),
+      "url":url,
+      "thoiGian":thoiGian,
+    };
+
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.post(
+        '$baseUrl/create-orderFood',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Đặt món thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Đặt món không thành công'
+            , '',backgroundColor: error);
+    }
+  }
+
+    Future<List<orderFoodModel>> getOrderfood() async {
+    return await dio.get('$baseUrl/get-orderFood',)
+      .then((response) {
+      List<orderFoodModel> orderFoodList = [];
+      if (response.statusCode == 201) {
+        for (var item in response.data) {
+          orderFoodList.add(orderFoodModel.fromJson(item));
+        }
+      }
+      return orderFoodList;
+    }).catchError((err) {
+      print('HoangNH: ${err}');
+    });
+  }
+
+    //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //get food
+  Future<List<Attendance>> getAttendance(String MaGV,String MaHocPhan) async {
+    return await dio.get('$baseUrl/get-attendance?MaGV=$MaGV&MaHocPhan=$MaHocPhan',)
+      .then((response) {
+      List<Attendance> attendanceList = [];
+      if (response.statusCode == 200) {
+        for (var item in response.data) {
+          attendanceList.add(Attendance.fromJson(item));
+        }
+      }
+      return attendanceList;
+    }).catchError((err) {
+      print('HoangNH: ${err}');
+    });
   }
 
   ApiClient._internal();

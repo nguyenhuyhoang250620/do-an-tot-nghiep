@@ -1,11 +1,14 @@
 import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:do_an_tot_nghiep/data/apiClient/api_client.dart';
+import 'package:do_an_tot_nghiep/data/models/selectionPopupModel/attendance_model.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/slide_menu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/models/config_models.dart';
 import '../../../data/models/food_model.dart';
 import '../../dashboard_screen/page/food_management/env/env.dart';
 import '../../dashboard_screen/page/student_management/widget/env_student.dart';
+import '../client_model/client_model.dart';
 
 
 class ClientController extends GetxController{
@@ -13,33 +16,85 @@ class ClientController extends GetxController{
   var name_menu = trang_chu.obs;
   final apiClient = ApiClient();
   var so_luong = 0.obs;
+  var selectMaHocPhan = "".obs;
+  var selectTenHocPhan = "".obs;
 
   var isLoadingConfig= false.obs;
   RxList<ConfigModel> getConfigList = <ConfigModel>[].obs;
   RxList<Map<String, dynamic>> getConfigListMap = <Map<String, dynamic>>[].obs;
+
+
+  RxList<Attendance> getAttendanceList = <Attendance>[].obs;
+  RxList<Map<String, dynamic>> getAttendanceListMap = <Map<String, dynamic>>[].obs;
+
   RxList<FoodModel> getDishList = <FoodModel>[].obs;
 
   RxList<FoodModel> getDrinksList = <FoodModel>[].obs;
 
   RxList<FoodModel> getDessertList = <FoodModel>[].obs;
 
+  var MaGV = "".obs;
+  RxList<ClientModel>listMaHocPhan = <ClientModel>[].obs;
+
+
+
   @override
   void onInit() {
-    getConfig();
+    getMaGV();
     getFood();
     super.onInit();
   }
+  Future<void> getMaGV() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    MaGV.value = prefs.getString('MaGV')!;
+    getConfigClient(MaGV.value);
+  }
 
-  Future<void> getConfig() async {
+  Future<void> getConfigClient(String MaGV) async {
     List<ConfigModel> dataGet = [];
-    await apiClient.getConfig().then((value) {
+    await apiClient.getConfigClient(MaGV).then((value) {
+      dataGet = value;
+    }).whenComplete(() {
+      dataGet.map((element) {
+        ClientModel model = ClientModel(
+          MaHocPhan: element.mahocphan.MaHocPhan,
+          TenHocPhan: element.mahocphan.TenHocPhan
+        );
+        listMaHocPhan.add(model);
+      }).toList();
+      selectTenHocPhan.value = listMaHocPhan.value[0].TenHocPhan!;
+      getConfigMaHocPhanClient(MaGV,listMaHocPhan.value[0].MaHocPhan!);
+      getAttendance(MaGV,listMaHocPhan.value[0].MaHocPhan!);
+    });
+  }
+  Future<void> getConfigMaHocPhanClient(String MaGV,String MaHocPhan) async {
+    List<ConfigModel> dataGet = [];
+    await apiClient.getConfigMaHocPhanClient(MaGV,MaHocPhan).then((value) {
       dataGet = value;
     }).whenComplete(() {
       isLoadingConfig.value = true;
       getConfigList.value = dataGet;
       getConfigList.map((element) {
+        selectTenHocPhan.value = element.mahocphan.TenHocPhan!;
         getConfigListMap.value =element.danhsach.map((person) => person.toJson()).toList();
       }).toList();
+      getConfigList.refresh();
+    });
+  }
+
+  Future<void> getAttendance(String MaGV,String MaHocPhan) async {
+    print('HoangNH: $MaGV');
+    print('HoangNH: $MaHocPhan');
+    List<Attendance> dataGet = [];
+    await apiClient.getAttendance(MaGV,MaHocPhan).then((value) {
+      dataGet = value;
+    }).whenComplete(() {
+      isLoadingConfig.value = true;
+      getAttendanceList.value = dataGet;
+      getAttendanceList.map((element) {
+        getAttendanceListMap.value =element.diemDanh.map((person) => person.toJson()).toList();
+      }).toList();
+      getConfigList.refresh();
     });
   }
 

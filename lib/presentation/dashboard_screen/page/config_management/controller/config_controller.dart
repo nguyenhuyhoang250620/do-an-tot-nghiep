@@ -13,6 +13,7 @@ class ConfigController extends GetxController{
   var ma_phong_hoc = "".obs;
   var ma_ca = "".obs;
   var ma_hoc_phan = "".obs;
+  var ten_hoc_phan = "".obs;
   List<String> danh_sach_sinh_vien = <String>[].obs;
 
 
@@ -32,5 +33,15 @@ class ConfigController extends GetxController{
 
   Future<void> permission(String magv,String ten_giang_vien) async{
     apiClient.permission(magv);
+  }
+
+   Future<void> createAttendance(
+      String magv,
+      String mahocphan,
+      String maphong,
+      List<dynamic> diemdanh,
+      String tenhocphan,
+   ) async{
+    apiClient.createAttendance(magv, mahocphan, maphong, diemdanh,tenhocphan);
   }
 }

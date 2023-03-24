@@ -20,12 +20,13 @@ class HomeScreen extends GetWidget<HomeController>{
           width: Get.width,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/banner.jpeg")
+              image: AssetImage("assets/images/banner.jpeg"),
+              fit: BoxFit.cover
             )
           ),
         ),
         Container(
-          margin: EdgeInsets.symmetric(horizontal: appPadding/4,vertical: appPadding),
+          margin: EdgeInsets.symmetric(horizontal: appPadding/4),
           height: Get.height,
           width: Get.width,
           color: darkTextColor.withOpacity(0.5),
@@ -99,8 +100,8 @@ class HomeScreen extends GetWidget<HomeController>{
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                    Text("Note management",style: AppStyle.txtInterMedium24Gray900.copyWith(color: bgColor),),
-                    Text("Quản lý danh sách đơn phiếu",style:AppStyle.txtInterRegular14.copyWith(color: bgColor),),
+                    Text("Attendance management",style: AppStyle.txtInterMedium24Gray900.copyWith(color: bgColor),),
+                    Text("Quản lý danh sách điểm danh",style:AppStyle.txtInterRegular14.copyWith(color: bgColor),),
                     Expanded(
                       flex: 8,
                       child: Image.asset('assets/images/note.png')),

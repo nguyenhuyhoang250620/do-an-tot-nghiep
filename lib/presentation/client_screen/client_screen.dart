@@ -44,7 +44,7 @@ class ClientScreen extends GetWidget<ClientController>{
                   children: [
                     Image.asset('assets/images/top_backgrouds.png'),
                     Expanded(flex: 8,child: Container(),),
-                    Text('Xin chào 👋, Phan Văn Tiến',style: AppStyle.txtInterRegular14,),
+                    Obx(() => Text('Xin chào 👋, ${controller.MaGV.value}',style: AppStyle.txtInterRegular14,),),
                     Container(
                       padding: EdgeInsets.all(appPadding*2),
                       child: TextButton(
@@ -102,7 +102,7 @@ class ClientScreen extends GetWidget<ClientController>{
                           onPressed: () {
                             controller.name_menu.value = don_phieu;
                           },  
-                          child: Text("Đơn phiếu",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == don_phieu?darkTextColor:null),))),
+                          child: Text("Thống kê dữ liệu",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == don_phieu?darkTextColor:null),))),
                       Expanded(
                         flex: 6,
                         child: Container(),

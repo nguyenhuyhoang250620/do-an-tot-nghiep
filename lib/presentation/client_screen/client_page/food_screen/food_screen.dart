@@ -103,21 +103,18 @@ class FoodScreen extends GetWidget<FoodController>{
               ),
               child: Obx(() {
                 if(controller.name_tab.value == mon_ans){
-                  return CustomList(
-                    
+                  return CustomList( 
                     data: clientController.getDishList,
                     clientController: clientController,
                   );
                 }
                 else if(controller.name_tab.value == nuoc_uong){
                   return CustomList(
-                  
                     data: clientController.getDrinksList,
                     clientController: clientController,
                   );
                 }
-                return CustomList(
-                  
+                return CustomList(               
                   data: clientController.getDessertList,
                   clientController: clientController,
                 );
