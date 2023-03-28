@@ -7,7 +7,7 @@ import 'package:do_an_tot_nghiep/presentation/login_screen/login_screen.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
-  static String initialRoute = '/client_screen';
+  static String initialRoute = '/login_screen';
   static String loginScreen = '/login_screen';
   static String dashBoardScreen = '/dashboard_screen';
   static String clientScreen = '/client_screen';

@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart' as _dio;
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,11 +45,14 @@ class ApiClient {
 
       // Xử lý kết quả trả về từ API
       if (response.statusCode == 200) {
+        Map<String, dynamic> decodedToken = JwtDecoder.decode(response.data['idToken']);
+        String role = decodedToken['role'];
+        print('User role: $role');
         if(response.data['user']['email']=='admin@gmail.com'){
-          Get.offAndToNamed(AppRoutes.dashBoardScreen);
+          // Get.offAndToNamed(AppRoutes.dashBoardScreen);
         }
         else{
-          Get.offAndToNamed(AppRoutes.clientScreen);
+          // Get.offAndToNamed(AppRoutes.clientScreen);
           String MaGV = response.data['user']['email'].replaceAll("@gmail.com", "");
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('MaGV', MaGV);

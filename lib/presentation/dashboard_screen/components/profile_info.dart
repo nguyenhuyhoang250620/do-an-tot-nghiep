@@ -20,14 +20,14 @@ class ProfileInfo extends StatelessWidget {
           child: Row(
             children: [
               ClipRRect(
-                child: Icon(Icons.person),
+                child: Icon(Icons.person,color: bgColor),
                 borderRadius: BorderRadius.circular(30),
               ),
               if(!Responsive.isMobile(context))
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: appPadding / 2),
                 child: Text('Hii, Admin',style: TextStyle(
-                  color: darkTextColor,
+                  color: bgColor,
                   fontWeight: FontWeight.w800,
                 ),),
               )
