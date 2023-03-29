@@ -27,14 +27,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/selectionPopupModel/attendance_model.dart';
 import '../models/user_models.dart';
+import 'env.dart';
 
 class ApiClient {
   static final ApiClient _apiClient = ApiClient._internal();
   static String acccount = '';
+  static bool isLogin = false;
   var baseUrl = "http://localhost:3000/api";
   final dio = Dio();
   String getAccount() {
     return acccount;
+  }
+  bool IsLogin() {
+    return isLogin;
   }
   factory ApiClient() {
     return _apiClient;
@@ -47,12 +52,27 @@ class ApiClient {
       if (response.statusCode == 200) {
         Map<String, dynamic> decodedToken = JwtDecoder.decode(response.data['idToken']);
         String role = decodedToken['role'];
-        print('User role: $role');
-        if(response.data['user']['email']=='admin@gmail.com'){
-          // Get.offAndToNamed(AppRoutes.dashBoardScreen);
+        String authorcation = decodedToken['authorcation'];
+        // print('HoangNH: $role');
+        // print('HoangNH: $authorcation');
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('authorcation', authorcation);
+        // List<String> mang = authorcation.split(",");
+        // mang.map((e) {
+        //   print('HoangNH: $e');
+        // }).toList();
+        // quyen.map((e) {
+        //   print('HoangNH: $e');
+        // }).toList();
+        // SharedPreferences prefs = await SharedPreferences.getInstance();
+        // prefs.setString('role', role);
+        // prefs.setBool('isLogin', true);
+        isLogin = true;  
+        if(role==Admin){
+          Get.offAndToNamed(AppRoutes.dashBoardScreen);
         }
         else{
-          // Get.offAndToNamed(AppRoutes.clientScreen);
+          Get.offAndToNamed(AppRoutes.clientScreen);
           String MaGV = response.data['user']['email'].replaceAll("@gmail.com", "");
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('MaGV', MaGV);
@@ -74,13 +94,13 @@ class ApiClient {
   Future<void> logout() async{
       try {
       final response = await dio.post('$baseUrl/logout',);
-
       // Xử lý kết quả trả về từ API
       if (response.statusCode == 200) {
         // Lưu token vào local storage hoặc truyền vào trang khác để sử dụng
         final token = response.data['token'];
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.remove('MaGV');
+          prefs.remove('isLogin');
         Get.offAndToNamed(AppRoutes.loginScreen);
         // ...
       } else {
@@ -1350,6 +1370,41 @@ class ApiClient {
     }).catchError((err) {
       print('HoangNH: ${err}');
     });
+  }
+
+
+   //create author
+  Future<void> authorPermission(
+    String ma_giang_vien,
+    String role,
+    List listAuthor 
+  ) async{
+    String resultAuthor = listAuthor.join(',');
+    Map data ={
+      "email":ma_giang_vien, 
+      "role":role,
+      "authorcation":resultAuthor,
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.post(
+        '$baseUrl/create-authorcation',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Thêm mới thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Thêm mới không thành công'
+            , '',backgroundColor: error);
+    }
   }
 
   ApiClient._internal();

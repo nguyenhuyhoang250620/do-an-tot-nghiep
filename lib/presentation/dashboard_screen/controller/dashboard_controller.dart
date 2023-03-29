@@ -10,15 +10,29 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/slide_m
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/food_management/env/env.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/models/food_model.dart';
 import '../../../data/models/shift_models.dart';
 import '/core/app_export.dart';
 
 class DashBoardController extends GetxController {
-  var name_tab = tong_quat.obs;
+  var name_tab = ''.obs;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   final apiClient = ApiClient();
+
+  var TQ = false.obs;
+  var QLSV = false.obs;
+  var QLGV = false.obs;
+  var QLPB = false.obs;
+  var QLVTPH = false.obs;
+  var QLTC = false.obs;
+  var QLCH = false.obs;
+  var QLTD = false.obs;
+  var CHDD = false.obs;
+  var DSDM = false.obs;
+
+ 
 
   var isLoadingStudent = false.obs;
   var isLoadingTeacher = false.obs;
@@ -67,15 +81,12 @@ class DashBoardController extends GetxController {
     RxString selectedGioiTinh = "Chọn".obs;
   List<dynamic> listKhoa = [];
   void onInit() {
-    getUser();
-    getTeacher();
-    getDepartment();
-    getSubject();
-    getClass();
-    getShift();
-    getConfig();
-    getFood();
-    getOrderFood();
+    // checkIsLogin();
+      Authorcation();
+      getUser();
+      getTeacher();
+      getDepartment();
+      getClass();
     super.onInit();
   }
 
@@ -92,6 +103,59 @@ class DashBoardController extends GetxController {
   void controlMenu() {
     if (!scaffoldKey.currentState!.isDrawerOpen) {
       scaffoldKey.currentState!.openDrawer();
+    }
+  }
+  Future<void> Authorcation() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> authorcation = prefs.getString('authorcation')!.split(",");
+    authorcation.map((e) {
+      name_tab.value = authorcation.first;
+      switch(e){
+        case 'tong_quat':
+          TQ.value = true;
+          break;
+        case 'quan_ly_sinh_vien':
+          QLSV.value = true;
+          break;
+        case 'quan_ly_giang_vien':
+          QLGV.value = true;
+          break;
+        case 'quan_ly_phong_ban':
+          QLPB.value = true;
+          break;
+        case 'quan_ly_vi_tri_phong_hoc':
+          QLVTPH.value = true;
+          break;
+        case 'quan_ly_tin_chi':
+          getSubject();
+          QLTC.value = true;
+          break;
+        case 'quan_ly_ca_hoc':
+          getShift();
+          QLCH.value = true;
+          break;
+        case 'quan_ly_thuc_don':
+          getFood();
+          QLTD.value = true;
+          break;
+        case 'cau_hinh_he_thong_diem_danh':
+          getConfig();
+          CHDD.value = true;
+          break;
+        case 'order_food':
+          getOrderFood();
+          DSDM.value = true;
+          break;
+      }
+    }).toList();
+
+  }
+  Future<void> checkIsLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var isLogin = prefs.getBool('isLogin');
+    if(isLogin == true){
+    }else{
+      Get.offAllNamed(AppRoutes.loginScreen);
     }
   }
 
@@ -145,7 +209,8 @@ class DashBoardController extends GetxController {
             SoDT: e.SoDT,
             TenGV: e.TenGV,
             url: e.url,
-            id: e.id);
+            id: e.id,
+            author: e.author);
         data.add(models);
       }).toList();
       isLoadingTeacher.value = true;

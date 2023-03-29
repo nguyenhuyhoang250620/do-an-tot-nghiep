@@ -31,9 +31,6 @@ class ConfigController extends GetxController{
     dashboardController.getConfig();
   }
 
-  Future<void> permission(String magv,String ten_giang_vien) async{
-    apiClient.permission(magv);
-  }
 
    Future<void> createAttendance(
       String magv,

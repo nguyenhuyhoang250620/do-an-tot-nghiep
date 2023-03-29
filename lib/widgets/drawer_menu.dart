@@ -5,6 +5,7 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constan
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/slide_menu.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashboard_controller.dart';
 import 'package:flutter/material.dart';
+
 class DrawerMenu extends StatelessWidget {
   DrawerMenu({Key? key,required this.controller}) : super(key: key);
   final DashBoardController controller;
@@ -32,86 +33,86 @@ class DrawerMenu extends StatelessWidget {
               ),
               child: Text("QUẢN LÝ CHỨC NĂNG",style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),)
             ),
-            DrawerListTile(
+            controller.TQ.value?DrawerListTile(
                   color:controller.name_tab.value == tong_quat?ColorConstant.colorBackgroud:bgColor,
                   title: 'Tổng quát',
                   colorText:controller.name_tab.value == tong_quat?ColorConstant.colorBackgroud:textColor,
                   icon: Icon(Icons.home,color: controller.name_tab.value == tong_quat?ColorConstant.colorBackgroud:textColor,),
                   tap: () {
                       controller.name_tab.value = tong_quat;
-                  }),
-            DrawerListTile(
+                  }):Container(),
+            controller.QLSV.value?DrawerListTile(
                   color: controller.name_tab.value == quan_ly_sinh_vien?ColorConstant.colorBackgroud:bgColor,
                   title: 'Quản lý sinh viên',
                   colorText:controller.name_tab.value == quan_ly_sinh_vien?ColorConstant.colorBackgroud:textColor,
                   icon: Icon(Icons.people,color: controller.name_tab.value == quan_ly_sinh_vien?ColorConstant.colorBackgroud:textColor,),
                   tap: () {
                     controller.name_tab.value = quan_ly_sinh_vien;      
-                  }),
-             DrawerListTile(
+                  }):Container(),
+             controller.QLGV.value?DrawerListTile(
                   color: controller.name_tab.value == quan_ly_giang_vien?ColorConstant.colorBackgroud:bgColor,
                   title: 'Quản lý giảng viên',
                   colorText: controller.name_tab.value == quan_ly_giang_vien?ColorConstant.colorBackgroud:textColor,
                   icon: Icon(Icons.person,color: controller.name_tab.value == quan_ly_giang_vien?ColorConstant.colorBackgroud:textColor,),
                   tap: () {
                     controller.name_tab.value = quan_ly_giang_vien;      
-                  }),
-            DrawerListTile(
+                  }):Container(),
+            controller.QLPB.value?DrawerListTile(
                   color:  controller.name_tab.value == quan_ly_phong_ban?ColorConstant.colorBackgroud:bgColor,
                   title: 'Quản lý phòng ban',
                   colorText: controller.name_tab.value == quan_ly_phong_ban?ColorConstant.colorBackgroud:textColor,
                   icon: Icon(Icons.class_,color: controller.name_tab.value == quan_ly_phong_ban?ColorConstant.colorBackgroud:textColor,),
                   tap: () {
                     controller.name_tab.value = quan_ly_phong_ban;      
-                  }),
-            DrawerListTile(
+                  }):Container(),
+            controller.QLVTPH.value?DrawerListTile(
                   color:controller.name_tab.value == quan_ly_vi_tri_phong_hoc?ColorConstant.colorBackgroud:bgColor,
                   title: 'Quản lý vị trí phòng học',
                   colorText: controller.name_tab.value == quan_ly_vi_tri_phong_hoc?ColorConstant.colorBackgroud:textColor,
                   icon: Icon(Icons.room,color: controller.name_tab.value == quan_ly_vi_tri_phong_hoc?ColorConstant.colorBackgroud:textColor,),
                   tap: () {
                     controller.name_tab.value = quan_ly_vi_tri_phong_hoc;      
-                  }),
-            DrawerListTile(
+                  }):Container(),
+            controller.QLTC.value?DrawerListTile(
                   color:controller.name_tab.value == quan_ly_tin_chi?ColorConstant.colorBackgroud:bgColor,
                   title: 'Quản lý tín chỉ',
                   colorText: controller.name_tab.value == quan_ly_tin_chi?ColorConstant.colorBackgroud:textColor,
                   icon: Icon(Icons.subject,color: controller.name_tab.value == quan_ly_tin_chi?ColorConstant.colorBackgroud:textColor,),
                   tap: () {
                     controller.name_tab.value = quan_ly_tin_chi;      
-                  }),
-             DrawerListTile(
+                  }):Container(),
+             controller.QLCH.value?DrawerListTile(
                   color: controller.name_tab.value == quan_ly_ca_hoc?ColorConstant.colorBackgroud:bgColor,
                   title: 'Quản lý ca học',
                   colorText: controller.name_tab.value == quan_ly_ca_hoc?ColorConstant.colorBackgroud:textColor,
                   icon: Icon(Icons.lock_clock,color:  controller.name_tab.value == quan_ly_ca_hoc?ColorConstant.colorBackgroud:textColor,),
                   tap: () {
                     controller.name_tab.value = quan_ly_ca_hoc;      
-                  }),
-            DrawerListTile(
+                  }):Container(),
+            controller.QLTD.value?DrawerListTile(
                   color: controller.name_tab.value == quan_ly_thuc_don?ColorConstant.colorBackgroud:bgColor,
                   title: 'Quản lý thực đơn',
                   colorText: controller.name_tab.value == quan_ly_thuc_don?ColorConstant.colorBackgroud:textColor,
                   icon: Icon(Icons.kitchen,color:  controller.name_tab.value == quan_ly_thuc_don?ColorConstant.colorBackgroud:textColor,),
                   tap: () {
                     controller.name_tab.value = quan_ly_thuc_don;      
-                  }),
-            DrawerListTile(
+                  }):Container(),
+            controller.CHDD.value?DrawerListTile(
                   color:controller.name_tab.value == cau_hinh_he_thong_diem_danh?ColorConstant.colorBackgroud:bgColor,
                   title: 'Cấu hình hệ thống điểm danh',
                   colorText:  controller.name_tab.value == cau_hinh_he_thong_diem_danh?ColorConstant.colorBackgroud:textColor,
                   icon: Icon(Icons.confirmation_num,color:  controller.name_tab.value == cau_hinh_he_thong_diem_danh?ColorConstant.colorBackgroud:textColor,),
                   tap: () {
                     controller.name_tab.value = cau_hinh_he_thong_diem_danh;      
-                  }),
-             DrawerListTile(
+                  }):Container(),
+             controller.DSDM.value?DrawerListTile(
                   color:controller.name_tab.value == order_food?ColorConstant.colorBackgroud:bgColor,
                   title: 'Danh sách đặt món',
                   colorText: controller.name_tab.value == order_food?ColorConstant.colorBackgroud:textColor,
                   icon: Icon(Icons.list_alt,color: controller.name_tab.value == order_food?ColorConstant.colorBackgroud:textColor,),
                   tap: () {
                     controller.name_tab.value = order_food;      
-                  }),
+                  }):Container(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: appPadding * 2,vertical: appPadding*2),
               child: Text("TÀI KHOẢN",style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),)

@@ -211,10 +211,6 @@ class ConfigState extends State<ConfigManagement>{
                   configController.danh_sach_sinh_vien,
                   configController.ghi_chu.text,
                 );
-                configController.permission(
-                  configController.ma_giang_vien.value,
-                  configController.ma_giang_vien.value,
-                );
                 configController.createAttendance(
                   configController.ma_giang_vien.value,
                    configController.ma_hoc_phan.value,

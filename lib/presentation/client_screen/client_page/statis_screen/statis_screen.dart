@@ -38,36 +38,38 @@ class StatisScreen extends GetWidget<StatisController>{
             Obx(() => Text("${clientController.selectTenHocPhan.value}",style: AppStyle.txtInterRegular18.copyWith(fontWeight: FontWeight.bold),),),
             Expanded(
               flex: 10,
-              child: Obx(() => clientController.isLoadingConfig.value
-                ?MyPaginatedDataTable(
-                  value: selectedOptions,
-                  onChangedlistSelect: (p0) {
-                    selectedOptions= p0 as String;
-                  },
-                  items: listLabel.value,
-                  controller: _controller,
-                  onChanged: (p0) {
-                    clientController.search(_controller.text,selectedOptions);
-                  },
-                  titleButtonLeft: 'Lựa chọn lớp',
-                  titleButtonBetween: 'Export excel',
-                  titleButtonRight: 'Tính trung bình',
-                  onPressedBetween: () {
-                    controller.exportData();
-                  },
-                  iconLeft: 'left',
-                  iconRight: 'right',
-                  onPressedLeft: () {
-                    Get.dialog(buildSelectMaHocPhan());
-                  },
-                  onPressedRight: () {
-                    controller.averagedFunction(clientController.MaGV.value);
-                  },
-                  columns: columns,
-                  source: StatisDataTableSource(
-                  data: clientController.getConfigListMap.value),
-                  rowsPerPage: 6,
-                ):Center(child: CustomLoading(),)),
+              child: Obx(() => 
+              clientController.isLoadingConfig.value
+                ? clientController.getConfigListMap.isNotEmpty?
+                    MyPaginatedDataTable(
+                      value: selectedOptions,
+                      onChangedlistSelect: (p0) {
+                        selectedOptions= p0 as String;
+                      },
+                      items: listLabel.value,
+                      controller: _controller,
+                      onChanged: (p0) {
+                        clientController.search(_controller.text,selectedOptions);
+                      },
+                      titleButtonLeft: 'Lựa chọn lớp',
+                      titleButtonBetween: 'Export excel',
+                      titleButtonRight: 'Tính trung bình',
+                      onPressedBetween: () {
+                        controller.exportData();
+                      },
+                      iconLeft: 'left',
+                      iconRight: 'right',
+                      onPressedLeft: () {
+                        Get.dialog(buildSelectMaHocPhan());
+                      },
+                      onPressedRight: () {
+                        controller.averagedFunction(clientController.MaGV.value);
+                      },
+                      columns: columns,
+                      source: StatisDataTableSource(
+                      data: clientController.getConfigListMap.value),
+                      rowsPerPage: 6,
+                    ):Center(child: CustomLoading(),):Center(child: Text("Chưa có dữ liệu"),)),
             )
           ],
         )

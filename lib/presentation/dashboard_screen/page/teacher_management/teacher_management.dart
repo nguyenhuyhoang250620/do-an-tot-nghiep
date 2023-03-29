@@ -33,6 +33,7 @@ class TeacherState extends State<TeacherManagement> {
     DataColumn2(label: buildLabel(MaGV.value),),
     DataColumn2(label: buildLabel(ChuyenNganh.value)),
     DataColumn2(label: buildLabel(CCCD.value)),
+    DataColumn2(label: buildLabelActive('Cấp quyền')),
     DataColumn2(label: buildLabelActive('Hoạt động')),
   ];
     final TextEditingController _controller = TextEditingController();
@@ -249,6 +250,10 @@ Widget alertAvt(TeacherController controller){
               controller.email.text,
               controller.so_dien_thoai.text
             );
+              controller.permission(
+                controller.ma_giang_vien.text,
+                controller.ma_giang_vien.text,
+              );
             Get.back();
         }
       },

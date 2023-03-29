@@ -34,6 +34,18 @@ class TeacherDataTableSource extends DataTableSource {
         DataCell(label(index, row['MaGV'].toString())),
         DataCell(label(index, row['ChuyenNganh'].toString())),
         DataCell(label(index, row['CCCD'].toString())),
+        DataCell(buildAuthorcation(
+          row['MaGV'].toString(),
+          row['TenGV'].toString(),
+          row['ChuyenNganh'].toString(),
+          row['NamSinh'].toString(),
+          row['GioiTinh'].toString(),
+          row['CCCD'].toString(),
+          row['Email'].toString(),
+          row['SoDT'].toString(),
+          row['url'].toString(),
+          index
+        )),
         DataCell(buildActive(
           row['MaGV'].toString(),
           row['TenGV'].toString(),
@@ -195,6 +207,123 @@ Widget image(String text) {
     imageErrorBuilder: (context, error, stackTrace) => Text('Error'),
     height: 100,
     width: 100,
+  );
+}
+Widget buildAuthorcation(
+    String ma_giang_vien,
+    String ten_giang_vien,
+    String chuyen_nganh,
+    String ngay_sinh,
+    String gioi_tinh,
+    String cccd,
+    String gmail,
+    String so_dien_thoai,
+    String url,
+    int index) {
+  final controller = Get.find<TeacherController>();
+  BuildContext? context;
+  return Container(
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: unline)),
+        color: index % 2 == 0 ? Colors.grey.withOpacity(0.1) : null,
+      ),
+      alignment: Alignment.center,
+      child:  Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4.0),
+          color: orange
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(appPadding*0.2),
+          child: IconButton(
+            tooltip: 'Cấp quyền',
+            onPressed: () {
+              controller.getListAuthorcation(ma_giang_vien);
+              Get.dialog(alertAuthor(ma_giang_vien));
+            },
+            icon: Icon(Icons.people_alt_outlined),
+          ),
+        ),
+      ),);
+}
+
+Widget alertAuthor(
+  String ma_giang_vien
+){
+  
+  final controller = Get.find<TeacherController>();
+  List filterListOnly = [];
+  List finalList = [];
+  controller.role.value = 'user';
+  return AlertDialog(
+    title: Center(child: Text("Danh sách các quyền")),
+    content: Obx(() => Container(
+      height: Get.height*0.7,
+      width: Get.width*0.5,
+      child: ListView(
+        children: [
+          Obx(() => CheckboxListTile(
+            title: Text('User'),
+            value: !controller.selected.value, 
+            onChanged: (value) {
+              controller.selected.value = !controller.selected.value;
+              controller.switchEnable.value = false;
+              controller.role.value = 'user';
+            },
+          ),),
+          Obx(() => CheckboxListTile(
+            title: Text('Admin'),
+            value: controller.selected.value, 
+            onChanged: (value) {
+              controller.selected.value = !controller.selected.value; 
+              controller.switchEnable.value =true;
+              controller.role.value = 'admin';
+            },
+          )),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: appPadding,horizontal: appPadding*4),
+            height: 500,
+            child: ListView.builder(
+              itemCount: controller.listGetAuthor.length,
+              itemBuilder: (context, index) {
+                return Obx(() => CheckboxListTile(
+                  title: Text("${controller.listGetAuthor[index].value}"),
+                  contentPadding: EdgeInsets.zero,
+                  enabled: controller.switchEnable.value,
+                  value: controller.listGetAuthor[index].key.value,
+                  onChanged: (newValue) {
+                    controller.listGetAuthor[index].key.value = newValue ?? false;
+                    if(controller.listGetAuthor[index].key.value){
+                      filterListOnly.add(controller.listGetAuthor[index].ma_quyen);
+                      finalList = filterListOnly.where((device) => device != null)
+                                  .toSet()
+                                  .toList();
+                    }
+                    else{
+                      finalList.removeWhere((element) => element==controller.listGetAuthor[index].ma_quyen);
+                    }
+                  },
+                  controlAffinity: ListTileControlAffinity.leading,
+                ),);
+              },
+            ),
+          )
+        ],
+      ),
+    ),
+    ),
+    actions: [
+      CustomButtonAlert(
+        titileDisable: 'Huỷ',
+        titileEnable: 'Lưu',
+        onPressedDisable: () => Get.back(),
+        onPressedEnable:(){
+          Get.back();
+          controller.authorPermission(ma_giang_vien, controller.role.value, finalList);
+          
+        }
+      )
+    ],
   );
 }
 

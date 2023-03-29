@@ -17,6 +17,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
 import '../../../constants/constants.dart';
+import '../model/teacher_author_model.dart';
+import '../widget/list_authorcation.dart';
 import '/core/app_export.dart';
 
 class TeacherController extends GetxController {
@@ -31,6 +33,10 @@ class TeacherController extends GetxController {
   XFile? pickFileFromComputer;
   Rx<bool> enableUpdateAvatar = false.obs;
 
+  Rx<bool> selected = false.obs;
+  Rx<bool> switchEnable = false.obs;
+  var role = ''.obs;
+
   TextEditingController ten_giang_vien = TextEditingController();
   TextEditingController ma_giang_vien = TextEditingController();
   TextEditingController chuyen_nganh = TextEditingController();
@@ -39,6 +45,11 @@ class TeacherController extends GetxController {
   TextEditingController cccd = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController so_dien_thoai = TextEditingController();
+
+
+
+ List<TeacherAuthorModel> listGetAuthor = <TeacherAuthorModel>[].obs;
+
 
   void onInit() {
     super.onInit();
@@ -54,6 +65,34 @@ class TeacherController extends GetxController {
   void onClose() {
     super.onClose();
   }
+  // get cac quyen
+  Future<void> getListAuthorcation(
+    String ma_giang_vien
+  )async{
+    listGetAuthor.clear();
+    listPermission.map((e){
+        TeacherAuthorModel model = TeacherAuthorModel(
+          key: false.obs,
+          value: e['value'],
+          ma_quyen: e['ma_quyen']
+        );
+        listGetAuthor.add(model);
+    }).toList();
+  }
+  //cap quyen
+  Future<void> authorPermission(
+    String ma_giang_vien,
+    String role,
+    List listAuthor 
+  ) async{
+    print('HoangNH: $ma_giang_vien');
+    print('HoangNH: $role');
+    print('HoangNH: $listAuthor');
+    await apiClient.authorPermission(ma_giang_vien,role,listAuthor);
+  }
+
+
+
 
   void controlMenu() {
     if (!scaffoldKey.currentState!.isDrawerOpen) {
@@ -99,6 +138,11 @@ class TeacherController extends GetxController {
       dashBoardController.getTeacher();
     });
   }
+
+  //cap tai khoan 
+    Future<void> permission(String magv,String ten_giang_vien) async{
+      apiClient.permission(magv);
+    }
 
 //thay avatar
     Future<void> pickFileWeb() async {

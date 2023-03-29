@@ -206,7 +206,7 @@ class _MyPaginatedDataTableState extends State<MyPaginatedDataTable> {
         autoRowsToHeight: true,
         showFirstLastButtons: true,
         hidePaginator: false,
-        empty: Center(child: Container(padding: const EdgeInsets.all(20), color: Colors.grey[200], child: Text('no_data'.tr))),
+        empty: Center(child: Container(padding: const EdgeInsets.all(20), color: transparent, child: Text('Chưa có dữ liệu'.tr))),
         columns: widget.columns,
       ),
     );

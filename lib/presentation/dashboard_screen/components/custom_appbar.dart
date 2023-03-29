@@ -21,8 +21,8 @@ class CustomAppbar extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            cardD!.withOpacity(0.8),
             cardD!,
+            cardD!.withOpacity(0.8),
           ],
         )
       ),
