@@ -102,7 +102,7 @@ class ConfigState extends State<ConfigManagement>{
                     onChangedlistSelect: (p0) {
                       configController.ma_phong_hoc.value = p0 as String;
                     },
-                                 ),
+                  ),
                  ),
                  SizedBox(height: 20,),
                 Container(

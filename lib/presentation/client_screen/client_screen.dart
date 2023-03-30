@@ -3,7 +3,8 @@
 import 'package:do_an_tot_nghiep/libary/data_table_2/data_table_2.dart';
 import 'package:do_an_tot_nghiep/presentation/client_screen/client_controller/client_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/food_screen/food_screen.dart';
-import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/note_screen/note_screen.dart';
+import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/note/note_client_screen.dart';
+import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/attendance_client_screen/attendance_client_screen.dart';
 import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/statis_screen/statis_screen.dart';
 import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/statis_screen/statis_widget/statis_source.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/slide_menu.dart';
@@ -100,11 +101,18 @@ class ClientScreen extends GetWidget<ClientController>{
                         padding: EdgeInsets.all(appPadding*2),
                         child: TextButton(
                           onPressed: () {
+                            controller.name_menu.value = thong_ke_du_lieu;
+                          },  
+                          child: Text("Thống kê dữ liệu",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == thong_ke_du_lieu?darkTextColor:null),))),
+                      Container(
+                        padding: EdgeInsets.all(appPadding*2),
+                        child: TextButton(
+                          onPressed: () {
                             controller.name_menu.value = don_phieu;
                           },  
-                          child: Text("Thống kê dữ liệu",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == don_phieu?darkTextColor:null),))),
+                          child: Text("Thống kê phiếu",style: AppStyle.txtRobotoRegular16.copyWith(fontWeight: FontWeight.bold,color: controller.name_menu.value == don_phieu?darkTextColor:null),))),
                       Expanded(
-                        flex: 6,
+                        flex: 5,
                         child: Container(),
                       ),
                     ],
@@ -126,7 +134,10 @@ class ClientScreen extends GetWidget<ClientController>{
                   else if(controller.name_menu.value == am_thuc){
                     return FoodScreen();
                   }
-                  return NoteScreen();
+                  else if(controller.name_menu.value == don_phieu){
+                    return NoteClientScreen();
+                  }
+                  return AttendanceEmployee();
                 },),
               )
             )

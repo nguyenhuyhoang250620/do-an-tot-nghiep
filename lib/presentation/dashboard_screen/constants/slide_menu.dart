@@ -16,4 +16,5 @@
   final trang_chu = 'trang_chu';
   final thong_ke = 'thong_ke';
   final am_thuc = 'am_thuc';
+  final thong_ke_du_lieu = 'thong_ke_du_lieu';
   final don_phieu = 'don_phieu';

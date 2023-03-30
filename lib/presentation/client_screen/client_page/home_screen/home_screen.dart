@@ -107,6 +107,34 @@ class HomeScreen extends GetWidget<HomeController>{
                       child: Image.asset('assets/images/note.png')),
                     InkWell(
                       onTap: () {
+                        clientController.name_menu.value = thong_ke_du_lieu;
+                      },
+                    child: Container(
+                      padding: EdgeInsets.all(appPadding),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.0),
+                        color: blue
+                      ),
+                      child: Text("Get start",style: AppStyle.txtInterRegular14.copyWith(color: bgColor))),
+                    )
+                  ]),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.all(appPadding),
+                  height: 400,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    Text("Attendance management",style: AppStyle.txtInterMedium24Gray900.copyWith(color: bgColor),),
+                    Text("Quản lý danh sách điểm danh",style:AppStyle.txtInterRegular14.copyWith(color: bgColor),),
+                    Expanded(
+                      flex: 8,
+                      child: Image.asset('assets/images/note_image.png')),
+                    InkWell(
+                      onTap: () {
                         clientController.name_menu.value = don_phieu;
                       },
                     child: Container(
