@@ -11,6 +11,8 @@ class CustomRichText extends StatelessWidget{
     return Padding(
       padding: EdgeInsets.all(appPadding),
       child: RichText(
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
         text: TextSpan(
           children: [
             TextSpan(

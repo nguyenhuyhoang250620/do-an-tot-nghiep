@@ -31,6 +31,10 @@
     'value': 'Quản lý tín chỉ',
     'ma_quyen':'quan_ly_tin_chi'
   },
+   {
+    'value': 'Quản lý phiếu',
+    'ma_quyen':'quan_ly_phieu'
+  },
   {
     'value': 'Cấu hình hệ thống điểm danh',
     'ma_quyen':'cau_hinh_he_thong_diem_danh'

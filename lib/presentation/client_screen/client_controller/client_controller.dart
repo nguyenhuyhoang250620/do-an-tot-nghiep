@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/models/config_models.dart';
 import '../../../data/models/food_model.dart';
+import '../../../data/models/note_client_model.dart';
 import '../../dashboard_screen/page/food_management/env/env.dart';
 import '../../dashboard_screen/page/student_management/widget/env_student.dart';
 import '../client_model/client_model.dart';
@@ -33,6 +34,8 @@ class ClientController extends GetxController{
 
   RxList<FoodModel> getDessertList = <FoodModel>[].obs;
 
+  RxList<NoteRequestModel> listNoteRequest = <NoteRequestModel>[].obs;
+
   var MaGV = "".obs;
   RxList<ClientModel>listMaHocPhan = <ClientModel>[].obs;
 
@@ -42,6 +45,7 @@ class ClientController extends GetxController{
   void onInit() {
     getMaGV();
     getFood();
+    getNoteRequest();
     super.onInit();
   }
   Future<void> getMaGV() async{
@@ -171,6 +175,27 @@ class ClientController extends GetxController{
           getDessertList.add(model);
         }
       });
+    });
+  }
+
+  Future<void> getNoteRequest ()async{
+    listNoteRequest.clear();
+    List<NoteRequestModel> data = [];
+    await apiClient.getNote().then((value){
+      data = value;
+    }).whenComplete((){
+      data.map((e){
+        NoteRequestModel model = NoteRequestModel(
+          id: e.id,
+          description: e.description,
+          status: e.status,
+          teacherCode: e.teacherCode,
+          teacherName: e.teacherName,
+          time: e.time,
+          type: e.type
+        );
+        listNoteRequest.add(model);
+      }).toList();
     });
   }
 }

@@ -1,4 +1,5 @@
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashboard_controller.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/note_management/note_management_controller/note_management_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/student_management/controller/student_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/teacher_management/controller/teacher_controller.dart';
 import 'package:get/get.dart';
@@ -22,5 +23,6 @@ class DashBoardBinding extends Bindings {
     Get.lazyPut(() => ShiftController());
     Get.lazyPut(() => ConfigController());
     Get.lazyPut(() => FoodManagementController());
+    Get.lazyPut(() => NoteManagementController());
   }
 }

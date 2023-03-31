@@ -25,6 +25,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/note_client_model.dart';
 import '../models/selectionPopupModel/attendance_model.dart';
 import '../models/user_models.dart';
 import 'env.dart';
@@ -46,7 +47,7 @@ class ApiClient {
   }
    Future<void> login(String email, String password) async {
     try {
-      final response = await dio.post('$baseUrl/signin', data: {'email': email, 'password': password});
+      final response = await dio.post('$baseUrl/signin', data: {'email': '${email}@gmail.com', 'password': password});
 
       // Xử lý kết quả trả về từ API
       if (response.statusCode == 200) {
@@ -1394,6 +1395,97 @@ class ApiClient {
         data: body
         ).then((value){
         if(value.statusCode == 201){
+          Get.snackbar(
+            'Thêm mới thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Thêm mới không thành công'
+            , '',backgroundColor: error);
+    }
+  }
+
+
+   //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //note
+  Future<List<NoteRequestModel>> getNote() async {
+    return await dio.get('$baseUrl/get-note',)
+      .then((response) {
+      List<NoteRequestModel> noteRequestList = [];
+      if (response.statusCode == 201) {
+        for (var item in response.data) {
+          noteRequestList.add(NoteRequestModel.fromJson(item));
+        }
+      }
+      return noteRequestList;
+    }).catchError((err) {
+      print('HoangNH: ${err}');
+    });
+  }
+
+
+  Future<void> createNoteClient(
+    String status,
+    String type,
+    String time,
+    String MaGV,
+    String description
+  ) async{
+    Map data ={
+      "Type": type,
+      "ThoiGian": time,
+      "MaGV": MaGV,
+      "Mota": description,
+      "Status": status
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.post(
+        '$baseUrl/create-note',
+        data: body
+        ).then((value){
+        if(value.statusCode == 201){
+          Get.snackbar(
+            'Thêm mới thành công'
+            , '',backgroundColor: succes);
+        }
+      });
+    }
+    catch(e){
+          Get.snackbar(
+            'Thêm mới không thành công'
+            , '',backgroundColor: error);
+    }
+  }
+
+  Future<void> NoteReview(
+    String status,
+    String type,
+    String time,
+    String MaGV,
+    String description
+  ) async{
+    Map data ={
+      "Type": type,
+      "ThoiGian": time,
+      "MaGV": MaGV,
+      "Mota": description,
+      "Status": status
+    };
+
+    String body = json.encode(data);
+
+    try{
+      return await dio.patch(
+        '$baseUrl/update-note',
+        data: body
+        ).then((value){
+        if(value.statusCode == 200){
           Get.snackbar(
             'Thêm mới thành công'
             , '',backgroundColor: succes);

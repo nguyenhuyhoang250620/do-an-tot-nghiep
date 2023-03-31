@@ -9,6 +9,7 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/class_manage
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/config_management/config_management.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/department_management/deparment_management.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/food_management/food_management.dart';
+import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/note_management/note_management.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/order_food/order_food_management.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/settings/settings_management.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/shift_management/shift_management.dart';
@@ -109,14 +110,15 @@ class DashBoardScreen extends GetWidget<DashBoardController> {
                     dashboardController: controller,
                   )
                 );}
-               else if(controller.name_tab.value == settings){
+               else if(controller.name_tab.value == quan_ly_phieu){
                 return Expanded(
                   flex: 8,
-                  child: SettingsManagement(
-                    texts: ['1','2'],
+                  child: NoteManagementScreen(
+                    dashboardController: controller,
                   )
                 );
               }
+              
               return Container();
             },)
           ],

@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/models/food_model.dart';
+import '../../../data/models/note_client_model.dart';
 import '../../../data/models/shift_models.dart';
 import '/core/app_export.dart';
 
@@ -29,8 +30,10 @@ class DashBoardController extends GetxController {
   var QLTC = false.obs;
   var QLCH = false.obs;
   var QLTD = false.obs;
+  var QLP = false.obs;
   var CHDD = false.obs;
   var DSDM = false.obs;
+
 
  
 
@@ -40,6 +43,7 @@ class DashBoardController extends GetxController {
   var isLoadingSubject = false.obs;
   var isLoadingClass= false.obs;
   var isLoadingShift= false.obs;
+  var isLoadingNote= false.obs;
 
 
   var sum_student = 0.obs;
@@ -74,6 +78,8 @@ class DashBoardController extends GetxController {
   RxList<FoodModel> getDessertList = <FoodModel>[].obs;
 
   RxList<orderFoodModel> getOrderFoodList = <orderFoodModel>[].obs;
+
+  RxList<NoteRequestModel> listNoteRequestAdmin = <NoteRequestModel>[].obs;
 
 
 
@@ -137,6 +143,10 @@ class DashBoardController extends GetxController {
         case 'quan_ly_thuc_don':
           getFood();
           QLTD.value = true;
+          break;
+        case 'quan_ly_phieu':
+          getNoteRequestAdmin();
+          QLP.value = true;
           break;
         case 'cau_hinh_he_thong_diem_danh':
           getConfig();
@@ -397,6 +407,28 @@ class DashBoardController extends GetxController {
       dataGet = value;
     }).whenComplete(() {
       getOrderFoodList.value = dataGet;
+    });
+  }
+  //get note
+  Future<void> getNoteRequestAdmin ()async{
+    listNoteRequestAdmin.clear();
+    List<NoteRequestModel> data = [];
+    await apiClient.getNote().then((value){
+      data = value;
+    }).whenComplete((){
+      data.map((e){
+        NoteRequestModel model = NoteRequestModel(
+          id: e.id,
+          description: e.description,
+          status: e.status,
+          teacherCode: e.teacherCode,
+          teacherName: e.teacherName,
+          time: e.time,
+          type: e.type
+        );
+        isLoadingNote.value = true;
+        listNoteRequestAdmin.add(model);
+      }).toList();
     });
   }
 

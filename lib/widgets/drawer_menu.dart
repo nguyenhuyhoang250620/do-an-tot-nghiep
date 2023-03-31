@@ -97,6 +97,14 @@ class DrawerMenu extends StatelessWidget {
                   tap: () {
                     controller.name_tab.value = quan_ly_thuc_don;      
                   }):Container(),
+             controller.QLP.value?DrawerListTile(
+                  color:controller.name_tab.value == quan_ly_phieu?ColorConstant.colorBackgroud:bgColor,
+                  title: 'Quản lý phiếu',
+                  colorText: controller.name_tab.value == quan_ly_phieu?ColorConstant.colorBackgroud:textColor,
+                  icon: Icon(Icons.note_alt_outlined,color: controller.name_tab.value == quan_ly_phieu?ColorConstant.colorBackgroud:textColor,),
+                  tap: () {
+                    controller.name_tab.value = quan_ly_phieu;      
+                  }):Container(),
             controller.CHDD.value?DrawerListTile(
                   color:controller.name_tab.value == cau_hinh_he_thong_diem_danh?ColorConstant.colorBackgroud:bgColor,
                   title: 'Cấu hình hệ thống điểm danh',
@@ -117,14 +125,6 @@ class DrawerMenu extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: appPadding * 2,vertical: appPadding*2),
               child: Text("TÀI KHOẢN",style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),)
             ),
-            DrawerListTile(
-                  color:controller.name_tab.value == settings?ColorConstant.colorBackgroud:bgColor,
-                  title: 'Trợ giúp',
-                  colorText: controller.name_tab.value == settings?ColorConstant.colorBackgroud:textColor,
-                  icon: Icon(Icons.help_outline_rounded,color: controller.name_tab.value == settings?ColorConstant.colorBackgroud:textColor,),
-                  tap: () {
-                    controller.name_tab.value = settings;      
-                  }),
             DrawerListTile(
                   color: bgColor,
                   title: 'Đăng suất', 

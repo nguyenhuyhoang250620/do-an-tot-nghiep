@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 
 class CustomSelectDateTimeMutil extends StatefulWidget {
-  const CustomSelectDateTimeMutil({super.key, required this.onTap,});
-  final GestureTapCallback? onTap;
+  CustomSelectDateTimeMutil({super.key, required this.onChangedStart,this.onChangedEnd});
+  void Function(String)? onChangedStart;
+  void Function(String)? onChangedEnd;
 
   @override
   State<CustomSelectDateTimeMutil> createState() => _CustomSelectDateTimeMutilState();
@@ -30,18 +31,14 @@ class _CustomSelectDateTimeMutilState extends State<CustomSelectDateTimeMutil> {
                 dateMask: 'dd-MM-yyyy',
                 initialValue:DateTime.now().toString(),
                 firstDate: DateTime(2000),
-                lastDate: DateTime(3000),
+                lastDate: DateTime.now(),
                 icon: Icon(
                   Icons.event,
                   color: darkTextColor,
                 ),
                 dateLabelText: 'Từ ngày',
                 //cursorColor: Color.fromRGBO(255, 255, 255, 0.1),
-                onChanged: (val) {
-                  // vmsController.startDate.value = DateFormat("yyyy-MM-dd").parse(val);
-                  // //print(endDate);
-                  // widget.startDateCallback(vmsController.startDate.value);
-                }),
+                onChanged: widget.onChangedStart),
           ),
           SizedBox(width: 20,),
           Container(
@@ -55,17 +52,14 @@ class _CustomSelectDateTimeMutilState extends State<CustomSelectDateTimeMutil> {
                 ),
                 dateMask: 'dd-MM-yyyy',
                 initialValue:DateTime.now().toString(),
-                firstDate: DateTime(2000),
+                firstDate: DateTime.now(),
                 lastDate: DateTime(3000),
                 icon: Icon(
                   Icons.event,
                   color: darkTextColor,
                 ),
                 dateLabelText: 'Đến ngày',
-                onChanged: (val) {
-                  // vmsController.endDate.value = DateFormat("yyyy-MM-dd").parse(val);
-                  // widget.endDateCallback(vmsController.endDate.value);
-                }),
+                onChanged: widget.onChangedEnd),
           ),
         ],
       ),
@@ -73,8 +67,8 @@ class _CustomSelectDateTimeMutilState extends State<CustomSelectDateTimeMutil> {
   }
 }
 class CustomSelectDateTimeOnly extends StatefulWidget {
-  const CustomSelectDateTimeOnly({super.key, required this.onTap,});
-  final GestureTapCallback? onTap;
+  CustomSelectDateTimeOnly({super.key, required this.onChanged,});
+  void Function(String)? onChanged;
 
   @override
   State<CustomSelectDateTimeOnly> createState() => _CustomSelectDateTimeOnlyState();
@@ -106,11 +100,7 @@ class _CustomSelectDateTimeOnlyState extends State<CustomSelectDateTimeOnly> {
                 ),
                 dateLabelText: 'Chọn ngày',
                 //cursorColor: Color.fromRGBO(255, 255, 255, 0.1),
-                onChanged: (val) {
-                  // vmsController.startDate.value = DateFormat("yyyy-MM-dd").parse(val);
-                  // //print(endDate);
-                  // widget.startDateCallback(vmsController.startDate.value);
-                }),
+                onChanged: widget.onChanged),
           ),
           SizedBox(width: 20,),
           Container(

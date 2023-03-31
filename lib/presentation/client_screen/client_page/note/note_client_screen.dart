@@ -1,4 +1,5 @@
 import 'package:do_an_tot_nghiep/core/app_export.dart';
+import 'package:do_an_tot_nghiep/presentation/client_screen/client_controller/client_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/client_screen/client_page/note/note_client_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
 import 'package:do_an_tot_nghiep/widgets/custom_button.dart';
@@ -10,8 +11,10 @@ import '../../../../widgets/custom_dropdow_button.dart';
 import '../../../../widgets/custom_richtext.dart';
 import '../../../../widgets/custom_select_datetime.dart';
 import '../../../../widgets/custom_textfiled.dart';
+import 'env_client_note.dart';
 
 class NoteClientScreen extends GetWidget<NoteClientController>{
+  final clientController = Get.find<ClientController>();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,8 +38,8 @@ class NoteClientScreen extends GetWidget<NoteClientController>{
           ),
           Expanded(
             flex: 9,
-            child: GridView.builder(
-              itemCount: 2,
+            child: Obx(() => GridView.builder(
+              itemCount: clientController.listNoteRequest.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 5,
                   mainAxisExtent: 500,
@@ -63,55 +66,56 @@ class NoteClientScreen extends GetWidget<NoteClientController>{
                           SizedBox(height: 10,),
                           CustomRichText(
                             textLeft: 'Loại đơn : ',
-                            textRight: 'Đơn xin nghỉ có lương',
+                            textRight: '${clientController.listNoteRequest[index].type}',
                           ),
                           SizedBox(height: 10,),
                           CustomRichText(
-                            textLeft: 'Nội dung : ',
-                            textRight: 'Xin nghỉ về quê ăn tết',
+                            textLeft: 'Trạng thái : ',
+                            textRight: '${clientController.listNoteRequest[index].status}',
                           ),
                           SizedBox(height: 10,),
                           CustomRichText(
                             textLeft: 'Thời gian : ',
-                            textRight: '25-06-2023',
+                            textRight: '${clientController.listNoteRequest[index].time}',
                           ),
+                          SizedBox(height: 10,),
+                          CustomRichText(
+                            textLeft: 'Nội dung : ',
+                            textRight: '${clientController.listNoteRequest[index].description}',
+                          ),
+ 
                           Expanded(flex: 2,child: Container(),),
                           Expanded(
                            flex: 2,
                            child: Container(
                             height: Get.height,
                             width: Get.width,
-                            child: Row(
+                            child: Obx(() => clientController.listNoteRequest[index].status == cho_gui.value?Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 IconButton(
                                   onPressed:() {
-                                  
+                                    controller.sendNote(
+                                      cho_duyet.value,
+                                      clientController.listNoteRequest[index].type!,
+                                      clientController.listNoteRequest[index].time!,
+                                      clientController.MaGV.value,
+                                      clientController.listNoteRequest[index].description!,
+                                    );
+                                    Get.back();
                                   }, 
                                   tooltip: 'Gửi',
-                                  icon: Icon(Icons.send,color: blue,)),
-                                IconButton(
-                                  onPressed:() {
-                                  
-                                  }, 
-                                  tooltip: 'Cập nhật',
-                                  icon: Icon(Icons.update,color: orange,)),
-                                IconButton(
-                                  onPressed:() {
-                                  
-                                  }, 
-                                  tooltip: 'Xoá',
-                                  icon: Icon(Icons.delete,color: red,))
+                                  icon: Icon(Icons.send,color: blue,size: 30,)),
                               ],
-                            ),
+                            ):Container(),)
                            ), 
                           )
                         ],
                       ),
                     );
               },
-            ),
+            ),)
           )
         ],
       )
@@ -122,6 +126,9 @@ class NoteClientScreen extends GetWidget<NoteClientController>{
 
 Widget buildAlertCreateNote(){
   final controller = Get.find<NoteClientController>();
+  var dateTimeOnly = DateTime.now().toString().substring(0,10);
+  var startTime =  DateTime.now().toString().substring(0,10);
+  var endTime =  DateTime.now().toString().substring(0,10);
   return AlertDialog(
     title: Center(child: Text("Tạo phiếu")),
     content: Container(
@@ -133,22 +140,7 @@ Widget buildAlertCreateNote(){
             textLeft: 'Số ngày phép còn lại : ',
             textRight: '10',
           ),
-           Container(
-            margin: EdgeInsets.only(top: 6),
-            decoration: BoxDecoration(
-              border: Border.all(color: darkTextColor.withOpacity(0.2)),
-              borderRadius: BorderRadius.circular(4.0)
-            ),
-             child: CustomDropDownButton(
-                icon: Icon(Icons.type_specimen), 
-                hintText: 'Lựa chọn loại đơn',
-                items: controller.listTypeNote.map((e) => _childDropDownItem(e)).toList(),
-                onChangedlistSelect: (p0) {
-                  // configController.ma_phong_hoc.value = p0 as String;
-                },
-                     ),
-           ),
-           SizedBox(height: 15,),
+            SizedBox(height: 15,),
            Container(
               height: 60,
               width: Get.width,
@@ -189,29 +181,51 @@ Widget buildAlertCreateNote(){
            SizedBox(height: 15,),
            Obx(() => controller.selectDateTime.value == '1 Ngày'
             ? CustomSelectDateTimeOnly(
-                onTap: () {
-                  
+                onChanged: (p0) {
+                  dateTimeOnly = p0;
                 },
               )
             : CustomSelectDateTimeMutil(
-              onTap: () {
-                
+              onChangedEnd: (p0) {
+                endTime = p0;
+              },
+              onChangedStart: (p0) {
+                startTime = p0;
               },
             )
            ,),
+          SizedBox(height: 15,),
+           Container(
+            margin: EdgeInsets.only(top: 6),
+            decoration: BoxDecoration(
+              border: Border.all(color: darkTextColor.withOpacity(0.2)),
+              borderRadius: BorderRadius.circular(4.0)
+            ),
+             child: CustomDropDownButton(
+                icon: Icon(Icons.type_specimen), 
+                hintText: 'Lựa chọn loại đơn',
+                items: controller.listTypeNote.map((e) => _childDropDownItem(e)).toList(),
+                onChangedlistSelect: (p0) {
+                  controller.typeNote.value = p0 as String;
+                },
+                     ),
+           ),
            SizedBox(height: 25,),
            Container(
-              height: 350,
+              height: 300,
               padding: EdgeInsets.all(appPadding),
               decoration: BoxDecoration(
                 border: Border.all(color: darkTextColor.withOpacity(0.2))
               ),
              child: TextFormField(
-              maxLines: 350,
+              maxLines: 300,
               decoration: InputDecoration(
                 border:InputBorder.none,
                 hintText: 'Nội dung'
               ),
+              onChanged: (value) {
+                controller.decription.value = value;
+              },
             ),
            )
            
@@ -226,7 +240,25 @@ Widget buildAlertCreateNote(){
           Get.back();
         },
         onPressedEnable: () {
+          controller.leaveDay.value ='10';
+          if(controller.selectDateTime.value == '1 Ngày'){
+             controller.dateTimeLeave.value = dateTimeOnly;
+          }
+          else{
+            controller.dateTimeLeave.value = '${startTime} -> ${endTime}';
+          }
           
+          controller.createNote(
+            cho_gui.value,
+            controller.dateTimeLeave.value,
+            controller.typeNote.value,
+            controller.decription.value,
+          );
+          controller.leaveDay.value = "";
+          controller.dateTimeLeave.value="";
+          controller.typeNote.value="";
+          controller.decription.value="";
+          Get.back();
         },
       )
     ],
