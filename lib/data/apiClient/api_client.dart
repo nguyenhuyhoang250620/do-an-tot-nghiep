@@ -39,19 +39,23 @@ class ApiClient {
   String getAccount() {
     return acccount;
   }
+
   bool IsLogin() {
     return isLogin;
   }
+
   factory ApiClient() {
     return _apiClient;
   }
-   Future<void> login(String email, String password) async {
+  Future<void> login(String email, String password) async {
     try {
-      final response = await dio.post('$baseUrl/signin', data: {'email': '${email}@gmail.com', 'password': password});
+      final response = await dio.post('$baseUrl/signin',
+          data: {'email': '${email}@gmail.com', 'password': password});
 
       // Xử lý kết quả trả về từ API
       if (response.statusCode == 200) {
-        Map<String, dynamic> decodedToken = JwtDecoder.decode(response.data['idToken']);
+        Map<String, dynamic> decodedToken =
+            JwtDecoder.decode(response.data['idToken']);
         String role = decodedToken['role'];
         String authorcation = decodedToken['authorcation'];
         // print('HoangNH: $role');
@@ -68,13 +72,13 @@ class ApiClient {
         // SharedPreferences prefs = await SharedPreferences.getInstance();
         // prefs.setString('role', role);
         // prefs.setBool('isLogin', true);
-        isLogin = true;  
-        if(role==Admin){
+        isLogin = true;
+        if (role == Admin) {
           Get.offAndToNamed(AppRoutes.dashBoardScreen);
-        }
-        else{
+        } else {
           Get.offAndToNamed(AppRoutes.clientScreen);
-          String MaGV = response.data['user']['email'].replaceAll("@gmail.com", "");
+          String MaGV =
+              response.data['user']['email'].replaceAll("@gmail.com", "");
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('MaGV', MaGV);
         }
@@ -85,23 +89,24 @@ class ApiClient {
       }
     } catch (e) {
       // Xử lý lỗi khi gọi API
-      Get.snackbar(
-            'Tài khoản không tồn tại, hoặc chưa được cấp'
-            , '',backgroundColor: error);
+      Get.snackbar('Tài khoản không tồn tại, hoặc chưa được cấp', '',
+          backgroundColor: error);
       // ...
     }
   }
 
-  Future<void> logout() async{
-      try {
-      final response = await dio.post('$baseUrl/logout',);
+  Future<void> logout() async {
+    try {
+      final response = await dio.post(
+        '$baseUrl/logout',
+      );
       // Xử lý kết quả trả về từ API
       if (response.statusCode == 200) {
         // Lưu token vào local storage hoặc truyền vào trang khác để sử dụng
         final token = response.data['token'];
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.remove('MaGV');
-          prefs.remove('isLogin');
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.remove('MaGV');
+        prefs.remove('isLogin');
         Get.offAndToNamed(AppRoutes.loginScreen);
         // ...
       } else {
@@ -115,9 +120,10 @@ class ApiClient {
     }
   }
 
-  Future<void> forgetPassword(String email) async{
-      try {
-      final response = await dio.post('$baseUrl/forget-password',data: {'email': email});
+  Future<void> forgetPassword(String email) async {
+    try {
+      final response =
+          await dio.post('$baseUrl/forget-password', data: {'email': email});
 
       // Xử lý kết quả trả về từ API
       if (response.statusCode == 200) {
@@ -136,8 +142,11 @@ class ApiClient {
 
   //get list user
   Future<List<UserModel>> getUser() async {
-    return await dio.get('$baseUrl/get-user',)
-      .then((response) {
+    return await dio
+        .get(
+      '$baseUrl/get-user',
+    )
+        .then((response) {
       List<UserModel> userList = [];
       if (response.statusCode == 201) {
         for (var item in response.data) {
@@ -149,127 +158,106 @@ class ApiClient {
       print('HoangNH: ${err}');
     });
   }
+
   //create user
   Future<void> createUser(
-    String ten_sinh_vien,
-    String ma_sinh_vien,
-    String khoa,
-    String ngay_sinh,
-    String gioi_tinh,
-    String cccd,
-    String gmail,
-    String so_dien_thoai
-  ) async{
-    Map data ={
-      "MaSV":ma_sinh_vien, 
-      "TenSV":ten_sinh_vien,
-      "Khoa":khoa,
-      "NamSinh":ngay_sinh,
-      "GioiTinh":gioi_tinh,
-      "CCCD":cccd,
-      "Email":gmail,
-      "SoDT":so_dien_thoai
+      String ten_sinh_vien,
+      String ma_sinh_vien,
+      String khoa,
+      String ngay_sinh,
+      String gioi_tinh,
+      String cccd,
+      String gmail,
+      String so_dien_thoai) async {
+    Map data = {
+      "MaSV": ma_sinh_vien,
+      "TenSV": ten_sinh_vien,
+      "Khoa": khoa,
+      "NamSinh": ngay_sinh,
+      "GioiTinh": gioi_tinh,
+      "CCCD": cccd,
+      "Email": gmail,
+      "SoDT": so_dien_thoai
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/create-user',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.post('$baseUrl/create-user', data: body).then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
-    }
-
   }
+
   //delete user
   Future<void> deleteUser(String ma_sinh_vien) async {
-      Map data ={
-      "MaSV":ma_sinh_vien, 
+    Map data = {
+      "MaSV": ma_sinh_vien,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.delete(
-        '$baseUrl/delete-user',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Xoá thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.delete('$baseUrl/delete-user', data: body).then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Xoá thành công', '', backgroundColor: succes);
         }
       });
+    } catch (e) {
+      Get.snackbar('Xoá không thành công', '', backgroundColor: error);
     }
-    catch(e){
-          Get.snackbar(
-            'Xoá không thành công'
-            , '',backgroundColor: error);
-    }
-
   }
+
   //update user
-   Future<void> updateUser(
-    String ten_giang_vien,
-    String ma_giang_vien,
-    String chuyen_nganh,
-    String ngay_sinh,
-    String gioi_tinh,
-    String cccd,
-    String gmail,
-    String so_dien_thoai
-  ) async{
-    Map data ={
-      "MaGV":ma_giang_vien, 
-      "TenGV":ten_giang_vien,
-      "ChuyenNganh":chuyen_nganh,
-      "NamSinh":ngay_sinh,
-      "GioiTinh":gioi_tinh,
-      "CCCD":cccd,
-      "Email":gmail,
-      "SoDT":so_dien_thoai
+  Future<void> updateUser(
+      String ten_giang_vien,
+      String ma_giang_vien,
+      String chuyen_nganh,
+      String ngay_sinh,
+      String gioi_tinh,
+      String cccd,
+      String gmail,
+      String so_dien_thoai) async {
+    Map data = {
+      "MaGV": ma_giang_vien,
+      "TenGV": ten_giang_vien,
+      "ChuyenNganh": chuyen_nganh,
+      "NamSinh": ngay_sinh,
+      "GioiTinh": gioi_tinh,
+      "CCCD": cccd,
+      "Email": gmail,
+      "SoDT": so_dien_thoai
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.patch(
-        '$baseUrl/update-teacher',
-        data: body
-        ).then((value){
-          print('HoangNH: ${value.statusCode}');
-        if(value.statusCode == 200){
-          Get.snackbar(
-            'Cập nhật thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .patch('$baseUrl/update-teacher', data: body)
+          .then((value) {
+        print('HoangNH: ${value.statusCode}');
+        if (value.statusCode == 200) {
+          Get.snackbar('Cập nhật thành công', '', backgroundColor: succes);
         }
       });
+    } catch (e) {
+      Get.snackbar('Cập nhật không thành công', '', backgroundColor: error);
     }
-    catch(e){
-          Get.snackbar(
-            'Cập nhật không thành công'
-          , '',backgroundColor: error);
-    }
-
   }
-    
+
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
-  
+
   //get list teacher
   Future<List<TeacherModel>> getTeacher() async {
-    return await dio.get('$baseUrl/get-teacher',)
-      .then((response) {
+    return await dio
+        .get(
+      '$baseUrl/get-teacher',
+    )
+        .then((response) {
       List<TeacherModel> teacherList = [];
       if (response.statusCode == 201) {
         for (var item in response.data) {
@@ -282,124 +270,106 @@ class ApiClient {
     });
   }
 
-    //create teacher
+  //create teacher
   Future<void> createTeacher(
-    String ten_giang_vien,
-    String ma_giang_vien,
-    String chuyen_nganh,
-    String ngay_sinh,
-    String gioi_tinh,
-    String cccd,
-    String gmail,
-    String so_dien_thoai
-  ) async{
-    Map data ={
-      "MaGV":ma_giang_vien, 
-      "TenGV":ten_giang_vien,
-      "ChuyenNganh":chuyen_nganh,
-      "NamSinh":ngay_sinh,
-      "GioiTinh":gioi_tinh,
-      "CCCD":cccd,
-      "Email":gmail,
-      "SoDT":so_dien_thoai
+      String ten_giang_vien,
+      String ma_giang_vien,
+      String chuyen_nganh,
+      String ngay_sinh,
+      String gioi_tinh,
+      String cccd,
+      String gmail,
+      String so_dien_thoai) async {
+    Map data = {
+      "MaGV": ma_giang_vien,
+      "TenGV": ten_giang_vien,
+      "ChuyenNganh": chuyen_nganh,
+      "NamSinh": ngay_sinh,
+      "GioiTinh": gioi_tinh,
+      "CCCD": cccd,
+      "Email": gmail,
+      "SoDT": so_dien_thoai
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/create-teacher',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .post('$baseUrl/create-teacher', data: body)
+          .then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
+
   //update teacher
-   Future<void> updateTeacher(
-    String ten_sinh_vien,
-    String ma_sinh_vien,
-    String khoa,
-    String ngay_sinh,
-    String gioi_tinh,
-    String cccd,
-    String gmail,
-    String so_dien_thoai
-  ) async{
-    Map data ={
-      "MaSV":ma_sinh_vien, 
-      "TenSV":ten_sinh_vien,
-      "Khoa":khoa,
-      "NamSinh":ngay_sinh,
-      "GioiTinh":gioi_tinh,
-      "CCCD":cccd,
-      "Email":gmail,
-      "SoDT":so_dien_thoai
+  Future<void> updateTeacher(
+      String ten_sinh_vien,
+      String ma_sinh_vien,
+      String khoa,
+      String ngay_sinh,
+      String gioi_tinh,
+      String cccd,
+      String gmail,
+      String so_dien_thoai) async {
+    Map data = {
+      "MaSV": ma_sinh_vien,
+      "TenSV": ten_sinh_vien,
+      "Khoa": khoa,
+      "NamSinh": ngay_sinh,
+      "GioiTinh": gioi_tinh,
+      "CCCD": cccd,
+      "Email": gmail,
+      "SoDT": so_dien_thoai
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.patch(
-        '$baseUrl/update-user',
-        data: body
-        ).then((value){
-          print('HoangNH: ${value.statusCode}');
-        if(value.statusCode == 200){
-          Get.snackbar(
-            'Cập nhật thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.patch('$baseUrl/update-user', data: body).then((value) {
+        print('HoangNH: ${value.statusCode}');
+        if (value.statusCode == 200) {
+          Get.snackbar('Cập nhật thành công', '', backgroundColor: succes);
         }
       });
+    } catch (e) {
+      Get.snackbar('Cập nhật không thành công', '', backgroundColor: error);
     }
-    catch(e){
-          Get.snackbar(
-            'Cập nhật không thành công'
-          , '',backgroundColor: error);
-    }
-
   }
+
   //delete teacher
-   Future<void> deleteTeacher (ma_giang_vien) async {
-      Map data ={
-      "MaGV":ma_giang_vien, 
+  Future<void> deleteTeacher(ma_giang_vien) async {
+    Map data = {
+      "MaGV": ma_giang_vien,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.delete(
-        '$baseUrl/delete-teacher',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Xoá thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .delete('$baseUrl/delete-teacher', data: body)
+          .then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Xoá thành công', '', backgroundColor: succes);
         }
       });
+    } catch (e) {
+      Get.snackbar('Xoá không thành công', '', backgroundColor: error);
     }
-    catch(e){
-          Get.snackbar(
-            'Xoá không thành công'
-            , '',backgroundColor: error);
-    }
-
   }
+
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get list department
   Future<List<DepartmentModel>> getDepartment() async {
-    return await dio.get('$baseUrl/get-department',)
-      .then((response) {
+    return await dio
+        .get(
+      '$baseUrl/get-department',
+    )
+        .then((response) {
       List<DepartmentModel> departmentList = [];
       if (response.statusCode == 201) {
         for (var item in response.data) {
@@ -417,101 +387,85 @@ class ApiClient {
     String ten_don_vi,
     String ma_don_vi,
     String mo_ta,
-  ) async{
-    Map data ={
-      "MaDV":ma_don_vi, 
-      "TenDV":ten_don_vi,
-      "Mota":mo_ta,
+  ) async {
+    Map data = {
+      "MaDV": ma_don_vi,
+      "TenDV": ten_don_vi,
+      "Mota": mo_ta,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/create-department',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .post('$baseUrl/create-department', data: body)
+          .then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
 
   //update department
-   Future<void> updateDepartment(
+  Future<void> updateDepartment(
     String ten_don_vi,
     String ma_don_vi,
     String mo_ta,
-  ) async{
-    Map data ={
-      "MaDV":ma_don_vi, 
-      "TenDV":ten_don_vi,
-      "Mota":mo_ta,
+  ) async {
+    Map data = {
+      "MaDV": ma_don_vi,
+      "TenDV": ten_don_vi,
+      "Mota": mo_ta,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.patch(
-        '$baseUrl/update-department',
-        data: body
-        ).then((value){
-          print('HoangNH: ${value.statusCode}');
-        if(value.statusCode == 200){
-          Get.snackbar(
-            'Cập nhật thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .patch('$baseUrl/update-department', data: body)
+          .then((value) {
+        print('HoangNH: ${value.statusCode}');
+        if (value.statusCode == 200) {
+          Get.snackbar('Cập nhật thành công', '', backgroundColor: succes);
         }
       });
+    } catch (e) {
+      Get.snackbar('Cập nhật không thành công', '', backgroundColor: error);
     }
-    catch(e){
-          Get.snackbar(
-            'Cập nhật không thành công'
-          , '',backgroundColor: error);
-    }
-
   }
+
   //xoa phong ban
-   Future<void> deleteDepartment(String ma_don_vi) async {
-      Map data ={
-      "MaDV":ma_don_vi, 
+  Future<void> deleteDepartment(String ma_don_vi) async {
+    Map data = {
+      "MaDV": ma_don_vi,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.delete(
-        '$baseUrl/delete-department',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Xoá thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .delete('$baseUrl/delete-department', data: body)
+          .then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Xoá thành công', '', backgroundColor: succes);
         }
       });
+    } catch (e) {
+      Get.snackbar('Xoá không thành công', '', backgroundColor: error);
     }
-    catch(e){
-          Get.snackbar(
-            'Xoá không thành công'
-            , '',backgroundColor: error);
-    }
-
   }
 
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get list subject
   Future<List<SubjectModel>> getSubject() async {
-    return await dio.get('$baseUrl/get-subject',)
-      .then((response) {
+    return await dio
+        .get(
+      '$baseUrl/get-subject',
+    )
+        .then((response) {
       List<SubjectModel> subjectList = [];
       if (response.statusCode == 201) {
         for (var item in response.data) {
@@ -534,41 +488,35 @@ class ApiClient {
     String tong_so_tiet,
     String dktq,
     String mo_ta,
-  ) async{
-    Map data ={
-     "KhoiKienThuc" : khoi_kien_thuc,
-      "MaHocPhan":ma_hoc_phan,
-      "TenHocPhan":ten_hoc_phan,
-      "KiThu":ki_thu,
-      "SotinChi":so_tin_chi,
-      "TongSoTiet":tong_so_tiet,
-      "DKTQ":dktq,
-      "MoTa":mo_ta
+  ) async {
+    Map data = {
+      "KhoiKienThuc": khoi_kien_thuc,
+      "MaHocPhan": ma_hoc_phan,
+      "TenHocPhan": ten_hoc_phan,
+      "KiThu": ki_thu,
+      "SotinChi": so_tin_chi,
+      "TongSoTiet": tong_so_tiet,
+      "DKTQ": dktq,
+      "MoTa": mo_ta
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/create-subject',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .post('$baseUrl/create-subject', data: body)
+          .then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
 
-    //update subject
-   Future<void> updateSubject(
+  //update subject
+  Future<void> updateSubject(
     String khoi_kien_thuc,
     String ma_hoc_phan,
     String ten_hoc_phan,
@@ -577,77 +525,63 @@ class ApiClient {
     String tong_so_tiet,
     String dktq,
     String mo_ta,
-  ) async{
-    Map data ={
-      "KhoiKienThuc" : khoi_kien_thuc,
-      "MaHocPhan":ma_hoc_phan,
-      "TenHocPhan":ten_hoc_phan,
-      "KiThu":ki_thu,
-      "SotinChi":so_tin_chi,
-      "TongSoTiet":tong_so_tiet,
-      "DKTQ":dktq,
-      "MoTa":mo_ta
+  ) async {
+    Map data = {
+      "KhoiKienThuc": khoi_kien_thuc,
+      "MaHocPhan": ma_hoc_phan,
+      "TenHocPhan": ten_hoc_phan,
+      "KiThu": ki_thu,
+      "SotinChi": so_tin_chi,
+      "TongSoTiet": tong_so_tiet,
+      "DKTQ": dktq,
+      "MoTa": mo_ta
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.patch(
-        '$baseUrl/update-subject',
-        data: body
-        ).then((value){
-          print('HoangNH: ${value.statusCode}');
-        if(value.statusCode == 200){
-          Get.snackbar(
-            'Cập nhật thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .patch('$baseUrl/update-subject', data: body)
+          .then((value) {
+        print('HoangNH: ${value.statusCode}');
+        if (value.statusCode == 200) {
+          Get.snackbar('Cập nhật thành công', '', backgroundColor: succes);
         }
       });
+    } catch (e) {
+      Get.snackbar('Cập nhật không thành công', '', backgroundColor: error);
     }
-    catch(e){
-          Get.snackbar(
-            'Cập nhật không thành công'
-          , '',backgroundColor: error);
-    }
-
   }
 
-    //xoa hoc phan
-   Future<void> deleteSubject(String ma_hoc_phan) async {
-      Map data ={
-      "MaHocPhan":ma_hoc_phan, 
+  //xoa hoc phan
+  Future<void> deleteSubject(String ma_hoc_phan) async {
+    Map data = {
+      "MaHocPhan": ma_hoc_phan,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.delete(
-        '$baseUrl/delete-subject',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Xoá thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .delete('$baseUrl/delete-subject', data: body)
+          .then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Xoá thành công', '', backgroundColor: succes);
         }
       });
+    } catch (e) {
+      Get.snackbar('Xoá không thành công', '', backgroundColor: error);
     }
-    catch(e){
-          Get.snackbar(
-            'Xoá không thành công'
-            , '',backgroundColor: error);
-    }
-
   }
-
-
-
 
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get list class
   Future<List<ClassModel>> getClass() async {
-    return await dio.get('$baseUrl/get-class',)
-      .then((response) {
+    return await dio
+        .get(
+      '$baseUrl/get-class',
+    )
+        .then((response) {
       List<ClassModel> classList = [];
       if (response.statusCode == 201) {
         for (var item in response.data) {
@@ -666,137 +600,119 @@ class ApiClient {
     String mo_ta,
     String ma_phong,
     String ten_phong,
-  ) async{
-    Map data ={
-      "MaPhong":ma_phong, 
-      "TenPhong":ten_phong,
-      "Mota":mo_ta,
-      "TenMayQuet":ten_may_quet,
+  ) async {
+    Map data = {
+      "MaPhong": ma_phong,
+      "TenPhong": ten_phong,
+      "Mota": mo_ta,
+      "TenMayQuet": ten_may_quet,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/create-class',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.post('$baseUrl/create-class', data: body).then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
 
-   //update class
-   Future<void> updateClass(
+  //update class
+  Future<void> updateClass(
     String ten_phong,
     String ma_phong,
     String ten_may_quet,
     String mo_ta,
-  ) async{
-    Map data ={
-      "TenPhong":ten_phong, 
-      "MaPhong":ma_phong,
-      "TenMayQuet":ten_may_quet,
-      "Mota":mo_ta,
+  ) async {
+    Map data = {
+      "TenPhong": ten_phong,
+      "MaPhong": ma_phong,
+      "TenMayQuet": ten_may_quet,
+      "Mota": mo_ta,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.patch(
-        '$baseUrl/update-class',
-        data: body
-        ).then((value){
-          print('HoangNH: ${value.statusCode}');
-        if(value.statusCode == 200){
-          Get.snackbar(
-            'Cập nhật thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.patch('$baseUrl/update-class', data: body).then((value) {
+        print('HoangNH: ${value.statusCode}');
+        if (value.statusCode == 200) {
+          Get.snackbar('Cập nhật thành công', '', backgroundColor: succes);
         }
       });
+    } catch (e) {
+      Get.snackbar('Cập nhật không thành công', '', backgroundColor: error);
     }
-    catch(e){
-          Get.snackbar(
-            'Cập nhật không thành công'
-          , '',backgroundColor: error);
-    }
-
   }
-    //xoa lop hoc
-   Future<void> deleteClass(String ma_phong) async {
-      Map data ={
-      "MaPhong":ma_phong, 
+
+  //xoa lop hoc
+  Future<void> deleteClass(String ma_phong) async {
+    Map data = {
+      "MaPhong": ma_phong,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.delete(
-        '$baseUrl/delete-class',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Xoá thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .delete('$baseUrl/delete-class', data: body)
+          .then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Xoá thành công', '', backgroundColor: succes);
         }
       });
+    } catch (e) {
+      Get.snackbar('Xoá không thành công', '', backgroundColor: error);
     }
-    catch(e){
-          Get.snackbar(
-            'Xoá không thành công'
-            , '',backgroundColor: error);
-    }
-
   }
-
 
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //upload avatar
-  Future<void>UpdateAvatar({
+  Future<void> UpdateAvatar({
     required String masv,
     required String magv,
     required String ma_mon,
     XFile? files,
   }) async {
     Map<String, dynamic> map = {};
-    if(masv!=''){
+    if (masv != '') {
       map.addAll({"masv": masv});
     }
-    if(magv!=''){
+    if (magv != '') {
       map.addAll({"magv": magv});
     }
-    if(ma_mon!=''){
+    if (ma_mon != '') {
       map.addAll({"ma_mon": ma_mon});
     }
     if (files != null && files.length().toString() != '0') {
       Uint8List bytes = await files.readAsBytes();
       String fileName = files.name;
-      map.addAll({"file": _dio.MultipartFile.fromBytes(bytes, filename: fileName)});
+      map.addAll(
+          {"file": _dio.MultipartFile.fromBytes(bytes, filename: fileName)});
     }
 
     _dio.FormData formData = _dio.FormData.fromMap(map);
     print('HoangNH: ${formData.fields}');
-    return await dio.post('$baseUrl/upload-image', data: formData).then((response) {
+    return await dio
+        .post('$baseUrl/upload-image', data: formData)
+        .then((response) {
       print('HoangNH: thanh cong');
       return;
     });
   }
 
-   //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get list class
   Future<List<ShiftModel>> getShift() async {
-    return await dio.get('$baseUrl/get-shift',)
-      .then((response) {
+    return await dio
+        .get(
+      '$baseUrl/get-shift',
+    )
+        .then((response) {
       List<ShiftModel> shiftList = [];
       if (response.statusCode == 201) {
         for (var item in response.data) {
@@ -808,130 +724,95 @@ class ApiClient {
       print('HoangNH: ${err}');
     });
   }
-    //create department
+
+  //create department
   Future<void> createShift(
     String ma_ca,
     String ten_ca,
     String so_ca,
     String mo_ta,
     String thoi_gian,
-  ) async{
-    Map data ={
-      "MaCa" : ma_ca,
-      "TenCa":ten_ca,
-      "SoCa":so_ca,
-      "Mota":mo_ta,
-      "ThoiGian":thoi_gian
+  ) async {
+    Map data = {
+      "MaCa": ma_ca,
+      "TenCa": ten_ca,
+      "SoCa": so_ca,
+      "Mota": mo_ta,
+      "ThoiGian": thoi_gian
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/create-shift',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.post('$baseUrl/create-shift', data: body).then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
-    //update class
-   Future<void> updateShift(
-      String ma_ca,
-      String ten_ca,
-      String so_ca,
-      String mo_ta,
-      String thoi_gian,
-  ) async{
-    Map data ={
-      "MaCa" : ma_ca,
-      "TenCa":ten_ca,
-      "SoCa":so_ca,
-      "Mota":mo_ta,
-      "ThoiGian":thoi_gian
+
+  //update class
+  Future<void> updateShift(
+    String ma_ca,
+    String ten_ca,
+    String so_ca,
+    String mo_ta,
+    String thoi_gian,
+  ) async {
+    Map data = {
+      "MaCa": ma_ca,
+      "TenCa": ten_ca,
+      "SoCa": so_ca,
+      "Mota": mo_ta,
+      "ThoiGian": thoi_gian
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.patch(
-        '$baseUrl/update-shift',
-        data: body
-        ).then((value){
-          print('HoangNH: ${value.statusCode}');
-        if(value.statusCode == 200){
-          Get.snackbar(
-            'Cập nhật thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.patch('$baseUrl/update-shift', data: body).then((value) {
+        print('HoangNH: ${value.statusCode}');
+        if (value.statusCode == 200) {
+          Get.snackbar('Cập nhật thành công', '', backgroundColor: succes);
         }
       });
+    } catch (e) {
+      Get.snackbar('Cập nhật không thành công', '', backgroundColor: error);
     }
-    catch(e){
-          Get.snackbar(
-            'Cập nhật không thành công'
-          , '',backgroundColor: error);
-    }
-
   }
-    //xoa lop hoc
-   Future<void> deleteShift(String ma_ca) async {
-      Map data ={
-      "MaCa":ma_ca, 
+
+  //xoa lop hoc
+  Future<void> deleteShift(String ma_ca) async {
+    Map data = {
+      "MaCa": ma_ca,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.delete(
-        '$baseUrl/delete-shift',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Xoá thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .delete('$baseUrl/delete-shift', data: body)
+          .then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Xoá thành công', '', backgroundColor: succes);
         }
       });
+    } catch (e) {
+      Get.snackbar('Xoá không thành công', '', backgroundColor: error);
     }
-    catch(e){
-          Get.snackbar(
-            'Xoá không thành công'
-            , '',backgroundColor: error);
-    }
-
   }
-
 
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get list config
   Future<List<ConfigModel>> getConfig() async {
-    return await dio.get('$baseUrl/get-config',)
-      .then((response) {
-      List<ConfigModel> userList = [];
-      if (response.statusCode == 200) {
-        for (var item in response.data) {
-          userList.add(ConfigModel.fromJson(item));
-        }
-      }
-      return userList;
-    }).catchError((err) {
-      print('HoangNH: ${err}');
-    });
-  }
-  
-  //get config client
-  Future<List<ConfigModel>> getConfigClient(String MaGV) async {
-    return await dio.get('$baseUrl/get-config?MaGV=$MaGV',)
-      .then((response) {
+    return await dio
+        .get(
+      '$baseUrl/get-config',
+    )
+        .then((response) {
       List<ConfigModel> userList = [];
       if (response.statusCode == 200) {
         for (var item in response.data) {
@@ -944,10 +825,13 @@ class ApiClient {
     });
   }
 
-    //get config client mahocphan
-  Future<List<ConfigModel>> getConfigMaHocPhanClient(String MaGV,String MaHocPhan) async {
-    return await dio.get('$baseUrl/get-config?MaGV=$MaGV&MaHocPhan=$MaHocPhan',)
-      .then((response) {
+  //get config client
+  Future<List<ConfigModel>> getConfigClient(String MaGV) async {
+    return await dio
+        .get(
+      '$baseUrl/get-config?MaGV=$MaGV',
+    )
+        .then((response) {
       List<ConfigModel> userList = [];
       if (response.statusCode == 200) {
         for (var item in response.data) {
@@ -959,125 +843,121 @@ class ApiClient {
       print('HoangNH: ${err}');
     });
   }
+
+  //get config client mahocphan
+  Future<List<ConfigModel>> getConfigMaHocPhanClient(
+      String MaGV, String MaHocPhan) async {
+    return await dio
+        .get(
+      '$baseUrl/get-config?MaGV=$MaGV&MaHocPhan=$MaHocPhan',
+    )
+        .then((response) {
+      List<ConfigModel> userList = [];
+      if (response.statusCode == 200) {
+        for (var item in response.data) {
+          userList.add(ConfigModel.fromJson(item));
+        }
+      }
+      return userList;
+    }).catchError((err) {
+      print('HoangNH: ${err}');
+    });
+  }
+
 // [ '"12huy", "1828384858", "1874802010012222", "1874802010012"' ]
 // ['12huy','1828384858','1874802010012222','1874802010012','18748020100122221']
   //create config
-    Future<void> createConfig(
+  Future<void> createConfig(
     String magv,
     String maphong,
     String madv,
     String maca,
     String mahocphan,
     List<String> masv,
-  ) async{
+  ) async {
     List<String> stringList = [...masv.map((number) => number.toString())];
     print('HoangNH: $stringList');
-    Map data ={
-      "MaGV" : magv,
-      "MaPhong":maphong,
-      "MaDV":madv,
-      "MaCa":maca,
-      "MaHocPhan":mahocphan,
-      "MaSV":stringList,
+    Map data = {
+      "MaGV": magv,
+      "MaPhong": maphong,
+      "MaDV": madv,
+      "MaCa": maca,
+      "MaHocPhan": mahocphan,
+      "MaSV": stringList,
     };
-
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/create-config',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.post('$baseUrl/create-config', data: body).then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
 
-
-   
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //create attendance
-    Future<void> createAttendance(
+  Future<void> createAttendance(
     String magv,
     String mahocphan,
     String maphong,
-    List<dynamic>diemdanh,
+    List<dynamic> diemdanh,
     String tenhocphan,
-  ) async{
-    Map data ={
-      "MaGV" : magv,
-      "MaHocPhan":mahocphan,
-      "MaPhong":maphong,
-      "DiemDanh":diemdanh,
-      "TenHocPhan":tenhocphan,
+  ) async {
+    Map data = {
+      "MaGV": magv,
+      "MaHocPhan": mahocphan,
+      "MaPhong": maphong,
+      "DiemDanh": diemdanh,
+      "TenHocPhan": tenhocphan,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/create-attendance',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .post('$baseUrl/create-attendance', data: body)
+          .then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
-
 
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get list config
   Future<void> permission(
     String magv,
-  ) async{
-    Map data ={
-      "email":'${magv}@gmail.com', 
-      "password":'123456',
+  ) async {
+    Map data = {
+      "email": '${magv}@gmail.com',
+      "password": '123456',
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/signup',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.post('$baseUrl/signup', data: body).then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          // Get.snackbar(
-          //   'Thêm mới không thành công'
-          //   , '',backgroundColor: error);
+    } catch (e) {
+      // Get.snackbar(
+      //   'Thêm mới không thành công'
+      //   , '',backgroundColor: error);
     }
   }
 
-
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
-    //create point
+  //create point
   Future<void> createPoint(
     String ma_giang_vien,
     String ma_sinh_vien,
@@ -1085,101 +965,77 @@ class ApiClient {
     String diem_giua_ki,
     String diem_cuoi_ki,
     String diem_trung_binh,
-  ) async{
-    Map data ={
-      "magv" : ma_giang_vien,
-      "masv":ma_sinh_vien,
-      "DiemChuyenCan":diem_chuyen_can,
-      "DiemGiuaKi":diem_giua_ki,
-      "DiemCuoiKi":diem_cuoi_ki,
-      "DiemTrungBinh":diem_trung_binh,
+  ) async {
+    Map data = {
+      "magv": ma_giang_vien,
+      "masv": ma_sinh_vien,
+      "DiemChuyenCan": diem_chuyen_can,
+      "DiemGiuaKi": diem_giua_ki,
+      "DiemCuoiKi": diem_cuoi_ki,
+      "DiemTrungBinh": diem_trung_binh,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/create-point',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.post('$baseUrl/create-point', data: body).then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
+
   //sum avarage
   Future<void> sumAravage(
     String ma_giang_vien,
-  ) async{
-    Map data ={
-      "magv" : ma_giang_vien,
+  ) async {
+    Map data = {
+      "magv": ma_giang_vien,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/sum-avarage',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.post('$baseUrl/sum-avarage', data: body).then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
 
   //delete student
-  Future<void> deleteStudent(
-    String ma_giang_vien,
-    String ma_sinh_vien
-  ) async{
-    Map data ={
-      "magv" : ma_giang_vien,
-      "masv":ma_sinh_vien
-    };
+  Future<void> deleteStudent(String ma_giang_vien, String ma_sinh_vien) async {
+    Map data = {"magv": ma_giang_vien, "masv": ma_sinh_vien};
 
     String body = json.encode(data);
 
-    try{
-      return await dio.delete(
-        '$baseUrl/delete-student',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .delete('$baseUrl/delete-student', data: body)
+          .then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
 
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get food
   Future<List<FoodModel>> getFood() async {
-    return await dio.get('$baseUrl/get-food',)
-      .then((response) {
+    return await dio
+        .get(
+      '$baseUrl/get-food',
+    )
+        .then((response) {
       List<FoodModel> foodList = [];
       if (response.statusCode == 201) {
         for (var item in response.data) {
@@ -1191,7 +1047,8 @@ class ApiClient {
       print('HoangNH: ${err}');
     });
   }
-    //create department
+
+  //create department
   Future<void> createFood(
     String ma_mon,
     String ten_mon_an,
@@ -1200,37 +1057,30 @@ class ApiClient {
     String chi_tiet,
     String hinh_anh,
     String type,
-  ) async{
-    Map data ={
-      "ma_mon":ma_mon,
-      "ten_mon_an":ten_mon_an,
-      "calo":calo, 
-      "khoi_luong":khoi_luong,
-      "chi_tiet":chi_tiet,
-      "hinh_anh":hinh_anh,
-      "type":type
+  ) async {
+    Map data = {
+      "ma_mon": ma_mon,
+      "ten_mon_an": ten_mon_an,
+      "calo": calo,
+      "khoi_luong": khoi_luong,
+      "chi_tiet": chi_tiet,
+      "hinh_anh": hinh_anh,
+      "type": type
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/create-food',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.post('$baseUrl/create-food', data: body).then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
+
   Future<void> updateFood(
     String ma_mon,
     String ten_mon_an,
@@ -1238,112 +1088,83 @@ class ApiClient {
     String khoi_luong,
     String chi_tiet,
     String type,
-  ) async{
-    Map data ={
-      "ma_mon":ma_mon,
-      "ten_mon_an":ten_mon_an,
-      "calo":calo, 
-      "khoi_luong":khoi_luong,
-      "chi_tiet":chi_tiet,
-      "type":type
+  ) async {
+    Map data = {
+      "ma_mon": ma_mon,
+      "ten_mon_an": ten_mon_an,
+      "calo": calo,
+      "khoi_luong": khoi_luong,
+      "chi_tiet": chi_tiet,
+      "type": type
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.patch(
-        '$baseUrl/update-food',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.patch('$baseUrl/update-food', data: body).then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
 
-
-
   //xoa food
-   Future<void> deleteFood(String ma_mon) async {
-      Map data ={
-      "ma_mon":ma_mon, 
+  Future<void> deleteFood(String ma_mon) async {
+    Map data = {
+      "ma_mon": ma_mon,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.delete(
-        '$baseUrl/delete-food',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Xoá thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.delete('$baseUrl/delete-food', data: body).then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Xoá thành công', '', backgroundColor: succes);
         }
       });
+    } catch (e) {
+      Get.snackbar('Xoá không thành công', '', backgroundColor: error);
     }
-    catch(e){
-          Get.snackbar(
-            'Xoá không thành công'
-            , '',backgroundColor: error);
-    }
-
   }
 
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //order food
 
-  Future<void> createOrderFood(
-    String MaGV,
-    String maMon,
-    String tenMonAn,
-    int so_luong,
-    String url,
-    String thoiGian
-  ) async{
-    Map data ={
-      "MaGV":MaGV, 
-      "maMon":maMon,
-      "tenMonAn":tenMonAn,
-      "soLuong":so_luong.toString(),
-      "url":url,
-      "thoiGian":thoiGian,
+  Future<void> createOrderFood(String MaGV, String maMon, String tenMonAn,
+      int so_luong, String url, String thoiGian) async {
+    Map data = {
+      "MaGV": MaGV,
+      "maMon": maMon,
+      "tenMonAn": tenMonAn,
+      "soLuong": so_luong.toString(),
+      "url": url,
+      "thoiGian": thoiGian,
     };
-
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/create-orderFood',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Đặt món thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .post('$baseUrl/create-orderFood', data: body)
+          .then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Đặt món thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Đặt món không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Đặt món không thành công', '', backgroundColor: error);
     }
   }
 
-    Future<List<orderFoodModel>> getOrderfood() async {
-    return await dio.get('$baseUrl/get-orderFood',)
-      .then((response) {
+  Future<List<orderFoodModel>> getOrderfood() async {
+    return await dio
+        .get(
+      '$baseUrl/get-orderFood',
+    )
+        .then((response) {
       List<orderFoodModel> orderFoodList = [];
       if (response.statusCode == 201) {
         for (var item in response.data) {
@@ -1356,11 +1177,14 @@ class ApiClient {
     });
   }
 
-    //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get food
-  Future<List<Attendance>> getAttendance(String MaGV,String MaHocPhan) async {
-    return await dio.get('$baseUrl/get-attendance?MaGV=$MaGV&MaHocPhan=$MaHocPhan',)
-      .then((response) {
+  Future<List<Attendance>> getAttendance(String MaGV, String MaHocPhan) async {
+    return await dio
+        .get(
+      '$baseUrl/get-attendance?MaGV=$MaGV&MaHocPhan=$MaHocPhan',
+    )
+        .then((response) {
       List<Attendance> attendanceList = [];
       if (response.statusCode == 200) {
         for (var item in response.data) {
@@ -1373,47 +1197,58 @@ class ApiClient {
     });
   }
 
-
-   //create author
+  //create author
   Future<void> authorPermission(
-    String ma_giang_vien,
-    String role,
-    List listAuthor 
-  ) async{
+      String ma_giang_vien, String role, List listAuthor) async {
     String resultAuthor = listAuthor.join(',');
-    Map data ={
-      "email":ma_giang_vien, 
-      "role":role,
-      "authorcation":resultAuthor,
+    Map data = {
+      "email": ma_giang_vien,
+      "role": role,
+      "authorcation": resultAuthor,
     };
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/create-authorcation',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio
+          .post('$baseUrl/create-authorcation', data: body)
+          .then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
 
-
-   //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //note
-  Future<List<NoteRequestModel>> getNote() async {
-    return await dio.get('$baseUrl/get-note',)
-      .then((response) {
+  Future<List<NoteRequestModel>> getNote(String MaGV) async {
+    return await dio
+        .get(
+      '$baseUrl/get-note?MaGV=$MaGV',
+    )
+        .then((response) {
+      List<NoteRequestModel> noteRequestList = [];
+      if (response.statusCode == 201) {
+        print(response.data);
+        for (var item in response.data) {
+          noteRequestList.add(NoteRequestModel.fromJson(item));
+        }
+      }
+      return noteRequestList;
+    }).catchError((err) {
+      print('HoangNH: ${err}');
+    });
+  }
+
+  Future<List<NoteRequestModel>> getNoteAdmin() async {
+    return await dio
+        .get(
+      '$baseUrl/get-note',
+    )
+        .then((response) {
       List<NoteRequestModel> noteRequestList = [];
       if (response.statusCode == 201) {
         for (var item in response.data) {
@@ -1426,15 +1261,9 @@ class ApiClient {
     });
   }
 
-
-  Future<void> createNoteClient(
-    String status,
-    String type,
-    String time,
-    String MaGV,
-    String description
-  ) async{
-    Map data ={
+  Future<void> createNoteClient(String status, String type, String time,
+      String MaGV, String description) async {
+    Map data = {
       "Type": type,
       "ThoiGian": time,
       "MaGV": MaGV,
@@ -1444,33 +1273,20 @@ class ApiClient {
 
     String body = json.encode(data);
 
-    try{
-      return await dio.post(
-        '$baseUrl/create-note',
-        data: body
-        ).then((value){
-        if(value.statusCode == 201){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.post('$baseUrl/create-note', data: body).then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
 
-  Future<void> NoteReview(
-    String status,
-    String type,
-    String time,
-    String MaGV,
-    String description
-  ) async{
-    Map data ={
+  Future<void> NoteReview(String status, String type, String time, String MaGV,
+      String description) async {
+    Map data = {
       "Type": type,
       "ThoiGian": time,
       "MaGV": MaGV,
@@ -1480,25 +1296,16 @@ class ApiClient {
 
     String body = json.encode(data);
 
-    try{
-      return await dio.patch(
-        '$baseUrl/update-note',
-        data: body
-        ).then((value){
-        if(value.statusCode == 200){
-          Get.snackbar(
-            'Thêm mới thành công'
-            , '',backgroundColor: succes);
+    try {
+      return await dio.patch('$baseUrl/update-note', data: body).then((value) {
+        if (value.statusCode == 200) {
+          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
-    }
-    catch(e){
-          Get.snackbar(
-            'Thêm mới không thành công'
-            , '',backgroundColor: error);
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
   }
 
   ApiClient._internal();
 }
-

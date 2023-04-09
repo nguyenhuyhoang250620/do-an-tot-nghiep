@@ -118,7 +118,6 @@ class DashBoardScreen extends GetWidget<DashBoardController> {
                   )
                 );
               }
-              
               return Container();
             },)
           ],

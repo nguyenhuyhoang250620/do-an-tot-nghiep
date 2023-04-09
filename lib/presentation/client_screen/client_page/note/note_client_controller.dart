@@ -47,6 +47,6 @@ class NoteClientController extends GetxController{
     String description
   ) async{
     await apiClient.createNoteClient(status,type,time,MaGV,description);
-    clientController.getNoteRequest();
+    clientController.getNoteRequest(MaGV);
   }
 }

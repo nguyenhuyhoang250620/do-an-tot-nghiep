@@ -24,22 +24,39 @@ class TopReferals extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text(
-                'Danh sách giảng viên',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: textColor,
+              Container(
+                width: 180,
+                child: Text(
+                  'Danh sách giảng viên',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: textColor,
+                  ),
                 ),
               ),
-              Text(
-                'Hoạt động',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: textColor.withOpacity(0.5),
+              Container(
+                width: 150,
+                child: Text(
+                  'Chi tiết ngày công',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: textColor,
+                  ),
+                ),
+              ),
+              Container(
+                width: 90,
+                child: Text(
+                  'Chi tiết',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: textColor,
+                  ),
                 ),
               ),
             ],

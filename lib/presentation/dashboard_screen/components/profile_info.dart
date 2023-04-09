@@ -19,18 +19,21 @@ class ProfileInfo extends StatelessWidget {
           ),
           child: Row(
             children: [
-              ClipRRect(
-                child: Icon(Icons.person,color: bgColor),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              if(!Responsive.isMobile(context))
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: appPadding / 2),
-                child: Text('Hii, Admin',style: TextStyle(
-                  color: bgColor,
+                child: Text('👋, Xin chào',style: TextStyle(
+                  color: darkTextColor,
+                  fontSize: 16,
                   fontWeight: FontWeight.w800,
                 ),),
-              )
+              ),
+              ClipRRect(
+                child: Container(
+                  height: 30,
+                  width: 30,
+                  child: Icon(Icons.person,color: darkTextColor)),
+                borderRadius: BorderRadius.circular(30),
+              ),
             ],
           ),
         )

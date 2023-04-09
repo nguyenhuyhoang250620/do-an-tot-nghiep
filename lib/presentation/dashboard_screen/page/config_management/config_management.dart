@@ -393,8 +393,8 @@ return Scaffold(
               appBar: AppBar(
                 backgroundColor: bgColor,
                 elevation: 3.0,
-                toolbarHeight: 40,
-                title: Text("Danh sách lớp học",style: AppStyle.txtInterMedium20,),
+                toolbarHeight: 60,
+                title: Center(child: Text("Danh sách lớp học",style: AppStyle.txtInterMedium20,)),
               ),
               body: Obx(() => controller.getConfigList.isNotEmpty?Container(
               height: Get.height,

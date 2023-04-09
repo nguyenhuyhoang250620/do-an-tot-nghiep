@@ -10,11 +10,13 @@ import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/slide_m
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/page/food_management/env/env.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/models/food_model.dart';
 import '../../../data/models/note_client_model.dart';
 import '../../../data/models/shift_models.dart';
+import '../../../libary/data_table_2/src/data_table_2.dart';
 import '/core/app_export.dart';
 
 class DashBoardController extends GetxController {
@@ -34,21 +36,17 @@ class DashBoardController extends GetxController {
   var CHDD = false.obs;
   var DSDM = false.obs;
 
-
- 
-
   var isLoadingStudent = false.obs;
   var isLoadingTeacher = false.obs;
   var isLoadingDepartment = false.obs;
   var isLoadingSubject = false.obs;
-  var isLoadingClass= false.obs;
-  var isLoadingShift= false.obs;
-  var isLoadingNote= false.obs;
-
+  var isLoadingClass = false.obs;
+  var isLoadingShift = false.obs;
+  var isLoadingNote = false.obs;
 
   var sum_student = 0.obs;
   var sum_teacher = 0.obs;
-  var sum_department= 0.obs;
+  var sum_department = 0.obs;
   var sum_class = 0.obs;
 
   RxList<UserModel> getUserList = <UserModel>[].obs;
@@ -58,7 +56,8 @@ class DashBoardController extends GetxController {
   RxList<Map<String, dynamic>> getTeacherListMap = <Map<String, dynamic>>[].obs;
 
   RxList<DepartmentModel> getDepartmentList = <DepartmentModel>[].obs;
-  RxList<Map<String, dynamic>> getDepartmentListMap =<Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>> getDepartmentListMap =
+      <Map<String, dynamic>>[].obs;
 
   RxList<SubjectModel> getSubjectList = <SubjectModel>[].obs;
   RxList<Map<String, dynamic>> getSubjectListMap = <Map<String, dynamic>>[].obs;
@@ -81,18 +80,19 @@ class DashBoardController extends GetxController {
 
   RxList<NoteRequestModel> listNoteRequestAdmin = <NoteRequestModel>[].obs;
 
-
+  RxList listDateInMonth = [].obs;
 
   List<String> listGioiTinh = ['Nam', 'Nữ', 'Khác', 'Chọn'];
-    RxString selectedGioiTinh = "Chọn".obs;
+  RxString selectedGioiTinh = "Chọn".obs;
   List<dynamic> listKhoa = [];
   void onInit() {
     // checkIsLogin();
-      Authorcation();
-      getUser();
-      getTeacher();
-      getDepartment();
-      getClass();
+    getDateinMonth(DateTime.now());
+    Authorcation();
+    getUser();
+    getTeacher();
+    getDepartment();
+    getClass();
     super.onInit();
   }
 
@@ -111,12 +111,13 @@ class DashBoardController extends GetxController {
       scaffoldKey.currentState!.openDrawer();
     }
   }
-  Future<void> Authorcation() async{
+
+  Future<void> Authorcation() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> authorcation = prefs.getString('authorcation')!.split(",");
     authorcation.map((e) {
       name_tab.value = authorcation.first;
-      switch(e){
+      switch (e) {
         case 'tong_quat':
           TQ.value = true;
           break;
@@ -158,13 +159,13 @@ class DashBoardController extends GetxController {
           break;
       }
     }).toList();
-
   }
+
   Future<void> checkIsLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var isLogin = prefs.getBool('isLogin');
-    if(isLogin == true){
-    }else{
+    if (isLogin == true) {
+    } else {
       Get.offAllNamed(AppRoutes.loginScreen);
     }
   }
@@ -187,15 +188,15 @@ class DashBoardController extends GetxController {
             SoDT: e.SoDT,
             TenSV: e.TenSV,
             id: e.id,
-            url: e.url
-          );
+            url: e.url);
         data.add(models);
         listKhoa.add(e.Khoa);
       }).toList();
       isLoadingStudent.value = true;
       sum_student.value = data.length;
       getUserList.value = data;
-      getUserListMap.value =getUserList.map((person) => person.toJson()).toList();
+      getUserListMap.value =
+          getUserList.map((person) => person.toJson()).toList();
       getUserListMap.refresh();
     });
   }
@@ -226,7 +227,8 @@ class DashBoardController extends GetxController {
       isLoadingTeacher.value = true;
       sum_teacher.value = data.length;
       getTeacherList.value = data;
-      getTeacherListMap.value =getTeacherList.map((person) => person.toJson()).toList();
+      getTeacherListMap.value =
+          getTeacherList.map((person) => person.toJson()).toList();
       getTeacherListMap.refresh();
     });
   }
@@ -263,25 +265,24 @@ class DashBoardController extends GetxController {
     }).whenComplete(() {
       dataGet.map((e) {
         SubjectModel models = SubjectModel(
-          id: e.id,
-          MaHocPhan: e.MaHocPhan,
-          SotinChi: e.SotinChi,
-          TenHocPhan: e.TenHocPhan,
-          KiThu: e.KiThu,
-          DKTQ: e.DKTQ,
-          KhoiKienThuc: e.KhoiKienThuc,
-          MoTa: e.MoTa,
-          TongSoTiet: e.TongSoTiet
-        );
+            id: e.id,
+            MaHocPhan: e.MaHocPhan,
+            SotinChi: e.SotinChi,
+            TenHocPhan: e.TenHocPhan,
+            KiThu: e.KiThu,
+            DKTQ: e.DKTQ,
+            KhoiKienThuc: e.KhoiKienThuc,
+            MoTa: e.MoTa,
+            TongSoTiet: e.TongSoTiet);
         data.add(models);
       }).toList();
       isLoadingSubject.value = true;
       getSubjectList.value = data;
-      getSubjectListMap.value =getSubjectList.map((person) => person.toJson()).toList();
+      getSubjectListMap.value =
+          getSubjectList.map((person) => person.toJson()).toList();
       getSubjectListMap.refresh();
     });
   }
-
 
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get du lieu vi tri phong hoc
@@ -293,18 +294,18 @@ class DashBoardController extends GetxController {
     }).whenComplete(() {
       dataGet.map((e) {
         ClassModel models = ClassModel(
-          id: e.id,
-          MaPhong: e.MaPhong,
-          Mota: e.Mota,
-          TenMayQuet: e.TenMayQuet,
-          TenPhong: e.TenPhong
-        );
+            id: e.id,
+            MaPhong: e.MaPhong,
+            Mota: e.Mota,
+            TenMayQuet: e.TenMayQuet,
+            TenPhong: e.TenPhong);
         data.add(models);
       }).toList();
       isLoadingClass.value = true;
       sum_class.value = data.length;
       getClassList.value = data;
-      getClassListMap.value =getClassList.map((person) => person.toJson()).toList();
+      getClassListMap.value =
+          getClassList.map((person) => person.toJson()).toList();
       getClassListMap.refresh();
     });
   }
@@ -319,18 +320,18 @@ class DashBoardController extends GetxController {
     }).whenComplete(() {
       dataGet.map((e) {
         ShiftModel models = ShiftModel(
-          id: e.id,
-          MaCa: e.MaCa,
-          Mota: e.Mota,
-          SoCa: e.SoCa,
-          TenCa: e.TenCa,
-          ThoiGian: e.ThoiGian
-        );
+            id: e.id,
+            MaCa: e.MaCa,
+            Mota: e.Mota,
+            SoCa: e.SoCa,
+            TenCa: e.TenCa,
+            ThoiGian: e.ThoiGian);
         data.add(models);
       }).toList();
       isLoadingShift.value = true;
       getShiftList.value = data;
-      getShiftListMap.value =getShiftList.map((person) => person.toJson()).toList();
+      getShiftListMap.value =
+          getShiftList.map((person) => person.toJson()).toList();
       getShiftListMap.refresh();
     });
   }
@@ -356,80 +357,90 @@ class DashBoardController extends GetxController {
     await apiClient.getFood().then((value) {
       dataGet = value;
     }).whenComplete(() {
-      dataGet.forEach((e){
-        if(e.type == mon_ans.value){
+      dataGet.forEach((e) {
+        if (e.type == mon_ans.value) {
           FoodModel model = FoodModel(
-            id: e.id, 
-            maMon: e.maMon, 
-            khoiLuong: e.khoiLuong, 
-            chiTiet: e.chiTiet, 
-            tenMonAn: e.tenMonAn, 
-            type: e.type, 
-            calo: e.calo,
-            url: e.url
-          );
+              id: e.id,
+              maMon: e.maMon,
+              khoiLuong: e.khoiLuong,
+              chiTiet: e.chiTiet,
+              tenMonAn: e.tenMonAn,
+              type: e.type,
+              calo: e.calo,
+              url: e.url);
           getDishList.add(model);
-        }
-        else if(e.type == nuoc_uong.value){
+        } else if (e.type == nuoc_uong.value) {
           FoodModel model = FoodModel(
-            id: e.id, 
-            maMon: e.maMon, 
-            khoiLuong: e.khoiLuong, 
-            chiTiet: e.chiTiet, 
-            tenMonAn: e.tenMonAn, 
-            type: e.type, 
-            calo: e.calo,
-            url: e.url
-          );
+              id: e.id,
+              maMon: e.maMon,
+              khoiLuong: e.khoiLuong,
+              chiTiet: e.chiTiet,
+              tenMonAn: e.tenMonAn,
+              type: e.type,
+              calo: e.calo,
+              url: e.url);
           getDrinksList.add(model);
-        }
-        else{
+        } else {
           FoodModel model = FoodModel(
-            id: e.id, 
-            maMon: e.maMon, 
-            khoiLuong: e.khoiLuong, 
-            chiTiet: e.chiTiet, 
-            tenMonAn: e.tenMonAn, 
-            type: e.type, 
-            calo: e.calo,
-            url: e.url
-          );
+              id: e.id,
+              maMon: e.maMon,
+              khoiLuong: e.khoiLuong,
+              chiTiet: e.chiTiet,
+              tenMonAn: e.tenMonAn,
+              type: e.type,
+              calo: e.calo,
+              url: e.url);
           getDessertList.add(model);
         }
       });
     });
   }
 
-   // get orderfood
+  // get orderfood
   Future<void> getOrderFood() async {
-   List<orderFoodModel> dataGet = [];
+    List<orderFoodModel> dataGet = [];
     await apiClient.getOrderfood().then((value) {
       dataGet = value;
     }).whenComplete(() {
       getOrderFoodList.value = dataGet;
     });
   }
+
   //get note
-  Future<void> getNoteRequestAdmin ()async{
+  Future<void> getNoteRequestAdmin() async {
     listNoteRequestAdmin.clear();
     List<NoteRequestModel> data = [];
-    await apiClient.getNote().then((value){
+    await apiClient.getNoteAdmin().then((value) {
       data = value;
-    }).whenComplete((){
-      data.map((e){
+    }).whenComplete(() {
+      data.map((e) {
         NoteRequestModel model = NoteRequestModel(
-          id: e.id,
-          description: e.description,
-          status: e.status,
-          teacherCode: e.teacherCode,
-          teacherName: e.teacherName,
-          time: e.time,
-          type: e.type
-        );
+            id: e.id,
+            description: e.description,
+            status: e.status,
+            teacherCode: e.teacherCode,
+            teacherName: e.teacherName,
+            time: e.time,
+            type: e.type);
         isLoadingNote.value = true;
         listNoteRequestAdmin.add(model);
       }).toList();
     });
   }
 
+  //get date in month
+  Future<void> getDateinMonth(DateTime now) async {
+    listDateInMonth.clear();
+    int year = now.year;
+    int month = now.month;
+    int daysInMonth = DateTime(year, month + 1, 0).day;
+
+    for (int day = 1; day <= daysInMonth; day++) {
+      DateTime date = DateTime(year, month, day);
+      String formattedDate = DateFormat('dd/MM').format(date);
+      listDateInMonth.add(formattedDate);
+      // print(formattedDate);
+    }
+    print(listDateInMonth.length);
+  }
 }
