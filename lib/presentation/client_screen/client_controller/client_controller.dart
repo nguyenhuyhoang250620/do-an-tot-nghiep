@@ -35,7 +35,14 @@ class ClientController extends GetxController {
   RxList<NoteRequestModel> listNoteRequest = <NoteRequestModel>[].obs;
 
   var MaGV = "".obs;
+<<<<<<< Updated upstream
   RxList<ClientModel> listMaHocPhan = <ClientModel>[].obs;
+=======
+  var ma_hoc_phan = "".obs;
+  RxList<ClientModel>listMaHocPhan = <ClientModel>[].obs;
+
+
+>>>>>>> Stashed changes
 
   @override
   void onInit() {
@@ -63,8 +70,14 @@ class ClientController extends GetxController {
         listMaHocPhan.add(model);
       }).toList();
       selectTenHocPhan.value = listMaHocPhan.value[0].TenHocPhan!;
+<<<<<<< Updated upstream
       getConfigMaHocPhanClient(MaGV, listMaHocPhan.value[0].MaHocPhan!);
       getAttendance(MaGV, listMaHocPhan.value[0].MaHocPhan!);
+=======
+      getConfigMaHocPhanClient(MaGV,listMaHocPhan.value[0].MaHocPhan!);
+      ma_hoc_phan.value = listMaHocPhan.value[0].MaHocPhan!;
+      // getAttendance(MaGV,listMaHocPhan.value[0].MaHocPhan!);
+>>>>>>> Stashed changes
     });
   }
 
@@ -77,16 +90,26 @@ class ClientController extends GetxController {
       getConfigList.value = dataGet;
       getConfigList.map((element) {
         selectTenHocPhan.value = element.mahocphan.TenHocPhan!;
+<<<<<<< Updated upstream
         getConfigListMap.value =
             element.danhsach.map((person) => person.toJson()).toList();
+=======
+        getConfigListMap.value =element.danhsach.map((person) => person.toJson()).toList();
+        getConfigListMap.map((element) {
+        }).toList();
+>>>>>>> Stashed changes
       }).toList();
       getConfigList.refresh();
     });
   }
 
+<<<<<<< Updated upstream
   Future<void> getAttendance(String MaGV, String MaHocPhan) async {
     print('HoangNH: $MaGV');
     print('HoangNH: $MaHocPhan');
+=======
+  Future<void> getAttendance(String MaGV,String MaHocPhan) async {
+>>>>>>> Stashed changes
     List<Attendance> dataGet = [];
     await apiClient.getAttendance(MaGV, MaHocPhan).then((value) {
       dataGet = value;

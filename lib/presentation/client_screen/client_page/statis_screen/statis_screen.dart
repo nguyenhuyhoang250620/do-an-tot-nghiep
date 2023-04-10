@@ -40,7 +40,7 @@ class StatisScreen extends GetWidget<StatisController>{
               flex: 10,
               child: Obx(() => 
               clientController.isLoadingConfig.value
-                ? clientController.getConfigListMap.isNotEmpty?
+                ? 
                     MyPaginatedDataTable(
                       value: selectedOptions,
                       onChangedlistSelect: (p0) {
@@ -69,7 +69,7 @@ class StatisScreen extends GetWidget<StatisController>{
                       source: StatisDataTableSource(
                       data: clientController.getConfigListMap.value),
                       rowsPerPage: 6,
-                    ):Center(child: CustomLoading(),):Center(child: Text("Chưa có dữ liệu"),)),
+                    ):Center(child: Text("Chưa có dữ liệu"),)),
             )
           ],
         )
