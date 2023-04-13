@@ -128,13 +128,17 @@ class ApiClient {
       // Xử lý kết quả trả về từ API
       if (response.statusCode == 200) {
         print('HoangNH: thành công');
+        Get.snackbar('Gửi mã thành công', '',
+          backgroundColor: succes);
         // ...
       } else {
         // Đăng nhập thất bại, xử lý thông báo lỗi hoặc hiển thị form đăng nhập lại
         // ...
       }
-    } catch (error) {
+    } catch (errors) {
       // Xử lý lỗi khi gọi API
+      Get.snackbar('Gưi mã không thành công', '',
+          backgroundColor: error);
       print('HoangNH: Thất bại');
       // ...
     }

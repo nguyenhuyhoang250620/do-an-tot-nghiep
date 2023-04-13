@@ -97,9 +97,14 @@ class ReferalInfoDetail extends StatelessWidget {
 Widget alertDetailLeave() {
   final dashBoardController = Get.find<DashBoardController>();
   return AlertDialog(
-    title: Center(
-      child: Text('Chi tiết ngày công'),
-    ),
+    title: Center(child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("Chi tiết ngày công",style: AppStyle.txtInterRegular18.copyWith(color: darkTextColor),),
+          IconButton(onPressed: () => Get.back(), icon: Icon(Icons.close))
+        ],
+      )),
     content: Container(
         height: Get.height,
         width: Get.width,
@@ -180,17 +185,5 @@ Widget alertDetailLeave() {
             )
           ],
         )),
-    actions: [
-      CustomButtonAlert(
-        onPressedDisable: () {
-          Get.back();
-        },
-        onPressedEnable: () {
-          Get.back();
-        },
-        titileDisable: 'Hủy',
-        titileEnable: 'Xong',
-      )
-    ],
   );
 }

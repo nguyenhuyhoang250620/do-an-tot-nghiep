@@ -75,6 +75,7 @@ class _LoginContentState extends State<LoginContent> {
                         FadeAnimation(
                           delay: 1,
                           child: Container(
+                            alignment: Alignment.topCenter,
                             width: 300,
                             height: 40,
                             decoration: BoxDecoration(
@@ -107,7 +108,7 @@ class _LoginContentState extends State<LoginContent> {
                                         : deaible,
                                     fontSize: 12),
                               ),
-                              textAlignVertical: TextAlignVertical.center,
+                              // textAlignVertical: TextAlignVertical.center,
                               style: TextStyle(
                                   color: selected == FormData.Email
                                       ? enabledtxt
@@ -173,7 +174,7 @@ class _LoginContentState extends State<LoginContent> {
                                           : deaible,
                                       fontSize: 12)),
                               obscureText: ispasswordev,
-                              textAlignVertical: TextAlignVertical.center,
+                              // textAlignVertical: TextAlignVertical.center,
                               style: TextStyle(
                                   color: selected == FormData.password
                                       ? enabledtxt

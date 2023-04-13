@@ -253,7 +253,14 @@ Widget _deleteItem() {
 }
 Widget viewBuild (List<ConfigModel> item,int index){
   return AlertDialog(
-      title: Center(child: Text("Thông tin chi tiết điểm danh")),
+      title: Center(child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("Thông tin chi tiết điểm danh",style: AppStyle.txtInterRegular18.copyWith(color: darkTextColor),),
+          IconButton(onPressed: () => Get.back(), icon: Icon(Icons.close))
+        ],
+      )),
       content: Container(
         height: 800,
         width: 800,
@@ -347,14 +354,6 @@ Widget viewBuild (List<ConfigModel> item,int index){
               ],
             )
       ),
-      actions: [
-        CustomButtonAlert(
-          titileDisable: 'Huỷ',
-          titileEnable: 'Xong',
-          onPressedDisable: () => Navigator.pop(context),
-          onPressedEnable: () =>Navigator.pop(context),
-        )
-      ],
     );
 }
 
