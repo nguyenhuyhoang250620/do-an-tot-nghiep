@@ -77,7 +77,9 @@ class ReferalInfoDetail extends StatelessWidget {
                           ),
                           backgroundColor: colorButton),
                       onPressed: () {
-                        Get.dialog(alertDetailLeave());
+                        dashBoardController.getDateinMonth(DateTime.now(),info.MaGV!);
+                        dashBoardController.getAttendanceTeacher(info.MaGV!);
+                        Get.dialog(alertDetailLeave(info.MaGV!));
                       },
                       child: Text(
                         'Chi tiết',
@@ -94,7 +96,7 @@ class ReferalInfoDetail extends StatelessWidget {
   }
 }
 
-Widget alertDetailLeave() {
+Widget alertDetailLeave(String MaGV) {
   final dashBoardController = Get.find<DashBoardController>();
   return AlertDialog(
     title: Center(
@@ -116,7 +118,7 @@ Widget alertDetailLeave() {
                       DateTime date = DateTime.parse(p0);
                       String formattedDate =DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
                       DateTime dateFinal = DateTime.parse(formattedDate);
-                      dashBoardController.getDateinMonth(dateFinal);
+                      dashBoardController.getDateinMonth(dateFinal,MaGV);
                     },
                   )),
             ),
