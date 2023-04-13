@@ -25,6 +25,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/attendance_teacher_model.dart';
 import '../models/note_client_model.dart';
 import '../models/selectionPopupModel/attendance_model.dart';
 import '../models/user_models.dart';
@@ -1309,6 +1310,27 @@ class ApiClient {
     } catch (e) {
       Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
     }
+  }
+
+
+   //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //note
+  Future<List<AttendanceTeacher>> getAttendanceTeacher(String MaGV) async {
+    return await dio
+        .get(
+      '$baseUrl/get-attendance-teacher?MaGV=$MaGV',
+    )
+        .then((response) {
+      List<AttendanceTeacher> listAttendanceTeacher = [];
+      if (response.statusCode == 201) {
+        for (var item in response.data) {
+          listAttendanceTeacher.add(AttendanceTeacher.fromJson(item));
+        }
+      }
+      return listAttendanceTeacher;
+    }).catchError((err) {
+      print('HoangNH: ${err}');
+    });
   }
 
   ApiClient._internal();

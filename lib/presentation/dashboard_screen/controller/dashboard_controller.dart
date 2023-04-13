@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../data/models/attendance_teacher_model.dart';
 import '../../../data/models/food_model.dart';
 import '../../../data/models/note_client_model.dart';
 import '../../../data/models/shift_models.dart';
@@ -82,17 +83,20 @@ class DashBoardController extends GetxController {
 
   RxList listDateInMonth = [].obs;
 
+  RxList<AttendanceTeacher> getAttendanceTeacherList = <AttendanceTeacher>[].obs;
+
+
   List<String> listGioiTinh = ['Nam', 'Nữ', 'Khác', 'Chọn'];
   RxString selectedGioiTinh = "Chọn".obs;
   List<dynamic> listKhoa = [];
   void onInit() {
     // checkIsLogin();
-    getDateinMonth(DateTime.now());
     Authorcation();
     getUser();
     getTeacher();
     getDepartment();
     getClass();
+
     super.onInit();
   }
 
@@ -429,7 +433,7 @@ class DashBoardController extends GetxController {
   }
 
   //get date in month
-  Future<void> getDateinMonth(DateTime now) async {
+  Future<void> getDateinMonth(DateTime now,MaGV) async {
     listDateInMonth.clear();
     int year = now.year;
     int month = now.month;
@@ -441,6 +445,28 @@ class DashBoardController extends GetxController {
       listDateInMonth.add(formattedDate);
       // print(formattedDate);
     }
-    print(listDateInMonth.length);
+    getAttendanceTeacher(MaGV);
+  }
+
+    //#--------------------------------------------------------------------------------------------------------------------------------------------//
+  //get du lieu vi tri phong hoc
+  Future<void> getAttendanceTeacher(MaGV) async {
+    getAttendanceTeacherList.clear();
+    List<AttendanceTeacher> data =[];
+    await apiClient.getAttendanceTeacher(MaGV).then((value) {
+      data = value;
+    }).whenComplete(() {
+      for(var elemnet in data){
+        AttendanceTeacher model = AttendanceTeacher(
+          DiemDanh: elemnet.DiemDanh,
+          MaGV: elemnet.MaGV,
+          MaHocPhan: elemnet.MaHocPhan,
+          MaPhong: elemnet.MaPhong,
+          ThoiGian: elemnet.ThoiGian
+        );
+      getAttendanceTeacherList.add(model);
+      }  
+      print(getAttendanceTeacherList.length);
+    });
   }
 }
