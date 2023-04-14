@@ -13,6 +13,7 @@ class AttendanceTeacher {
   String? ThoiGian;
   String? MaHocPhan;
   String? MaGV;
+  bool? isCheck;
   List<TimeTeacher>? DiemDanh;
 
   AttendanceTeacher({
@@ -21,6 +22,7 @@ class AttendanceTeacher {
     this.MaHocPhan,
     this.MaGV,
     this.DiemDanh,
+    this.isCheck
   });
 
   factory AttendanceTeacher.fromJson(Map<String, dynamic> json) {

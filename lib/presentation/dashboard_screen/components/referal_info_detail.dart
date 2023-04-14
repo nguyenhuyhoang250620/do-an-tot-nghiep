@@ -78,7 +78,6 @@ class ReferalInfoDetail extends StatelessWidget {
                           backgroundColor: colorButton),
                       onPressed: () {
                         dashBoardController.getDateinMonth(DateTime.now(),info.MaGV!);
-                        dashBoardController.getAttendanceTeacher(info.MaGV!);
                         Get.dialog(alertDetailLeave(info.MaGV!));
                       },
                       child: Text(

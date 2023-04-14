@@ -445,28 +445,41 @@ class DashBoardController extends GetxController {
       listDateInMonth.add(formattedDate);
       // print(formattedDate);
     }
-    getAttendanceTeacher(MaGV);
+    getAttendanceTeacher(MaGV,listDateInMonth);
   }
 
+  String convertTime(String){
+    DateTime dateTime = DateTime.parse(String);
+    var formattedDate = "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}";
+    return formattedDate;
+  }
     //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get du lieu vi tri phong hoc
-  Future<void> getAttendanceTeacher(MaGV) async {
+  Future<void> getAttendanceTeacher(MaGV,List listDateInMonth) async {
     getAttendanceTeacherList.clear();
     List<AttendanceTeacher> data =[];
+    bool isCheck = false;
     await apiClient.getAttendanceTeacher(MaGV).then((value) {
       data = value;
     }).whenComplete(() {
-      for(var elemnet in data){
-        AttendanceTeacher model = AttendanceTeacher(
-          DiemDanh: elemnet.DiemDanh,
-          MaGV: elemnet.MaGV,
-          MaHocPhan: elemnet.MaHocPhan,
-          MaPhong: elemnet.MaPhong,
-          ThoiGian: elemnet.ThoiGian
-        );
-      getAttendanceTeacherList.add(model);
-      }  
-      print(getAttendanceTeacherList.length);
+        for(var element in data){
+          for(int i = 0; i < element.DiemDanh!.length; i++){
+              for(var doc in listDateInMonth){
+                if(convertTime(element.DiemDanh![i].CheckIn)==doc){
+
+                }
+                AttendanceTeacher model = AttendanceTeacher(
+                    DiemDanh: element.DiemDanh,
+                    MaGV: element.MaGV,
+                    MaHocPhan: element.MaHocPhan,
+                    MaPhong: element.MaPhong,
+                    ThoiGian: element.ThoiGian,
+                    isCheck: isCheck
+                  );
+                getAttendanceTeacherList.add(model);
+              }
+            }
+        }  
     });
   }
 }
