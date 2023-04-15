@@ -2,6 +2,7 @@ import 'package:do_an_tot_nghiep/core/app_export.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/constants/constants.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/controller/dashboard_controller.dart';
 import 'package:do_an_tot_nghiep/presentation/dashboard_screen/models/referal_info_model.dart';
+import 'package:do_an_tot_nghiep/widgets/custom_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -134,9 +135,9 @@ Widget alertDetailLeave(String MaGV) {
               child: Container(
                 height: Get.height,
                 width: Get.width,
-                child: Obx(() => ListView.builder(
+                child: Obx(() => dashBoardController.getAttendanceTeacherList.value.isNotEmpty? ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: dashBoardController.listDateInMonth.value.length,
+                  itemCount: dashBoardController.getAttendanceTeacherList.value.length,
                   itemBuilder: (context, index) {
                     return Container(
                       height: 20,
@@ -150,19 +151,19 @@ Widget alertDetailLeave(String MaGV) {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text('${dashBoardController.listDateInMonth.value[index]}'),
+                          Text('${dashBoardController.getAttendanceTeacherList.value[index].date}'),
                           SizedBox(
                             height: 10,
                           ),
                           Checkbox(
-                            value: true,
+                            value: dashBoardController.getAttendanceTeacherList.value[index].isCheck,
                             onChanged: (value) {},
                           )
                         ],
                       ),
                     );
                   },
-                )),
+                ):CustomLoading()),
               ),
             ),
             SizedBox(height: 80,),
@@ -175,11 +176,9 @@ Widget alertDetailLeave(String MaGV) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text("Số ngày công : 22",style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),),
+                    Obx(() => Text("Số ngày công : ${dashBoardController.so_ngay_cong.value}",style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),),),
                     SizedBox(height: 40,),
-                    Text("Số ngày vắng : 8",style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor)),
-                    SizedBox(height: 40,),
-                    Text("Số ngày nghỉ : 4",style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor)),
+                    Obx(() => Text("Số ngày vắng : ${dashBoardController.getAttendanceTeacherList.length-dashBoardController.so_ngay_cong.value}",style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor)),)
                   ],
                 ),
               ),

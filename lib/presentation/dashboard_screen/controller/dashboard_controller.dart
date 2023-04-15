@@ -50,6 +50,8 @@ class DashBoardController extends GetxController {
   var sum_department = 0.obs;
   var sum_class = 0.obs;
 
+  var so_ngay_cong = 0.obs;
+
   RxList<UserModel> getUserList = <UserModel>[].obs;
   RxList<Map<String, dynamic>> getUserListMap = <Map<String, dynamic>>[].obs;
 
@@ -83,8 +85,8 @@ class DashBoardController extends GetxController {
 
   RxList listDateInMonth = [].obs;
 
-  RxList<AttendanceTeacher> getAttendanceTeacherList = <AttendanceTeacher>[].obs;
-
+  RxList<AttendanceTeacher> getAttendanceTeacherList =
+      <AttendanceTeacher>[].obs;
 
   List<String> listGioiTinh = ['Nam', 'Nữ', 'Khác', 'Chọn'];
   RxString selectedGioiTinh = "Chọn".obs;
@@ -410,6 +412,10 @@ class DashBoardController extends GetxController {
     });
   }
 
+
+
+  
+
   //get note
   Future<void> getNoteRequestAdmin() async {
     listNoteRequestAdmin.clear();
@@ -433,7 +439,7 @@ class DashBoardController extends GetxController {
   }
 
   //get date in month
-  Future<void> getDateinMonth(DateTime now,MaGV) async {
+  Future<void> getDateinMonth(DateTime now, MaGV) async {
     listDateInMonth.clear();
     int year = now.year;
     int month = now.month;
@@ -445,41 +451,63 @@ class DashBoardController extends GetxController {
       listDateInMonth.add(formattedDate);
       // print(formattedDate);
     }
-    getAttendanceTeacher(MaGV,listDateInMonth);
+    getAttendanceTeacher(MaGV, listDateInMonth);
   }
 
-  String convertTime(String){
+  String convertTime(String) {
     DateTime dateTime = DateTime.parse(String);
-    var formattedDate = "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}";
+    var formattedDate =
+        "${dateTime.day.toString().padLeft(2, '0')}/${dateTime.month.toString().padLeft(2, '0')}";
     return formattedDate;
   }
-    //#--------------------------------------------------------------------------------------------------------------------------------------------//
+
+  //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get du lieu vi tri phong hoc
-  Future<void> getAttendanceTeacher(MaGV,List listDateInMonth) async {
+  Future<void> getAttendanceTeacher(MaGV, List listDateInMonth) async {
     getAttendanceTeacherList.clear();
-    List<AttendanceTeacher> data =[];
+    so_ngay_cong.value = 0;
+    List<AttendanceTeacher> data = [];
     bool isCheck = false;
     await apiClient.getAttendanceTeacher(MaGV).then((value) {
       data = value;
     }).whenComplete(() {
-        for(var element in data){
-          for(int i = 0; i < element.DiemDanh!.length; i++){
-              for(var doc in listDateInMonth){
-                if(convertTime(element.DiemDanh![i].CheckIn)==doc){
-
-                }
-                AttendanceTeacher model = AttendanceTeacher(
-                    DiemDanh: element.DiemDanh,
-                    MaGV: element.MaGV,
-                    MaHocPhan: element.MaHocPhan,
-                    MaPhong: element.MaPhong,
-                    ThoiGian: element.ThoiGian,
-                    isCheck: isCheck
-                  );
-                getAttendanceTeacherList.add(model);
+      if (data.isNotEmpty) {
+        for (var element in data) {
+          for (var doc in listDateInMonth) {
+            for (int i = 0; i < element.DiemDanh!.length; i++) {
+              if (convertTime(element.DiemDanh![i].CheckIn) == doc) {
+                isCheck = true;
+              } else {
+                isCheck = false;
               }
             }
-        }  
+            if (isCheck == true) {
+              so_ngay_cong++;
+            }
+            AttendanceTeacher model = AttendanceTeacher(
+                DiemDanh: element.DiemDanh,
+                MaGV: element.MaGV,
+                MaHocPhan: element.MaHocPhan,
+                MaPhong: element.MaPhong,
+                ThoiGian: element.ThoiGian,
+                isCheck: isCheck,
+                date: doc);
+            getAttendanceTeacherList.add(model);
+          }
+        }
+      } else {
+        for (var doc in listDateInMonth) {
+          AttendanceTeacher model = AttendanceTeacher(
+              DiemDanh: [],
+              MaGV: '',
+              MaHocPhan: '',
+              MaPhong: '',
+              ThoiGian: '',
+              isCheck: isCheck,
+              date: doc);
+          getAttendanceTeacherList.add(model);
+        }
+      }
     });
   }
 }
