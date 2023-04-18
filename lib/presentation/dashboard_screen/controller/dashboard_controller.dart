@@ -45,6 +45,7 @@ class DashBoardController extends GetxController {
   var isLoadingClass = false.obs;
   var isLoadingShift = false.obs;
   var isLoadingNote = false.obs;
+  var isLoadingConfig = false.obs;
 
   var sum_student = 0.obs;
   var sum_teacher = 0.obs;
@@ -350,6 +351,7 @@ class DashBoardController extends GetxController {
     await apiClient.getConfig().then((value) {
       dataGet = value;
     }).whenComplete(() {
+      isLoadingConfig.value = true;
       getConfigList.value = dataGet;
     });
   }
@@ -407,35 +409,28 @@ class DashBoardController extends GetxController {
   // get orderfood
   Future<void> getOrderFood() async {
     List<orderFoodModel> dataGet = [];
-    List<String> listFood=[]; 
+    List<String> listFood = [];
     await apiClient.getOrderfood().then((value) {
       dataGet = value;
     }).whenComplete(() {
       getOrderFoodList.value = dataGet;
-      for(var element in dataGet){
+      for (var element in dataGet) {
         listFood.add(element.tenMonAn);
       }
       List<String> onlyFood = listFood.toSet().toList();
-      for(var element in onlyFood){
-        int sum =0;
-        for(var doc in getOrderFoodList){
-          if(element == doc.tenMonAn){
-             sum += int.parse(doc.soLuong);
+      for (var element in onlyFood) {
+        int sum = 0;
+        for (var doc in getOrderFoodList) {
+          if (element == doc.tenMonAn) {
+            sum += int.parse(doc.soLuong);
           }
         }
-        sumFood model = sumFood(
-            name: element,
-            sum:sum
-          );
+        sumFood model = sumFood(name: element, sum: sum);
         sumFodd.add(model);
       }
       print(sumFodd.length);
     });
   }
-
-
-
-  
 
   //get note
   Future<void> getNoteRequestAdmin() async {

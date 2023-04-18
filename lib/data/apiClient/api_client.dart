@@ -904,6 +904,31 @@ class ApiClient {
     }
   }
 
+  //xoa lop hoc
+  Future<void> deleteConfig(String MaGV,String MaHocPhan) async {
+    Map data = {
+      "MaGV": MaGV,
+      "MaHocPhan":MaHocPhan
+    };
+
+    String body = json.encode(data);
+
+    try {
+      return await dio
+          .delete('$baseUrl/delete-config', data: body)
+          .then((value) {
+        if (value.statusCode == 201) {
+          Get.snackbar('Xoá thành công', '', backgroundColor: succes);
+        }
+      });
+    } catch (e) {
+      Get.snackbar('Xoá không thành công', '', backgroundColor: error);
+    }
+  }
+
+
+
+
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //create attendance
   Future<void> createAttendance(
@@ -1280,11 +1305,11 @@ class ApiClient {
     try {
       return await dio.post('$baseUrl/create-note', data: body).then((value) {
         if (value.statusCode == 201) {
-          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
+          Get.snackbar('Gửi thành công', '', backgroundColor: succes);
         }
       });
     } catch (e) {
-      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
+      Get.snackbar('Gửi không thành công', '', backgroundColor: error);
     }
   }
 

@@ -52,4 +52,12 @@ class ConfigController extends GetxController{
     apiClient.createAttendanceTeacher(MaGV, MaHocPhan, MaPhong, ThoiGian,DiemDanh);
   }
   
+
+   Future<void> deleteConfig(
+      String MaGV,
+      String MaHocPhan,
+   ) async{
+    await apiClient.deleteConfig(MaGV,MaHocPhan);
+    dashboardController.getConfig();
+  }
 }

@@ -24,65 +24,65 @@ class ReferalInfoDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     final dashBoardController = Get.find<DashBoardController>();
     return Container(
-      margin: EdgeInsets.only(top: appPadding),
-      padding: EdgeInsets.all(appPadding / 2),
+      padding: EdgeInsets.all(appPadding),
+      margin: EdgeInsets.symmetric(horizontal: appPadding*2,vertical: appPadding),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-              padding: EdgeInsets.all(appPadding / 1.5),
-              height: 40,
-              width: 40,
-              decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Icon(Icons.person)),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: appPadding),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 180,
-                    child: Text(
-                      info.TenGV!,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: textColor,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 150,
-                    child: Text(
-                      '${info.NamSinh!}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: textColor,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 90,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          backgroundColor: colorButton),
-                      onPressed: () {
-                        dashBoardController.getDateinMonth(DateTime.now(),info.MaGV!);
-                        Get.dialog(alertDetailLeave(info.MaGV!));
-                      },
+                  Expanded(
+                    flex: 5,
+                    child: Container(
                       child: Text(
-                        'Chi tiết',
+                        info.TenGV!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: textColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                      child: Text(
+                        '${info.ChuyenNganh!}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: textColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            backgroundColor: colorButton),
+                        onPressed: () {
+                          dashBoardController.getDateinMonth(DateTime.now(),info.MaGV!);
+                          Get.dialog(alertDetailLeave(info.MaGV!));
+                        },
+                        child: Text(
+                          'Chi tiết',
+                        ),
                       ),
                     ),
                   ),
@@ -168,21 +168,21 @@ Widget alertDetailLeave(String MaGV) {
             ),
             SizedBox(height: 80,),
             Expanded(
-              flex: 6,
+              flex: 2,
               child: Container(
-                height: Get.height,
-                width: Get.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Obx(() => Text("Số ngày công : ${dashBoardController.so_ngay_cong.value}",style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),),),
-                    SizedBox(height: 40,),
-                    Obx(() => Text("Số ngày vắng : ${dashBoardController.getAttendanceTeacherList.length-dashBoardController.so_ngay_cong.value}",style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor)),)
-                  ],
+                  height: Get.height,
+                  width: Get.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Obx(() => Text("Số ngày công : ${dashBoardController.so_ngay_cong.value}",style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor),),),
+                      SizedBox(height: 40,),
+                      Obx(() => Text("Số ngày vắng : ${dashBoardController.getAttendanceTeacherList.length-dashBoardController.so_ngay_cong.value}",style: AppStyle.txtInterRegular16.copyWith(color: darkTextColor)),)
+                    ],
+                  ),
                 ),
-              ),
-            )
+            ),
           ],
         )),
   );

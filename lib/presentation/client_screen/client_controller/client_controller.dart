@@ -19,6 +19,7 @@ class ClientController extends GetxController {
   var selectTenHocPhan = "".obs;
 
   var isLoadingConfig = false.obs;
+  var isLoadingNote = false.obs;
   RxList<ConfigModel> getConfigList = <ConfigModel>[].obs;
   RxList<Map<String, dynamic>> getConfigListMap = <Map<String, dynamic>>[].obs;
 
@@ -36,9 +37,7 @@ class ClientController extends GetxController {
 
   var MaGV = "".obs;
   var ma_hoc_phan = "".obs;
-  RxList<ClientModel>listMaHocPhan = <ClientModel>[].obs;
-
-
+  RxList<ClientModel> listMaHocPhan = <ClientModel>[].obs;
 
   @override
   void onInit() {
@@ -66,7 +65,7 @@ class ClientController extends GetxController {
         listMaHocPhan.add(model);
       }).toList();
       selectTenHocPhan.value = listMaHocPhan.value[0].TenHocPhan!;
-      getConfigMaHocPhanClient(MaGV,listMaHocPhan.value[0].MaHocPhan!);
+      getConfigMaHocPhanClient(MaGV, listMaHocPhan.value[0].MaHocPhan!);
       ma_hoc_phan.value = listMaHocPhan.value[0].MaHocPhan!;
       // getAttendance(MaGV,listMaHocPhan.value[0].MaHocPhan!);
     });
@@ -81,15 +80,15 @@ class ClientController extends GetxController {
       getConfigList.value = dataGet;
       getConfigList.map((element) {
         selectTenHocPhan.value = element.mahocphan.TenHocPhan!;
-        getConfigListMap.value =element.danhsach.map((person) => person.toJson()).toList();
-        getConfigListMap.map((element) {
-        }).toList();
+        getConfigListMap.value =
+            element.danhsach.map((person) => person.toJson()).toList();
+        getConfigListMap.map((element) {}).toList();
       }).toList();
       getConfigList.refresh();
     });
   }
 
-  Future<void> getAttendance(String MaGV,String MaHocPhan) async {
+  Future<void> getAttendance(String MaGV, String MaHocPhan) async {
     List<Attendance> dataGet = [];
     await apiClient.getAttendance(MaGV, MaHocPhan).then((value) {
       dataGet = value;
@@ -184,6 +183,7 @@ class ClientController extends GetxController {
     await apiClient.getNote(MaGV).then((value) {
       data = value;
     }).whenComplete(() {
+      isLoadingNote.value = true;
       data.map((e) {
         NoteRequestModel model = NoteRequestModel(
             id: e.id,

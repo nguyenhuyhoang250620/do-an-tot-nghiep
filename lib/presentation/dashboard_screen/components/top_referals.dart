@@ -21,41 +21,49 @@ class TopReferals extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                width: 180,
-                child: Text(
-                  'Danh sách giảng viên',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    color: textColor,
+              Expanded(
+                flex: 5,
+                child: Container(
+                  child: Text(
+                    'Danh sách giảng viên',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: textColor,
+                    ),
                   ),
                 ),
               ),
-              Container(
-                width: 150,
-                child: Text(
-                  'Chi tiết ngày công',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    color: textColor,
+              Expanded(
+                flex: 3,
+                child: Container(
+                  child: Text(
+                    'Phòng ban',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: textColor,
+                    ),
                   ),
                 ),
               ),
-              Container(
-                width: 90,
-                child: Text(
-                  'Chi tiết',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    color: textColor,
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: Text(
+                    'Chi tiết',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: textColor,
+                    ),
                   ),
                 ),
               ),

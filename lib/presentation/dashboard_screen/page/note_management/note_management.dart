@@ -126,7 +126,7 @@ class NoteManagementState extends State<NoteManagementScreen> {
                                   width: 100,
                                   padding: EdgeInsets.all(appPadding),
                                   decoration: BoxDecoration(
-                                    color: cardA,
+                                    color: cardC,
                                     borderRadius: BorderRadius.circular(8.0)
                                   ),
                                   child: Text("Từ chối",style: AppStyle.txtInterRegular16.copyWith(color: bgColor,fontWeight: FontWeight.bold)))
