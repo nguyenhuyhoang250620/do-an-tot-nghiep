@@ -448,18 +448,6 @@ Widget Dish(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 IconButton(
-                                  onPressed: (){
-                                    // controller.getConfigList.map((element){
-                                    //   if(element.maGV == controller.getConfigList.value[index].maGV){
-                                          
-                                    //   }
-                                    // }).toList();
-                                    // Get.dialog(viewBuild(controller.getConfigList,index)); 
-                                  },
-                                  icon: Icon(Icons.add_box_outlined,color: cardA,size: 35,),
-                                  tooltip: 'Thêm vào menu',
-                                ),
-                                IconButton(
                                   onPressed: () {
                                     Get.dialog(update(
                                       dashboardController.getDishList.value[index].maMon,
@@ -614,18 +602,6 @@ Widget Drink(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                IconButton(
-                                  onPressed: (){
-                                    // controller.getConfigList.map((element){
-                                    //   if(element.maGV == controller.getConfigList.value[index].maGV){
-                                          
-                                    //   }
-                                    // }).toList();
-                                    // Get.dialog(viewBuild(controller.getConfigList,index)); 
-                                  },
-                                  icon: Icon(Icons.add_box_outlined,color: cardA,size: 35,),
-                                  tooltip: 'Thêm vào menu',
-                                ),
                                 IconButton(
                                   onPressed: () {
                                     Get.dialog(update(
@@ -782,18 +758,6 @@ Widget Dessert(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                IconButton(
-                                  onPressed: (){
-                                    // controller.getConfigList.map((element){
-                                    //   if(element.maGV == controller.getConfigList.value[index].maGV){
-                                          
-                                    //   }
-                                    // }).toList();
-                                    // Get.dialog(viewBuild(controller.getConfigList,index)); 
-                                  },
-                                  icon: Icon(Icons.notification_add,color: cardA,size: 35,),
-                                  tooltip: 'Chi tiết đặt',
-                                ),
                                 IconButton(
                                   onPressed: () {
                                     Get.dialog(update(

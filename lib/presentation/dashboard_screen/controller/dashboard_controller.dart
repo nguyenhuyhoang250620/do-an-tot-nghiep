@@ -18,6 +18,7 @@ import '../../../data/models/food_model.dart';
 import '../../../data/models/note_client_model.dart';
 import '../../../data/models/shift_models.dart';
 import '../../../libary/data_table_2/src/data_table_2.dart';
+import '../models/model_sum_food.dart';
 import '/core/app_export.dart';
 
 class DashBoardController extends GetxController {
@@ -402,13 +403,33 @@ class DashBoardController extends GetxController {
     });
   }
 
+  List<sumFood> sumFodd = <sumFood>[].obs;
   // get orderfood
   Future<void> getOrderFood() async {
     List<orderFoodModel> dataGet = [];
+    List<String> listFood=[]; 
     await apiClient.getOrderfood().then((value) {
       dataGet = value;
     }).whenComplete(() {
       getOrderFoodList.value = dataGet;
+      for(var element in dataGet){
+        listFood.add(element.tenMonAn);
+      }
+      List<String> onlyFood = listFood.toSet().toList();
+      for(var element in onlyFood){
+        int sum =0;
+        for(var doc in getOrderFoodList){
+          if(element == doc.tenMonAn){
+             sum += int.parse(doc.soLuong);
+          }
+        }
+        sumFood model = sumFood(
+            name: element,
+            sum:sum
+          );
+        sumFodd.add(model);
+      }
+      print(sumFodd.length);
     });
   }
 

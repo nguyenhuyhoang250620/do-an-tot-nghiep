@@ -34,7 +34,38 @@ class SettingsState extends State<OrderFoodManagement>{
           child: Center(child: Text("Danh sách thực đơn ngày hôm nay",style: AppStyle.txtInterMedium32.copyWith(fontWeight: FontWeight.bold),)),
         ),
         Expanded(
-          flex: 9,
+          flex: 2,
+          child: Obx(() => Container(
+            height: Get.height,
+            width: Get.width*0.2,
+            decoration: BoxDecoration(
+              border: Border.all(color: darkTextColor),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            margin: EdgeInsets.symmetric(vertical: appPadding,horizontal: appPadding*5),
+            padding: EdgeInsets.all(appPadding),
+            child: ListView.builder(
+              itemCount:widget.dashboardController!.sumFodd.length,
+              itemBuilder: (context, index) {
+                return Container(
+          
+                  height: 50,
+                  width: Get.width*0.2,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('$index. ${widget.dashboardController!.sumFodd[index].name}:'),
+                      Text('${widget.dashboardController!.sumFodd[index].sum}')
+                    ],
+                  ),
+                );
+              },
+            ),
+          )),
+        ),
+        Expanded(
+          flex: 7,
           child: Obx(() => AnimationLimiter(
             child: ListView.builder(
               itemCount:widget.dashboardController!.getOrderFoodList.length,
