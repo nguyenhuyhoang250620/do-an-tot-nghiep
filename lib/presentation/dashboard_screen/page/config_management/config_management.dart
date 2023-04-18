@@ -218,6 +218,13 @@ class ConfigState extends State<ConfigManagement>{
                    [],
                   configController.ten_hoc_phan.value, 
                    );
+                configController.createAttendanceTeacher(
+                  configController.ma_giang_vien.value,
+                  configController.ma_hoc_phan.value,
+                  configController.ma_phong_hoc.value, 
+                  configController.ma_ca.value,
+                  []
+                );
                 configController.danh_sach_sinh_vien.clear();
                 Get.back();
               },

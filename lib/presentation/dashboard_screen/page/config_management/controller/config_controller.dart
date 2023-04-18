@@ -41,4 +41,15 @@ class ConfigController extends GetxController{
    ) async{
     apiClient.createAttendance(magv, mahocphan, maphong, diemdanh,tenhocphan);
   }
+
+  Future<void> createAttendanceTeacher(
+      String MaGV, 
+      String MaHocPhan, 
+      String MaPhong,
+      String ThoiGian, 
+      List DiemDanh,
+   ) async{
+    apiClient.createAttendanceTeacher(MaGV, MaHocPhan, MaPhong, ThoiGian,DiemDanh);
+  }
+  
 }

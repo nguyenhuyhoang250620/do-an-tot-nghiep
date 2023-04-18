@@ -928,7 +928,6 @@ class ApiClient {
           .post('$baseUrl/create-attendance', data: body)
           .then((value) {
         if (value.statusCode == 201) {
-          Get.snackbar('Thêm mới thành công', '', backgroundColor: succes);
         }
       });
     } catch (e) {
@@ -1331,6 +1330,28 @@ class ApiClient {
     }).catchError((err) {
       print('HoangNH: ${err}');
     });
+  }
+
+  Future<void> createAttendanceTeacher(String MaGV, String MaHocPhan, String MaPhong,
+      String ThoiGian, List DiemDanh) async {
+    Map data = {
+      "MaGV":MaGV,
+      "MaHocPhan":MaHocPhan,
+      "MaPhong":MaPhong,
+      "ThoiGian":ThoiGian,
+      "DiemDanh":DiemDanh
+    };
+
+    String body = json.encode(data);
+
+    try {
+      return await dio.post('$baseUrl/create-attendance-teacher', data: body).then((value) {
+        if (value.statusCode == 201) {
+        }
+      });
+    } catch (e) {
+      Get.snackbar('Thêm mới không thành công', '', backgroundColor: error);
+    }
   }
 
   ApiClient._internal();
