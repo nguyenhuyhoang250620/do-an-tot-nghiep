@@ -13,12 +13,15 @@ class AttendanceClientController extends GetxController{
   final apiClient = ApiClient();
   var isLoading = false.obs;
 
-  Future<void> getAttendance(String MaGV,String MaHocPhan,String MaSV) async {
+  Future<void> getAttendance(String MaGV,String MaHocPhan,String MaSV,String thoigian) async {
+    print(MaGV);
+    print(MaHocPhan);
+    print(MaSV);
     isLoading.value =false;
     getAttendanceListDetail.clear();
     List<Attendance> dataGet = [];
     List<String> listTime = [];
-    await apiClient.getAttendance(MaGV,MaHocPhan).then((value) {
+    await apiClient.getAttendance(MaGV,MaHocPhan,thoigian).then((value) {
       dataGet = value;
     }).whenComplete(() {
       isLoading.value =true;
@@ -31,11 +34,20 @@ class AttendanceClientController extends GetxController{
           }
         });
       });
-      TimeCheck model = TimeCheck(
-        checkIn: listTime[0],
-        checkOut: listTime[listTime.length-1],
-      );
-      getAttendanceListDetail.add(model);
+      if(listTime.length>1){
+        TimeCheck model = TimeCheck(
+          checkIn: listTime[0].substring(10,19),
+          checkOut: listTime[listTime.length-1].substring(10,19),
+        );
+        getAttendanceListDetail.add(model); 
+      }
+      else{
+        TimeCheck model = TimeCheck(
+          checkIn: listTime[0].substring(10,19),
+          checkOut: '-',
+        );
+        getAttendanceListDetail.add(model);
+      }
     });
   }
 }

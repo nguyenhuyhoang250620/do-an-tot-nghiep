@@ -87,7 +87,7 @@ class AttendanceEmployee extends GetWidget<AttendanceClientController>{
                                 backgroundColor: colorButton
                             ),
                             onPressed: () {
-                              controller.getAttendance(clientController.MaGV.value,clientController.ma_hoc_phan.value,'${clientController.getConfigListMap.value[index]['MaSV']}');
+                              controller.getAttendance(clientController.MaGV.value,clientController.ma_hoc_phan.value,'${clientController.getConfigListMap.value[index]['MaSV']}',DateTime.now().toString().substring(0,10));
                               Get.dialog(buildDetailAttendance(controller));
                             },
                             child: Text('Chi tiết',style: AppStyle.txtRobotoRegular16.copyWith(color: bgColor),),
@@ -132,11 +132,11 @@ Widget buildDetailAttendance(AttendanceClientController controller){
                       SizedBox(height: 7,),
                       CustomRichText(
                         textLeft: 'Thời gian vào: ',
-                        textRight: '${controller.getAttendanceListDetail.value[index].checkOut.substring(10,19)}',
+                        textRight: '${controller.getAttendanceListDetail.value[index].checkIn}',
                       ),
                       CustomRichText(
                         textLeft: 'Thời gian ra: ',
-                        textRight: '${controller.getAttendanceListDetail.value[index].checkIn.substring(10,19)}',
+                        textRight: '${controller.getAttendanceListDetail.value[index].checkOut}',
                       ),
                       // CustomRichText(
                       //   textLeft: 'Mã sinh viên: ',

@@ -1208,10 +1208,10 @@ class ApiClient {
 
   //#--------------------------------------------------------------------------------------------------------------------------------------------//
   //get food
-  Future<List<Attendance>> getAttendance(String MaGV, String MaHocPhan) async {
+  Future<List<Attendance>> getAttendance(String MaGV, String MaHocPhan,String thogian) async {
     return await dio
         .get(
-      '$baseUrl/get-attendance?MaGV=$MaGV&MaHocPhan=$MaHocPhan',
+      '$baseUrl/get-attendance?MaGV=$MaGV&MaHocPhan=$MaHocPhan&thoigian=$thogian',
     )
         .then((response) {
       List<Attendance> attendanceList = [];
@@ -1261,7 +1261,6 @@ class ApiClient {
         .then((response) {
       List<NoteRequestModel> noteRequestList = [];
       if (response.statusCode == 201) {
-        print(response.data);
         for (var item in response.data) {
           noteRequestList.add(NoteRequestModel.fromJson(item));
         }

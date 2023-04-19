@@ -90,7 +90,7 @@ class ClientController extends GetxController {
 
   Future<void> getAttendance(String MaGV, String MaHocPhan) async {
     List<Attendance> dataGet = [];
-    await apiClient.getAttendance(MaGV, MaHocPhan).then((value) {
+    await apiClient.getAttendance(MaGV, MaHocPhan,DateTime.now().toString().substring(0,10)).then((value) {
       dataGet = value;
     }).whenComplete(() {
       isLoadingConfig.value = true;
